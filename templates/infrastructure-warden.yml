@@ -12,9 +12,10 @@ update:
   update_watch_time: 1000-30000
 
 jobs:
-  - name: just_install_packages
+  - name: shield
     networks:
       - name: shield1
+        static_ips: (( static_ips(0) ))
 
 compilation:
   cloud_properties:

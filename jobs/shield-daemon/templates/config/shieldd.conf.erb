@@ -1,0 +1,5 @@
+---
+database_type: postgres
+database_dsn: "postgres://<%= p("shield.daemon.database.username") %>:<%= p("shield.daemon.database.password") %>@<%= p("shield.daemon.database.host") %>:<%= p("shield.daemon.database.port") %>/<%= p("shield.daemon.database.db") %>?sslmode=disable"
+port: <%= p("shield.daemon.port") %>
+private_key: "share/id_rsa"

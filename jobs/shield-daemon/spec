@@ -1,0 +1,26 @@
+---
+name: shield-daemon
+packages:
+  - shield
+templates:
+  bin/ctl: bin/ctl
+  bin/monit_debugger: bin/monit_debugger
+  config/shieldd.conf.erb: config/shieldd.conf
+  data/properties.sh.erb: data/properties.sh
+  helpers/ctl_setup.sh: helpers/ctl_setup.sh
+  helpers/ctl_utils.sh: helpers/ctl_utils.sh
+
+properties:
+  shield.daemon.port:
+    description: "port to run daemon"
+    default: 8080
+  shield.daemon.database.port:
+    description: "port for postgres database"
+  shield.daemon.database.host:
+    description: "host for postgres database"
+  shield.daemon.database.username:
+    description: "username for postgres database"
+  shield.daemon.database.password:
+    description: "password for postgres database"
+  shield.daemon.database.db:
+    description: "db for postgres database"

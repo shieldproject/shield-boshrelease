@@ -9,15 +9,38 @@ update:
   serial: false
 
 jobs:
-  - name: just_install_packages
+  - name: shield
     templates:
-    - name: just_install_packages
+    - name: postgres
+      release: shield
+    - name: shield-daemon
       release: shield
     instances: 1
-    persistent_disk: 0
+    persistent_disk: 2048
     resource_pool: small_z1
     networks: (( param "please set just_install_package networks" ))
 
 networks: (( param "please set networks" ))
 
-properties: {}
+properties:
+  databases:
+    address: (( grab jobs.shield.networks.shield1.static_ips.[0] ))
+    databases:
+    - citext: true
+      name: shielddb
+      tag: shield
+    db_scheme: postgres
+    port: 5524
+    roles:
+    - name: shieldadmin
+      password: admin
+      tag: admin
+
+  shield:
+    daemon:
+      database:
+        host: (( grab jobs.shield.networks.shield1.static_ips.[0] ))
+        port: 5524
+        username: shieldadmin
+        password: admin
+        db: shielddb

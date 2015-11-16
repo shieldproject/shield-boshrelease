@@ -1,0 +1,3 @@
+[submodule "src/shield"]
+	path = src/shield
+	url = https://github.com/starkandwayne/shield.git

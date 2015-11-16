@@ -1,0 +1,44 @@
+#!/bin/bash
+
+set -e # exit immediately if a simple command exits with a non-zero status
+set -u # report the usage of uninitialized variables
+
+# Setup env vars and folders for the webapp_ctl script
+source /var/vcap/jobs/shield-daemon/helpers/ctl_setup.sh 'shield-daemon'
+
+export PORT=${PORT:-5000}
+export LANG=en_US.UTF-8
+
+case $1 in
+
+  start)
+    pid_guard $PIDFILE $JOB_NAME
+
+    # store pid in $PIDFILE
+    echo $$ > $PIDFILE
+
+    # run migrations
+
+    exec chpst -u vcap:vcap shield-schema -t postgres \
+         -d "postgres://<%= p("shield.daemon.database.username") %>:<%= p("shield.daemon.database.password") %>@<%= p("shield.daemon.database.host") %>:<%= p("shield.daemon.database.port") %>/<%= p("shield.daemon.database.db") %>?sslmode=disable"
+         port: <%= p("shield.daemon.port") %> \
+         >>$LOG_DIR/$JOB_NAME.schema.stdout.log \
+         2>>$LOG_DIR/$JOB_NAME.schema.stderr.log
+
+    exec chpst -u vcap:vcap shieldd -c /var/vcap/jobs/shield-daemon/config/shieldd.conf \
+         >>$LOG_DIR/$JOB_NAME.stdout.log \
+         2>>$LOG_DIR/$JOB_NAME.stderr.log
+
+    ;;
+
+  stop)
+    kill_and_wait $PIDFILE
+
+    ;;
+  *)
+    echo "Usage: shield-daemon_ctl {start|stop}"
+
+    ;;
+
+esac
+exit 0

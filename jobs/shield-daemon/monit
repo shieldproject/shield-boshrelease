@@ -1,0 +1,5 @@
+check process shield-daemon
+  with pidfile /var/vcap/sys/run/shield-daemon/shield-daemon.pid
+  start program "/var/vcap/jobs/shield-daemon/bin/monit_debugger shield-daemon_ctl '/var/vcap/jobs/shield-daemon/bin/ctl start'"
+  stop program "/var/vcap/jobs/shield-daemon/bin/monit_debugger shield-daemon_ctl '/var/vcap/jobs/shield-daemon/bin/ctl stop'"
+  group vcap

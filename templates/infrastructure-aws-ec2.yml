@@ -9,9 +9,10 @@ meta:
     version: latest
 
 jobs:
-  - name: just_install_packages
+  - name: shield
     networks:
       - name: shield1
+        static_ips: (( static_ips(0) ))
     persistent_disk: (( grab meta.persistent_disk ))
 
 compilation:
