@@ -1,12 +1,12 @@
 ---
-name: shield-daemon
+name: shield-agent
 packages:
   - shield
+  - plugins
 templates:
   bin/ctl: bin/ctl
   bin/monit_debugger: bin/monit_debugger
   config/shieldd.conf.erb: config/shieldd.conf
-  shared/id_rsa: shared/id_rsa
   data/properties.sh.erb: data/properties.sh
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
