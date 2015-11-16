@@ -13,8 +13,8 @@ jobs:
     templates:
     - name: postgres
       release: shield
-    #- name: shield-daemon
-    #  release: shield
+    - name: shield-daemon
+      release: shield
     - name: shield-agent
       release: shield
     instances: 1
@@ -40,6 +40,13 @@ properties:
 
   shield:
     daemon:
+      database:
+        host: (( grab jobs.shield.networks.shield1.static_ips.[0] ))
+        port: 5524
+        username: shieldadmin
+        password: admin
+        db: shielddb
+    agent:
       database:
         host: (( grab jobs.shield.networks.shield1.static_ips.[0] ))
         port: 5524

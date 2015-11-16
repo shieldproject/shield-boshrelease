@@ -14,18 +14,18 @@ case $1 in
   start)
     pid_guard $PIDFILE $JOB_NAME
 
+    {
+<% if p("shield.agent.authorize_generated_daemon_key") %>
+      cat /var/vcap/packages/generated_daemon_key/id_rsa.pub
+<% end %>
+      cat <<EOF
+<%= p("shield.agent.authorized_keys").join("\n") %>
+EOF
+    } > /var/vcap/jobs/shield-agent/config/authorized_keys
+
     # store pid in $PIDFILE
     echo $$ > $PIDFILE
-
-    # run migrations
-
-    exec chpst -u vcap:vcap shield-schema -t postgres \
-         -d "postgres://<%= p("shield.daemon.database.username") %>:<%= p("shield.daemon.database.password") %>@<%= p("shield.daemon.database.host") %>:<%= p("shield.daemon.database.port") %>/<%= p("shield.daemon.database.db") %>?sslmode=disable"
-         port: <%= p("shield.daemon.port") %> \
-         >>$LOG_DIR/$JOB_NAME.schema.stdout.log \
-         2>>$LOG_DIR/$JOB_NAME.schema.stderr.log
-
-    exec chpst -u vcap:vcap shieldd -c /var/vcap/jobs/shield-daemon/config/shieldd.conf \
+    exec chpst -u vcap:vcap shielda-agent -c /var/vcap/jobs/shield-daemon/config/shieldd.conf \
          >>$LOG_DIR/$JOB_NAME.stdout.log \
          2>>$LOG_DIR/$JOB_NAME.stderr.log
 

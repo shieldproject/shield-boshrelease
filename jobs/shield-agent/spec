@@ -3,6 +3,8 @@ name: shield-agent
 packages:
   - shield
   - plugins
+  - generated_daemon_key
+  - generated_agent_key
 templates:
   bin/ctl: bin/ctl
   bin/monit_debugger: bin/monit_debugger
@@ -12,16 +14,27 @@ templates:
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
 
 properties:
-  shield.daemon.port:
-    description: "port to run daemon"
+
+
+
+  shield.agent.port:
+    description: "port to run agent"
     default: 8080
-  shield.daemon.database.port:
+  shield.agent.authorized_keys:
+    description: "public keys to permit"
+    default: []
+  shield.agent.authorize_generated_daemon_key:
+    description: "permit access via generated worker key, local to deployment"
+    default: true
+
+
+  shield.agent.database.port:
     description: "port for postgres database"
-  shield.daemon.database.host:
+  shield.agent.database.host:
     description: "host for postgres database"
-  shield.daemon.database.username:
+  shield.agent.database.username:
     description: "username for postgres database"
-  shield.daemon.database.password:
+  shield.agent.database.password:
     description: "password for postgres database"
-  shield.daemon.database.db:
+  shield.agent.database.db:
     description: "db for postgres database"

@@ -2,6 +2,8 @@
 name: shield-daemon
 packages:
   - shield
+  - generated_daemon_key
+  - generated_agent_key
 templates:
   bin/ctl: bin/ctl
   bin/monit_debugger: bin/monit_debugger
@@ -12,6 +14,11 @@ templates:
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
 
 properties:
+  shield.daemon.host_key:
+    description: >
+      private key to use for the SSH client. if not specified, a
+      deployment-scoped default is used.
+    default: ""
   shield.daemon.port:
     description: "port to run daemon"
     default: 8080

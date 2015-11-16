@@ -2,4 +2,8 @@
 database_type: postgres
 database_dsn: "postgres://<%= p("shield.daemon.database.username") %>:<%= p("shield.daemon.database.password") %>@<%= p("shield.daemon.database.host") %>:<%= p("shield.daemon.database.port") %>/<%= p("shield.daemon.database.db") %>?sslmode=disable"
 port: <%= p("shield.daemon.port") %>
-private_key: "/var/vcap/jobs/shield-daemon/shared/id_rsa"
+<% if p("shield.daemon.host_key") != "" %> \
+private_key: /var/vcap/jobs/shield-daemon/shared/id_rsa
+<% else %>
+private_key: /var/vcap/packages/generated_daemon_key/id_rsa
+<% end %>
