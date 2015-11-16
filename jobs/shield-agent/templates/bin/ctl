@@ -25,7 +25,7 @@ EOF
 
     # store pid in $PIDFILE
     echo $$ > $PIDFILE
-    exec chpst -u vcap:vcap shielda-agent -c /var/vcap/jobs/shield-daemon/config/shieldd.conf \
+    exec chpst -u vcap:vcap shield-agent -c /var/vcap/jobs/shield-daemon/config/shield-agent.conf \
          >>$LOG_DIR/$JOB_NAME.stdout.log \
          2>>$LOG_DIR/$JOB_NAME.stderr.log
 

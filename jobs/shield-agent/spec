@@ -8,7 +8,7 @@ packages:
 templates:
   bin/ctl: bin/ctl
   bin/monit_debugger: bin/monit_debugger
-  config/shieldd.conf.erb: config/shieldd.conf
+  config/shield-agent.conf.erb: config/shield-agent.conf
   data/properties.sh.erb: data/properties.sh
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
