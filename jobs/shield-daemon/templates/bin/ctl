@@ -14,6 +14,8 @@ case $1 in
   start)
     pid_guard $PIDFILE $JOB_NAME
 
+    chown vcap:vcap /var/vcap/packages/generated_daemon_key/id_rsa*
+    chown vcap:vcap /var/vcap/jobs/shield-daemon/shared/id_rsa
     # store pid in $PIDFILE
     echo $$ > $PIDFILE
 
