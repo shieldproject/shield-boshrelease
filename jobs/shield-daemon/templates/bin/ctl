@@ -25,8 +25,7 @@ case $1 in
          -d "postgres://<%= p("shield.daemon.database.username") %>:<%= p("shield.daemon.database.password") %>@<%= p("shield.daemon.database.host") %>:<%= p("shield.daemon.database.port") %>/<%= p("shield.daemon.database.db") %>?sslmode=disable"
 
     exec chpst -u vcap:vcap shieldd -c /var/vcap/jobs/shield-daemon/config/shieldd.conf \
-         >>$LOG_DIR/$JOB_NAME.stdout.log \
-         2>>$LOG_DIR/$JOB_NAME.stderr.log
+         >>$LOG_DIR/$JOB_NAME.log 2>&1
 
     ;;
 

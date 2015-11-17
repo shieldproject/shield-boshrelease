@@ -56,5 +56,3 @@ done
 export TMPDIR=$TMP_DIR
 
 PIDFILE=$RUN_DIR/$output_label.pid
-
-echo '$PATH' $PATH
