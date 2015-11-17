@@ -55,8 +55,11 @@ bosh -n deploy
 As a developer of this release, create new releases and upload them:
 
 ```
+git submodule update --init --recursive
 bosh create release --force && bosh -n upload release
 ```
+
+(You only have to run the `git ...` command on a fresh clone)
 
 ### Final releases
 
