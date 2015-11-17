@@ -7,3 +7,11 @@ postgres/postgresql-9.4.5.tar.gz:
   object_id: ba9bd647-c953-4f90-adc5-85a9fa7b394e
   sha: 5278d04093f3cb2e00796fae15b2e33406844d01
   size: 23211720
+utils/jq:
+  object_id: 5dd71105-0a16-48d6-abe8-a2a422602f8a
+  sha: d8e36831c3c94bb58be34dd544f44a6c6cb88568
+  size: 3027945
+utils/yaml2json:
+  object_id: 81ed6752-f893-40c1-b344-fdea3473637c
+  sha: 8884601d881a7025f0cfeac5009079509ffc099f
+  size: 3221608

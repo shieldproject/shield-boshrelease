@@ -15,4 +15,5 @@ export PATH=$GOROOT/bin:$PATH
 
 pushd $REPO_DIR
 BUILD_TYPE=install make shield
+cp bin/bkp ${BOSH_INSTALL_TARGET}/bin
 popd

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -e -x
+
+mkdir -p ${BOSH_INSTALL_TARGET}/bin
+cp utils/* ${BOSH_INSTALL_TARGET}/bin/.

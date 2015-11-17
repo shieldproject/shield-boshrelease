@@ -2,6 +2,7 @@
 name: shield-daemon
 packages:
   - shield
+  - utils
   - generated_daemon_key
   - generated_agent_key
 templates:

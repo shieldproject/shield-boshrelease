@@ -19,7 +19,7 @@ properties:
 
   shield.agent.port:
     description: "port to run agent"
-    default: 8080
+    default: 5444
   shield.agent.authorized_keys:
     description: "public keys to permit"
     default: []
