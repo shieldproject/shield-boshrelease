@@ -1,0 +1,12 @@
+---
+name: smoke-tests
+
+description: >
+  The shield tests errand runs tests for shield
+
+packages:
+- shield
+- utils
+
+templates:
+  bin/run: bin/run

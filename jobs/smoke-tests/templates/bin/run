@@ -1,0 +1,6 @@
+#!/bin/bash -l
+
+set -e
+
+export PATH=$PATH:/var/vcap/packages/utils/bin
+
