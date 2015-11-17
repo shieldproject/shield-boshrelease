@@ -28,13 +28,5 @@ properties:
     default: true
 
 
-  shield.agent.database.port:
-    description: "port for postgres database"
-  shield.agent.database.host:
-    description: "host for postgres database"
-  shield.agent.database.username:
-    description: "username for postgres database"
-  shield.agent.database.password:
-    description: "password for postgres database"
-  shield.agent.database.db:
-    description: "db for postgres database"
+  shield.agent.autoprovision:
+    description: "HTTP API of the Shield installation to automatically provision authorized keys from"
