@@ -3,7 +3,7 @@
 set -e
 
 template_prefix="shield"
-STEMCELL_OS=${STEMCELL_OS:-ubuntu}
+STEMCELL_OS=${STEMCELL_OS:-${2}}
 
 infrastructure=$1
 
