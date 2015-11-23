@@ -30,3 +30,6 @@ properties:
 
   shield.agent.autoprovision:
     description: "HTTP API of the Shield installation to automatically provision authorized keys from"
+  shield.log_level:
+    description: "Log level for shield processes"
+    default: "info"

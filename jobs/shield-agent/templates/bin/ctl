@@ -30,7 +30,7 @@ EOF
 
     # store pid in $PIDFILE
     echo $$ > $PIDFILE
-    exec chpst -u vcap:vcap shield-agent -c /var/vcap/jobs/shield-agent/config/shield-agent.conf \
+	exec chpst -u vcap:vcap shield-agent -c /var/vcap/jobs/shield-agent/config/shield-agent.conf --log-level <%= p("shield.log_level") %> \
          >>$LOG_DIR/$JOB_NAME.log 2>&1
 
     ;;

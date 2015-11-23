@@ -33,3 +33,6 @@ properties:
     description: "password for postgres database"
   shield.daemon.database.db:
     description: "db for postgres database"
+  shield.log_level:
+    description: "Log level for shield processes"
+    default: "info"
