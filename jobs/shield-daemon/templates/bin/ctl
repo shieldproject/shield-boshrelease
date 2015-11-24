@@ -13,6 +13,7 @@ case $1 in
 
   start)
     pid_guard $PIDFILE $JOB_NAME
+    echo "Startup requested for $JOB_NAME"
 
     chown vcap:vcap /var/vcap/packages/generated_daemon_key/id_rsa*
     chown vcap:vcap /var/vcap/jobs/shield-daemon/shared/id_rsa
@@ -21,15 +22,18 @@ case $1 in
 
     # run migrations
 
+    echo "Ensuring DB schema is up to date"
     shield-schema -t postgres \
          -d "postgres://<%= p("shield.daemon.database.username") %>:<%= p("shield.daemon.database.password") %>@<%= p("shield.daemon.database.host") %>:<%= p("shield.daemon.database.port") %>/<%= p("shield.daemon.database.db") %>?sslmode=disable"
 
+    echo "Starting $JOB_NAME"
 	exec chpst -u vcap:vcap shieldd -c /var/vcap/jobs/shield-daemon/config/shieldd.conf --log-level <%= p("shield.log_level") %> \
          >>$LOG_DIR/$JOB_NAME.log 2>&1
 
     ;;
 
   stop)
+    echo "Shutdown requested for $JOB_NAME"
     kill_and_wait $PIDFILE
 
     ;;
