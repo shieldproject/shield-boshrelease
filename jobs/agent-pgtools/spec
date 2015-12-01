@@ -1,0 +1,6 @@
+---
+name: agent-pgtools
+packages:
+  - postgres-9.4
+templates: {}
+properties: {}
