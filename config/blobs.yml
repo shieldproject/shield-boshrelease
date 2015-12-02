@@ -15,3 +15,7 @@ utils/yaml2json:
   object_id: 81ed6752-f893-40c1-b344-fdea3473637c
   sha: 8884601d881a7025f0cfeac5009079509ffc099f
   size: 3221608
+tar/libarchive-3.1.2.tar.gz:
+  object_id: 82d11f2c-1a0d-4b68-9915-bb80feb10a74
+  sha: 6a991777ecb0f890be931cec4aec856d1a195489
+  size: 4527540
