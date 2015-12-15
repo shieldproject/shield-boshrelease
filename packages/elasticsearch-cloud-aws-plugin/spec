@@ -1,0 +1,5 @@
+---
+name: elasticsearch-cloud-aws-plugin
+dependencies: []
+files:
+- elasticsearch-cloud-aws-plugin/elasticsearch-*.zip

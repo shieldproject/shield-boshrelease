@@ -6,6 +6,7 @@ packages:
   - plugins
   - generated_daemon_key
   - generated_agent_key
+  - elasticsearch-cloud-aws-plugin
 templates:
   bin/ctl: bin/ctl
   bin/monit_debugger: bin/monit_debugger

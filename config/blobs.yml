@@ -19,3 +19,7 @@ tar/libarchive-3.1.2.tar.gz:
   object_id: 82d11f2c-1a0d-4b68-9915-bb80feb10a74
   sha: 6a991777ecb0f890be931cec4aec856d1a195489
   size: 4527540
+elasticsearch-cloud-aws-plugin/elasticsearch-cloud-aws-2.7.1.zip:
+  object_id: 840cb5d4-16b2-4d1d-93af-e68674f560a1
+  sha: 7ce151d76a63eaa47b65b128d97766e24770aaf1
+  size: 5894832
