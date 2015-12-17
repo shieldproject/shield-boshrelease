@@ -23,3 +23,7 @@ elasticsearch-cloud-aws-plugin/elasticsearch-cloud-aws-2.7.1.zip:
   object_id: 840cb5d4-16b2-4d1d-93af-e68674f560a1
   sha: 7ce151d76a63eaa47b65b128d97766e24770aaf1
   size: 5894832
+golang_1.5/go1.5.2.linux-amd64.tar.gz:
+  object_id: 73f1e28b-4e61-47c4-ae6a-789473711950
+  sha: cae87ed095e8d94a81871281d35da7829bd1234e
+  size: 76350075
