@@ -2,5 +2,6 @@
 name: agent-pgtools
 packages:
   - postgres-9.4
-templates: {}
+templates:
+  ignore: ignore
 properties: {}
