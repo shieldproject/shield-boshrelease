@@ -15,6 +15,9 @@ templates:
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
 
 properties:
+  shield.daemon.name:
+    description: "name to display to `shield status' calls"
+    default: "(none)"
   shield.daemon.host_key:
     description: >
       private key to use for the SSH client. if not specified, a
