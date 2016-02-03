@@ -1,0 +1,7 @@
+---
+name: agent-mysql
+packages:
+  - shield-mysql
+templates:
+  ignore: ignore
+properties: {}
