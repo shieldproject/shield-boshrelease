@@ -2,5 +2,6 @@
 
 set -e -x
 
+chmod +x utils/*
 mkdir -p ${BOSH_INSTALL_TARGET}/bin
 cp utils/* ${BOSH_INSTALL_TARGET}/bin/.

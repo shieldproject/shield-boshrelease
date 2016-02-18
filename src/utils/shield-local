@@ -1,0 +1,5 @@
+#!/bin/bash
+
+PORT=$(cat /var/vcap/jobs/shield-daemon/config/shieldd.conf | /var/vcap/packages/utils/bin/yaml2json  | /var/vcap/packages/utils/bin/jq .port)
+export SHIELD_API=http://localhost:${PORT}
+/var/vcap/packages/shield/bin/shield "$@"
