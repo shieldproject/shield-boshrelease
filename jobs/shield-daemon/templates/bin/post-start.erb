@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Add all packages' /bin & /sbin into $PATH
+for package_bin_dir in $(ls -d /var/vcap/packages/*/*bin)
+do
+  export PATH=${package_bin_dir}:$PATH
+done
+
+export SHIELD_API=http://localhost:<%= p("shield.daemon.port") %>
+
+# create default schedule
+SCHEDULE=$(shield --raw show schedule <%= p("shield.schedule.name") %> | jq -r '.uuid // empty')
+if [[ -z ${SCHEDULE} ]]; then
+  echo "Creating schedule"
+  SCHEDULE=$(cat /var/vcap/jobs/shield-daemon/config/schedule.json | shield --raw create schedule)
+fi
+
+RETENTION=$(shield --raw show retention policy <%= p("shield.retention.name") %> | jq -r '.uuid // empty')
+if [[ -z ${RETENTION} ]]; then
+  echo "Creating retention"
+	RETENTION=$(cat /var/vcap/jobs/shield-daemon/config/retention.json | shield --raw create retention policy | jq -r .uuid)
+fi
+
+STORE=$(shield --raw show store <%= p("shield.store.name") %> | jq -r '.uuid // empty')
+if [[ -z ${STORE} ]]; then
+  echo "Creating store"
+	STORE=$(cat /var/vcap/jobs/shield-daemon/config/store.json | shield --raw create store | jq -r .uuid)
+fi
