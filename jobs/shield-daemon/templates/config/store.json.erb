@@ -1,5 +1,8 @@
+<%
+  require 'json'
+%>
 {
   "name":     "<%= p("shield.store.name") %>",
   "plugin":   "<%= p("shield.store.plugin") %>",
-  "endpoint": "<%= p("shield.store.endpoint") %>"
+  "endpoint": <%= p("shield.store.config").to_json.dump %>
 }

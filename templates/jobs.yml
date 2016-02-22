@@ -47,9 +47,4 @@ properties:
         password: admin
         db: shielddb
     agent:
-      database:
-        host: (( grab jobs.shield.networks.shield1.static_ips.[0] ))
-        port: 5524
-        username: shieldadmin
-        password: admin
-        db: shielddb
+      autoprovision: http://localhost:8080
