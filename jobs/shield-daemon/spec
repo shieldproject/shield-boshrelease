@@ -64,6 +64,7 @@ properties:
   shield.store.plugin:
     description: "Default store plugin"
     default: "dummy"
-  shield.store.endpoint:
-    description: "Default store endpoint"
-    default: '{\"directory\":\"/tmp/shield/dummy\"}'
+  shield.store.config:
+    description: "Default store config"
+    default:
+      directory: /tmp/shield/dummy

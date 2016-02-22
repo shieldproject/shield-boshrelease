@@ -1,6 +1,6 @@
 ---
 authorized_keys_file: /var/vcap/jobs/shield-agent/config/authorized_keys
 host_key_file: /var/vcap/packages/generated_agent_key/id_rsa
-listen_address: 0.0.0.0:<%= p('shield.agent.port') %>
+listen_address: 0.0.0.0:<%= properties.shield.agent.port %>
 plugin_paths:
   - /var/vcap/packages/plugins/bin

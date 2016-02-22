@@ -1,0 +1,52 @@
+#!/bin/bash
+
+# Add all packages' /bin & /sbin into $PATH
+for package_bin_dir in $(ls -d /var/vcap/packages/*/*bin)
+do
+  export PATH=${package_bin_dir}:$PATH
+done
+
+export SHIELD_API=<%= p("shield.agent.autoprovision") %>
+
+<% if !properties.shield.target.name.nil? %>
+TARGET=$(shield --raw show target <%= p("shield.target.name") %> | jq -r '.uuid // empty')
+if [[ -z ${TARGET} ]]; then
+  echo "Creating target"
+	cat /var/vcap/jobs/shield-agent/config/target.json | shield --raw create target
+else
+  echo "Editing target"
+	cat /var/vcap/jobs/shield-daemon/config/target.json | shield --raw edit target
+fi
+<% if !properties.shield.job.name.nil? %>
+
+STORE=$(shield --raw show store <%= p("shield.job.store") %> | jq -r '.uuid // empty')
+RETENTION=$(shield --raw show retention policy <%= p("shield.job.retention") %> | jq -r '.uuid // empty')
+SCHEDULE=$(shield --raw show schedule <%= p("shield.job.schedule") %> | jq -r '.uuid // empty')
+
+cat <<EOF > /tmp/job.json
+{"name":      "<%= p("shield.job.name") %>",
+ "target":    "${TARGET}",
+ "store":     "${STORE}",
+ "schedule":  "${SCHEDULE}",
+ "retention": "${RETENTION}",
+ "paused":    false
+}
+EOF
+
+JOB=$(shield --raw show job <%= p("shield.job.name") %> | jq -r '.uuid // empty')
+if [[ -z ${JOB} ]]; then
+  echo "Creating job"
+	cat /tmp/job.json | shield --raw create job
+else
+  echo "Editing job"
+  cat /tmp/job.json | shield --raw edit job
+fi
+
+# End Job
+<% end %>
+
+# End Target
+<% end %>
+
+
+

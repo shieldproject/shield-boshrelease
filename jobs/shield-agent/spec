@@ -10,14 +10,14 @@ packages:
 templates:
   bin/ctl: bin/ctl
   bin/monit_debugger: bin/monit_debugger
+  bin/post-start.erb: bin/post-start
+  config/target.json.erb: config/target.json
   config/shield-agent.conf.erb: config/shield-agent.conf
   data/properties.sh.erb: data/properties.sh
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
 
 properties:
-
-
 
   shield.agent.port:
     description: "port to run agent"
@@ -35,3 +35,19 @@ properties:
   shield.log_level:
     description: "Log level for shield processes"
     default: "info"
+
+  shield.target.name:
+    description: "Target name"
+  shield.target.plugin:
+    description: "Plugin type"
+  shield.target.config:
+    description: "Hash of config information"
+
+  shield.job.name:
+    description: "Job name"
+  shield.job.schedule:
+    description: "Name of job schedule"
+  shield.job.store:
+    description: "Name of job store"
+  shield.job.retention:
+    description: "Name of job retention"
