@@ -8,8 +8,8 @@ done
 
 export SHIELD_API=<%= p("shield.agent.autoprovision") %>
 
-<% if !properties.shield.target.name.nil? %>
-TARGET=$(shield --raw show target <%= p("shield.target.name") %> | jq -r '.uuid // empty')
+<% if_p("shield.target.name") do |target_name|%>
+TARGET=$(shield --raw show target <%= target_name %> | jq -r '.uuid // empty')
 if [[ -z ${TARGET} ]]; then
   echo "Creating target"
 	cat /var/vcap/jobs/shield-agent/config/target.json | shield --raw create target
@@ -17,14 +17,14 @@ else
   echo "Editing target"
 	cat /var/vcap/jobs/shield-daemon/config/target.json | shield --raw edit target
 fi
-<% if !properties.shield.job.name.nil? %>
+<% if_p("shield.job.name", "shield.job.store", "shield.job.retention", "shield.job.schedule") do |job_name, retention, schedule, store| %>
 
-STORE=$(shield --raw show store <%= p("shield.job.store") %> | jq -r '.uuid // empty')
-RETENTION=$(shield --raw show retention policy <%= p("shield.job.retention") %> | jq -r '.uuid // empty')
-SCHEDULE=$(shield --raw show schedule <%= p("shield.job.schedule") %> | jq -r '.uuid // empty')
+STORE=$(shield --raw show store <%= store %> | jq -r '.uuid // empty')
+RETENTION=$(shield --raw show retention policy <%= retention %> | jq -r '.uuid // empty')
+SCHEDULE=$(shield --raw show schedule <%= schedule %> | jq -r '.uuid // empty')
 
 cat <<EOF > /tmp/job.json
-{"name":      "<%= p("shield.job.name") %>",
+{"name":      "<%= job_name %>",
  "target":    "${TARGET}",
  "store":     "${STORE}",
  "schedule":  "${SCHEDULE}",
@@ -33,7 +33,7 @@ cat <<EOF > /tmp/job.json
 }
 EOF
 
-JOB=$(shield --raw show job <%= p("shield.job.name") %> | jq -r '.uuid // empty')
+JOB=$(shield --raw show job <%= job_name %> | jq -r '.uuid // empty')
 if [[ -z ${JOB} ]]; then
   echo "Creating job"
 	cat /tmp/job.json | shield --raw create job

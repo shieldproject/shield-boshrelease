@@ -1,8 +1,10 @@
 <%
   require 'json'
 %>
+<% if_p("shield.store.name", "shield.store.plugin", "shield.store.config") do |name, plugin, config| %>
 {
-  "name":     "<%= p("shield.store.name") %>",
-  "plugin":   "<%= p("shield.store.plugin") %>",
-  "endpoint": <%= p("shield.store.config").to_json.dump %>
+  "name":     "<%= name %>",
+  "plugin":   "<%= plugin %>",
+  "endpoint": <%= config.to_json.dump %>
 }
+<% end %>

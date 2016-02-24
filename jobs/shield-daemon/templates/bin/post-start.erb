@@ -8,8 +8,8 @@ done
 
 export SHIELD_API=http://localhost:<%= p("shield.daemon.port") %>
 
-<% if !properties.shield.schedule.name.nil? %>
-SCHEDULE=$(shield --raw show schedule <%= p("shield.schedule.name") %> | jq -r '.uuid // empty')
+<% if_p("shield.schedule.name") do |schedule| %>
+SCHEDULE=$(shield --raw show schedule <%= schedule %> | jq -r '.uuid // empty')
 if [[ -z ${SCHEDULE} ]]; then
   echo "Creating schedule"
   cat /var/vcap/jobs/shield-daemon/config/schedule.json | shield --raw create schedule
@@ -19,8 +19,8 @@ else
 fi
 <% end %>
 
-<% if !properties.shield.retention.name.nil? %>
-RETENTION=$(shield --raw show retention policy <%= p("shield.retention.name") %> | jq -r '.uuid // empty')
+<% if_p("shield.retention.name") do |retention| %>
+RETENTION=$(shield --raw show retention policy <%= retention %> | jq -r '.uuid // empty')
 if [[ -z ${RETENTION} ]]; then
   echo "Creating retention"
 	cat /var/vcap/jobs/shield-daemon/config/retention.json | shield --raw create retention policy
@@ -30,8 +30,8 @@ else
 fi
 <% end %>
 
-<% if !properties.shield.store.name.nil? %>
-STORE=$(shield --raw show store <%= p("shield.store.name") %> | jq -r '.uuid // empty')
+<% if_p("shield.store.name") do |store| %>
+STORE=$(shield --raw show store <%= store %> | jq -r '.uuid // empty')
 if [[ -z ${STORE} ]]; then
   echo "Creating store"
 	cat /var/vcap/jobs/shield-daemon/config/store.json | shield --raw create store

@@ -1,4 +1,6 @@
+<% if_p("shield.schedule.name", "shield.schedule.when") do |name, at| %>
 {
-  "name": "<%= p("shield.schedule.name") %>",
-  "when": "<%= p("shield.schedule.when") %>"
+  "name": "<%= name %>",
+  "when": "<%= at %>"
 }
+<% end %>

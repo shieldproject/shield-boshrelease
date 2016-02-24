@@ -1,4 +1,6 @@
+<% if_p("shield.retention.name", "shield.retention.expires") do |name, expires| %>
 {
-  "name":    "<%= p("shield.retention.name") %>",
-  "expires": <%= p("shield.retention.expires") %>
+  "name":    "<%= name %>",
+  "expires": <%= expires %>
 }
+<% end %>
