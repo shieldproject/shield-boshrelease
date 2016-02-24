@@ -45,26 +45,18 @@ properties:
     default: "info"
 
   shield.schedule.name:
-    description: "Default schedule name"
-    default: "Daily Backups"
+    description: "schedule name"
   shield.schedule.when:
-    description: "Default schedule when"
-    default: "daily 3am"
+    description: "schedule when"
 
   shield.retention.name:
-    description: "Default retention name"
-    default: "Default Retention"
+    description: "retention name"
   shield.retention.expires:
-    description: "Default expires"
-    default: 8640000
+    description: "expires"
 
   shield.store.name:
-    description: "Default store name"
-    default: "Dummy store"
+    description: "store name"
   shield.store.plugin:
-    description: "Default store plugin"
-    default: "dummy"
+    description: "store plugin"
   shield.store.config:
-    description: "Default store config"
-    default:
-      directory: /tmp/shield/dummy
+    description: "store config"
