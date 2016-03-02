@@ -1,0 +1,52 @@
+#!/bin/bash
+
+export SHIELD_OP='restore'
+<% if_p("shield.agent.recovery.target_config") do |target_config| %>
+export SHIELD_TARGET_ENDPOINT=<%= target_config.to_json.dump %>
+<% end %>
+<% if_p("shield.agent.recovery.store_config") do |store_config| %>
+export SHIELD_STORE_ENDPOINT=<%= store_config.to_json.dump %>
+<% end %>
+<% if_p("shield.agent.recovery.store_plugin") do |store_plugin| %>
+export SHIELD_STORE_PLUGIN=/var/vcap/packages/plugins/bin/<%= store_plugin %>
+<% end %>
+<% if_p("shield.agent.recovery.target_plugin") do |target_plugin| %>
+export SHIELD_TARGET_PLUGIN=/var/vcap/packages/plugins/bin/<%= target_plugin %>
+<% end %>
+export SHIELD_RESTORE_KEY=$1
+shift
+
+if [[ -z $SHIELD_OP ]]; then
+	echo "No SHIELD_OP environment variable specified. Cannot continue."
+	exit 1
+fi
+if [[ -z $SHIELD_STORE_ENDPOINT ]]; then
+	echo "No SHIELD_STORE_ENDPOINT environment variable specified. Cannot continue."
+	exit 1
+fi
+if [[ -z $SHIELD_STORE_PLUGIN ]]; then
+	echo "No SHIELD_STORE_PLUGIN environment variable specified. Cannot continue."
+	exit 1
+fi
+if [[ -z $SHIELD_TARGET_ENDPOINT ]]; then
+	echo "No SHIELD_TARGET_ENDPOINT environment variable specified. Cannot continue."
+	exit 1
+fi
+if [[ -z $SHIELD_TARGET_PLUGIN ]]; then
+	echo "No SHIELD_TARGET_PLUGIN environment variable specified. Cannot continue."
+	exit 1
+fi
+if [[ -z $SHIELD_RESTORE_KEY ]]; then
+	echo "Usage: emergency-recovery <store key of archive you wish to restore>"
+	echo "       <store key> is typically the full path to the archive file in the store"
+fi
+
+for dir in /var/vcap/packages/*/bin; do
+	export PATH=${dir}:${PATH}
+done
+
+echo Restoring Data...
+/var/vcap/packages/plugins/bin/shield-pipe
+
+echo Restarting all services via monit, you may be prompted for a sudo password here
+sudo /var/vcap/bosh/bin/monit restart all
