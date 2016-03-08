@@ -6,9 +6,10 @@ do
   export PATH=${package_bin_dir}:$PATH
 done
 
+<% if_p("shield.target.name") do |target_name|%>
+
 export SHIELD_API=<%= p("shield.agent.autoprovision") %>
 
-<% if_p("shield.target.name") do |target_name|%>
 TARGET=$(shield --raw show target <%= target_name %> | jq -r '.uuid // empty')
 if [[ -z ${TARGET} ]]; then
   echo "Creating target"
