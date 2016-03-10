@@ -30,7 +30,7 @@ properties:
     description: "permit access via generated worker key, local to deployment"
     default: true
   shield.agent.autoprovision:
-    description: "HTTP API of the Shield installation to automatically provision authorized keys from"
+    description: "Optional HTTP API of the Shield installation to automatically provision authorized keys from"
   shield.agent.recovery.target_plugin:
     description: "Target plugin to use in emergency-recovery-mode"
   shield.agent.recovery.target_config:
