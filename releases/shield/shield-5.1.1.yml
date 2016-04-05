@@ -1,0 +1,92 @@
+---
+packages:
+- name: elasticsearch-cloud-aws-plugin
+  version: a8701cdd6895f248d4d51fd918e4d71daa678b4f
+  fingerprint: a8701cdd6895f248d4d51fd918e4d71daa678b4f
+  sha1: f01aa7c96d7610516acdc68d73f69481a19298c1
+  dependencies: []
+- name: postgres-9.4
+  version: 06a51985e0701707b27d45c7a5757171b5cefb8c
+  fingerprint: 06a51985e0701707b27d45c7a5757171b5cefb8c
+  sha1: 6c8985086261278e33cc3d5e82f23b2dc3ebfd98
+  dependencies: []
+- name: plugins
+  version: c1c753769b9724c8ed88f9d0f260531bd66dcb7c
+  fingerprint: c1c753769b9724c8ed88f9d0f260531bd66dcb7c
+  sha1: 7d8914fd5152c78136966fa1b39c36ba5ae56728
+  dependencies:
+  - golang
+- name: bsdtar
+  version: fe279cae5da0aa7b9cbf07238dad8afba6c8edc7
+  fingerprint: fe279cae5da0aa7b9cbf07238dad8afba6c8edc7
+  sha1: 663111538ee1a1dd4a07359e6505bc42fd93fd0c
+  dependencies: []
+- name: common
+  version: e401816a4748292163679fafcbd8f818ed8154a5
+  fingerprint: e401816a4748292163679fafcbd8f818ed8154a5
+  sha1: 0b1287640734911ce99ff809e91a496c563ce2aa
+  dependencies: []
+- name: utils
+  version: c33cc8c7e9c3927d3b5cd9f6f0e321dfde86bd9e
+  fingerprint: c33cc8c7e9c3927d3b5cd9f6f0e321dfde86bd9e
+  sha1: 957a1c1890528cfcefe6a67767bc51b2a07cb736
+  dependencies: []
+- name: generated_agent_key
+  version: d130726fd279b4cfb8ef211daad7b64e62bb888d
+  fingerprint: d130726fd279b4cfb8ef211daad7b64e62bb888d
+  sha1: 7a1bfc688511435c863a7be0b7fe605d7ed6e303
+  dependencies: []
+- name: golang
+  version: 7bddc02ea4a7cc8f325253cea9dbe01ab6ea8129
+  fingerprint: 7bddc02ea4a7cc8f325253cea9dbe01ab6ea8129
+  sha1: 7c44f13dadc7e52048a87b81045058358acc5e97
+  dependencies: []
+- name: shield-mysql
+  version: ccf715e8091054ac22cdcbeb9ded4ab213adaef7
+  fingerprint: ccf715e8091054ac22cdcbeb9ded4ab213adaef7
+  sha1: 136de8d4ab44d4501fcab741cb97757edab03c68
+  dependencies: []
+- name: shield
+  version: c2c108cdfcb83fb350fd443c6b5e519c6428b9a2
+  fingerprint: c2c108cdfcb83fb350fd443c6b5e519c6428b9a2
+  sha1: cfa1a667e85e164111fa31d25eb29923a87e974c
+  dependencies:
+  - golang
+- name: generated_daemon_key
+  version: d130726fd279b4cfb8ef211daad7b64e62bb888d
+  fingerprint: d130726fd279b4cfb8ef211daad7b64e62bb888d
+  sha1: 7a1bfc688511435c863a7be0b7fe605d7ed6e303
+  dependencies: []
+jobs:
+- name: smoke-tests
+  version: 20be1bde7c1869b9d64bdf19bd1c1e55b5b060ae
+  fingerprint: 20be1bde7c1869b9d64bdf19bd1c1e55b5b060ae
+  sha1: 68ae47e3a6f7620d7647851752f4482a0e783c9e
+- name: agent-pgtools
+  version: a8ae25f73be2dd1fd4e7dff350889bf828840c23
+  fingerprint: a8ae25f73be2dd1fd4e7dff350889bf828840c23
+  sha1: 9aa233556cc555d347d3249e341c5eac7fe706ca
+- name: postgres
+  version: c3790ce4525e2d8ff336177bcff1e6ed0c5ebf9a
+  fingerprint: c3790ce4525e2d8ff336177bcff1e6ed0c5ebf9a
+  sha1: eae6d4f7c706f72798e84f8cf3bb46185736f324
+- name: agent-mysql
+  version: f96b43552dc496e3324d959d0a0a75af8f015413
+  fingerprint: f96b43552dc496e3324d959d0a0a75af8f015413
+  sha1: 837b83f87ed54dd72f8d8ce3be6a4e1a93a0c5b2
+- name: shield-agent
+  version: f969f6dc0a107c3366aa66faaf6d8d06d05dd1c1
+  fingerprint: f969f6dc0a107c3366aa66faaf6d8d06d05dd1c1
+  sha1: 89f5cbdd7315e813865c10a2c1604b82b373d624
+- name: shield-daemon
+  version: 6115dd5162dc6d71cbda1d861a89ea008df2c312
+  fingerprint: 6115dd5162dc6d71cbda1d861a89ea008df2c312
+  sha1: 80aa2d2ff3523e01bebf6a1759088bc061e97043
+license:
+  version: 79267db2e7516e504dfe773afdfd03a5ecfaf43a
+  fingerprint: 79267db2e7516e504dfe773afdfd03a5ecfaf43a
+  sha1: 79cecf4b9642b40459bfb5d7de7f29048ba5bdfb
+commit_hash: d65f5d08
+uncommitted_changes: false
+name: shield
+version: 5.1.1
