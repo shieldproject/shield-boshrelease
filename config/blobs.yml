@@ -35,3 +35,11 @@ mysql/mysql-5.6.28.tar.gz:
   object_id: 48005ac1-8324-43e7-b850-b796ac5759e1
   sha: ae2558f7cf678163884b720779fc3bb3d09e48fc
   size: 32182980
+nginx/nginx-1.8.0.tar.gz:
+  object_id: 56cfeec8-3601-4d12-8332-7ff1b5618d9f
+  sha: 12bad312764feae50246685ab2e74512d1aa9b2f
+  size: 832104
+nginx/pcre-8.37.tar.gz:
+  object_id: ceabbcdf-1322-4430-8684-b604a962e3de
+  sha: 4a24a20c61347d8da4edc86d5475aaf70ac146bb
+  size: 2041593
