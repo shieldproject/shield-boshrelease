@@ -28,8 +28,14 @@ properties:
       deployment-scoped default is used.
     default: ""
   shield.daemon.port:
-    description: "port to run daemon"
-    default: 8080
+    description: "port to run daemon (https requests)"
+    default: 443
+  shield.daemon.http_port:
+    description: "Port for http requests"
+    default: 80
+  shield.daemon.domain:
+    description: "Hostname/IP SHIELD is accessed with"
+
   shield.daemon.database.port:
     description: "port for postgres database"
   shield.daemon.database.host:
@@ -40,9 +46,53 @@ properties:
     description: "password for postgres database"
   shield.daemon.database.db:
     description: "db for postgres database"
+
+  shield.daemon.auth.oauth.provider:
+    description: "OAuth2 provider to use with SHIELD (supported values: 'github')"
+  shield.daemon.auth.oauth.key:
+    description: "Auth Key/Client ID to use with the OAuth2 provider"
+  shield.daemon.auth.oauth.secret:
+    description: "Auth Secret/Client Secret to use with the OAuth2 provider"
+  shield.daemon.auth.oauth.authorization.orgs:
+    description: "List of organizations that users must be members of to access SHIELD. This *MUST* be specified or no one will be able to access SHIELD."
+  shield.daemon.auth.oauth.sessions.db.port:
+    description: "port for postgres database"
+  shield.daemon.auth.oauth.sessions.db.host:
+    description: "host for postgres database"
+  shield.daemon.auth.oauth.sessions.db.username:
+    description: "username for postgres database"
+  shield.daemon.auth.oauth.sessions.db.password:
+    description: "password for postgres database"
+  shield.daemon.auth.oauth.sessions.db.name:
+    description: "db for postgres database"
+  shield.daemon.auth.oauth.sessions.max_age:
+    description: "Maximum age for an authenticated session in seconds"
+    default: 2592000
+
+  shield.daemon.auth.basic_user:
+    description: "Username to use with basic auth for SHIELD (disabled if oauth is enabled)"
+    default: "admin"
+  shield.daemon.auth.basic_password:
+    description: "Password to use with basic auth for SHIELD (disabled if oauth is enabled)"
+    default: "admin"
+
+  shield.daemon.auth.api_keys:
+    description: "Map of API keys to grant script-level access to SHIELD (keys are names of keys, values are keys themselves)"
+    example: |
+      api_keys:
+        my_script: AwB6iMPhTHiE7V2ngLNv
+        autoprovision: KTocoRDwtasU22kiA3Go
+
   shield.log_level:
     description: "Log level for shield processes"
     default: "info"
+
+  shield.provisioning_key:
+    description: "API Key to use when provisioning schedules, retention policies, or stores. Required if shield.schedule, shield.retention, or shield.store have data"
+  shield.skip_ssl_verify:
+    description: "Boolean to determine if SSL certs will be ignored when provisioning SHIELD data"
+    default: true
+
 
   shield.schedule.name:
     description: "schedule name"

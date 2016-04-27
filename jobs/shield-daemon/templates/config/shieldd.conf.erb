@@ -1,10 +1,38 @@
 ---
 database_type: postgres
 database_dsn: "postgres://<%= p("shield.daemon.database.username") %>:<%= p("shield.daemon.database.password") %>@<%= p("shield.daemon.database.host") %>:<%= p("shield.daemon.database.port") %>/<%= p("shield.daemon.database.db") %>?sslmode=disable"
-port: <%= p("shield.daemon.port") %>
+listen_addr: 127.0.0.1:8080
 <% if p("shield.daemon.host_key") != "" %> \
 private_key: /var/vcap/jobs/shield-daemon/shared/id_rsa
 <% else %>
 private_key: /var/vcap/packages/generated_daemon_key/id_rsa
 <% end %>
 web_root: /var/vcap/packages/shield/webui
+
+
+auth:
+<% if_p("shield.daemon.auth.api_keys") do |tokens| %>
+  api_tokens:
+<% tokens.each do |k, v| %>
+    <%= k %>: <%= v %>
+<% end %>
+<% end %>
+  basic:
+    user: <%= p("shield.daemon.auth.basic_user") %>
+    password: <%= p("shield.daemon.auth.basic_password") %>
+<% if_p("shield.daemon.auth.oauth.provider") do |provider| %>
+  oauth:
+    provider: <%= provider %>
+    key: <%= p("shield.daemon.auth.oauth.key") %>
+    secret: <%= p("shield.daemon.auth.oauth.secret") %>
+    base_url: https://<%= p("shield.daemon.domain") %>:<%= p("shield.daemon.port") %>
+    authorization:
+      orgs:
+<% p("shield.daemon.auth.oauth.authorization.orgs").each do |org| %>
+      - <%= org %>
+<% end %>
+    sessions:
+      type: "postgres"
+      dsn: "postgres://<%= p("shield.daemon.auth.oauth.sessions.db.username") %>:<%= p("shield.daemon.auth.oauth.sessions.db.password") %>@<%= p("shield.daemon.auth.oauth.sessions.db.host") %>:<%= p("shield.daemon.auth.oauth.sessions.db.port") %>/<%= p("shield.daemon.auth.oauth.sessions.db.name") %>?sslmode=disable"
+      max_age: <%= p("shield.daemon.auth.oauth.sessions.max_age") %>
+<% end %>

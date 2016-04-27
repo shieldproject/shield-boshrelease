@@ -1,3 +1,17 @@
+# New Features
+
+- **Authentication and Authorization!**
+  SHIELD now supports options for authenticating requests to it!
+  It supports HTTP Basic authentication, OAuth2 (currently the
+  only supported provider is github), and API Keys. If no authentication
+  configuration is provided, SHIELD will default to HTTP Basic Auth,
+  using a default user/password.
+- **SSL Required**
+  SHIELD now runs behind an nginx instance doing SSL termination.
+  If you do not specify a key, one will be auto-generated for you,
+  making an easier transition. Additionally, non-encrypted requests
+  will be redirected to https for you.
+
 # Bug Fixes
 
 - Remove console.log calls from frontend Web UI Javascript,

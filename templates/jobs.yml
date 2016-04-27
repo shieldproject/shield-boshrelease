@@ -13,6 +13,8 @@ jobs:
     templates:
     - name: postgres
       release: shield
+    - name: nginx
+      release: shield
     - name: shield-daemon
       release: shield
     - name: shield-agent
@@ -31,6 +33,9 @@ properties:
     - citext: true
       name: shielddb
       tag: shield
+    - citext: true
+      name: sessionsdb
+      tag: sessions
     db_scheme: postgres
     port: 5524
     roles:
@@ -40,11 +45,22 @@ properties:
 
   shield:
     daemon:
+      domain: (( grab jobs.shield.networks.shield1.static_ips.[0] ))
       database:
         host: (( grab jobs.shield.networks.shield1.static_ips.[0] ))
         port: 5524
         username: shieldadmin
         password: admin
         db: shielddb
+      auth:
+        oauth:
+          sessions:
+            db:
+              host: (( grab jobs.shield.networks.shield1.static_ips.[0] ))
+              port: 5524
+              username: shieldadmin
+              password: admin
+              name: sessionsdb
+
     agent:
-      autoprovision: http://localhost:8080
+      autoprovision: (( concat "http://" properties.shield.daemon.domain ))

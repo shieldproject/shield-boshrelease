@@ -1,0 +1,47 @@
+---
+name: nginx
+templates:
+  mime.types: config/mime.types
+  nginx.conf.erb: config/nginx.conf
+  nginx_ctl: bin/nginx_ctl
+  ssl_key.erb: config/ssl_key
+  ssl_crt.erb: config/ssl_crt
+
+packages:
+- nginx
+
+properties:
+  shield.daemon.port:
+    default: 443
+    description: "Port to listen on for encrypted traffic"
+  shield.daemon.http_port:
+    default: 80
+    description: "Port non-encrypted traffic should listen on. Redirects to https_port"
+  shield.daemon.domain:
+    description: "Hostname/IP SHIELD is accessed with"
+
+  nginx.worker_processes:
+    description: 'Number of nginx workers'
+    default: 2
+  nginx.worker_connections:
+    description: 'Number of nginx connections per worker'
+    default: 8192
+  nginx.keepalive_timeout:
+    description: 'Timeout for keep-alive connections'
+    default: '75 20'
+  nginx.proxy_connect_timeout:
+    description: 'Timeout for the connection to the upstream server'
+    default: 300
+  nginx.proxy_read_timeout:
+    description: 'Timeout for read queries to the upstream server'
+    default: 120
+  nginx.proxy_send_timeout:
+    description: 'Timeout for send queries to the upstream server'
+    default: 120
+  nginx.ssl_timeout:
+    description: 'Timeout for reusing the previously negotiated cryptographic parameters'
+    default: 7200
+  nginx.ssl_key:
+    description: 'SSL private key (PEM encoded)'
+  nginx.ssl_cert:
+    description: 'SSL Certificate (PEM encoded)'
