@@ -6,37 +6,57 @@ do
   export PATH=${package_bin_dir}:$PATH
 done
 
-export SHIELD_API=http://localhost:<%= p("shield.daemon.port") %>
+shield -c /tmp/.shield_daemon_config create backend default https://<%= p("shield.daemon.domain") %>:<%= p("shield.daemon.port") %>
+
+<% if p("shield.skip_ssl_verify") %>
+export SHIELD_SKIP_SSL_VERIFY=true
+<% end %>
 
 <% if_p("shield.schedule.name") do |schedule| %>
-SCHEDULE=$(shield --raw show schedule <%= schedule %> | jq -r '.uuid // empty')
+<%#
+  The SHIELD_API_TOKEN is set here so that the post-start script will fail to render
+  when provisioning_key is not specified, but the script is about to try to create schedules
+%>
+export SHIELD_API_TOKEN=<%= p("shield.provisioning_key") %>
+SCHEDULE=$(shield -c /tmp/.shield_daemon_config --raw show schedule <%= schedule %> | jq -r '.uuid // empty')
 if [[ -z ${SCHEDULE} ]]; then
   echo "Creating schedule"
-  cat /var/vcap/jobs/shield-daemon/config/schedule.json | shield --raw create schedule
+  cat /var/vcap/jobs/shield-daemon/config/schedule.json | shield -c /tmp/.shield_daemon_config --raw create schedule
 else
   echo "Editing schedule"
-  cat /var/vcap/jobs/shield-daemon/config/schedule.json | shield --raw edit schedule
+  cat /var/vcap/jobs/shield-daemon/config/schedule.json | shield -c /tmp/.shield_daemon_config --raw edit schedule
 fi
 <% end %>
 
 <% if_p("shield.retention.name") do |retention| %>
-RETENTION=$(shield --raw show retention policy <%= retention %> | jq -r '.uuid // empty')
+<%#
+  The SHIELD_API_TOKEN is set here so that the post-start script will fail to render
+  when provisioning_key is not specified, but the script is about to try to create retention
+  policies
+%>
+export SHIELD_API_TOKEN=<%= p("shield.provisioning_key") %>
+RETENTION=$(shield -c /tmp/.shield_daemon_config --raw show retention policy <%= retention %> | jq -r '.uuid // empty')
 if [[ -z ${RETENTION} ]]; then
   echo "Creating retention"
-	cat /var/vcap/jobs/shield-daemon/config/retention.json | shield --raw create retention policy
+	cat /var/vcap/jobs/shield-daemon/config/retention.json | shield -c /tmp/.shield_daemon_config --raw create retention policy
 else
   echo "Editing retention"
-  cat /var/vcap/jobs/shield-daemon/config/retention.json | shield --raw edit retention policy
+  cat /var/vcap/jobs/shield-daemon/config/retention.json | shield -c /tmp/.shield_daemon_config --raw edit retention policy
 fi
 <% end %>
 
 <% if_p("shield.store.name") do |store| %>
-STORE=$(shield --raw show store <%= store %> | jq -r '.uuid // empty')
+<%#
+  The SHIELD_API_TOKEN is set here so that the post-start script will fail to render
+  when provisioning_key is not specified, but the script is about to try to create storess
+%>
+export SHIELD_API_TOKEN=<%= p("shield.provisioning_key") %>
+STORE=$(shield -c /tmp/.shield_daemon_config --raw show store <%= store %> | jq -r '.uuid // empty')
 if [[ -z ${STORE} ]]; then
   echo "Creating store"
-	cat /var/vcap/jobs/shield-daemon/config/store.json | shield --raw create store
+	cat /var/vcap/jobs/shield-daemon/config/store.json | shield -c /tmp/.shield_daemon_config --raw create store
 else
   echo "Editing store"
-	cat /var/vcap/jobs/shield-daemon/config/store.json | shield --raw edit store
+	cat /var/vcap/jobs/shield-daemon/config/store.json | shield -c /tmp/.shield_daemon_config --raw edit store
 fi
 <% end %>
