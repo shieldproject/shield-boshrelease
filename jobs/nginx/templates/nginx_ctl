@@ -22,7 +22,7 @@ case $1 in
       cp $CONF_DIR/ssl_crt $CERTS_DIR
     # otherwise, if the key or cert doesn't exist create new ones
     elif [[ ! -f $CERTS_DIR/ssl_key || ! -f $CERTS_DIR/ssl_crt ]]; then
-      openssl req -nodes -new -newkey rsa:1024 -out $CERTS_DIR/ssl.csr \
+      openssl req -nodes -new -newkey rsa:2048 -out $CERTS_DIR/ssl.csr \
         -keyout $CERTS_DIR/ssl_key -subj '/O=Bosh/CN=*'
       openssl x509 -req -days 3650 -in $CERTS_DIR/ssl.csr \
         -signkey $CERTS_DIR/ssl_key -out $CERTS_DIR/ssl_crt

@@ -6,6 +6,8 @@ do
   export PATH=${package_bin_dir}:$PATH
 done
 
+<%# Create a specific  config file for shield-daemon stuff, to avoid race conditions
+    in case we are colocated with shield-agent. %>
 shield -c /tmp/.shield_daemon_config create backend default https://<%= p("shield.daemon.domain") %>:<%= p("shield.daemon.port") %>
 
 <% if p("shield.skip_ssl_verify") %>

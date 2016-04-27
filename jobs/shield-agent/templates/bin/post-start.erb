@@ -21,6 +21,8 @@ export SHIELD_API_TOKEN=<%= p("shield.provisioning_key") %>
 export SHIELD_SKIP_SSL_VERIFY=true
 <% end %>
 
+<%# Create a specific  config file for shield-agent stuff, to avoid race conditions
+    in case we are colocated with shield-daemon. %>
 shield -c /tmp/.shield_agent_config create backend default https://<%= p("shield.daemon.domain") %>:<%= p("shield.daemon.port") %>
 
 TARGET=$(shield -c /tmp/.shield_agent_config --raw show target <%= target_name %> | jq -r '.uuid // empty')
