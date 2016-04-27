@@ -18,4 +18,6 @@ builds:
     version: 5.1.0
   eb806f9c-882a-4ad5-802a-3bc40a3313ef:
     version: 5.1.1
+  40a62f80-67c0-4c0b-8f66-4e0e611bad2e:
+    version: 6.0.0
 format-version: '2'
