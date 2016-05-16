@@ -43,5 +43,5 @@ properties:
     default: 7200
   nginx.ssl_key:
     description: 'SSL private key (PEM encoded)'
-  nginx.ssl_cert:
+  nginx.ssl_crt:
     description: 'SSL Certificate (PEM encoded)'
