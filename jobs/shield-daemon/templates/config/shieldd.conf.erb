@@ -2,7 +2,7 @@
 database_type: postgres
 database_dsn: "postgres://<%= p("shield.daemon.database.username") %>:<%= p("shield.daemon.database.password") %>@<%= p("shield.daemon.database.host") %>:<%= p("shield.daemon.database.port") %>/<%= p("shield.daemon.database.db") %>?sslmode=disable"
 listen_addr: 127.0.0.1:8080
-<% if p("shield.daemon.host_key") != "" %> \
+<% if p("shield.daemon.host_key") != "" %>
 private_key: /var/vcap/jobs/shield-daemon/shared/id_rsa
 <% else %>
 private_key: /var/vcap/packages/generated_daemon_key/id_rsa
