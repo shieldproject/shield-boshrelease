@@ -1,6 +1,6 @@
 ---
 meta:
-  name:    shield-boshrelease
+  name:    shield
   release: S.H.I.E.L.D.
   target:  sw
   url:     https://ci.vsphere.starkandwayne.com
