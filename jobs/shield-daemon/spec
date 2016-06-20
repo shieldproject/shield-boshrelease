@@ -48,7 +48,7 @@ properties:
     description: "db for postgres database"
 
   shield.daemon.auth.oauth.provider:
-    description: "OAuth2 provider to use with SHIELD (supported values: 'github')"
+    description: "OAuth2 provider to use with SHIELD (supported values: 'github' and 'cloudfoundry')"
   shield.daemon.auth.oauth.key:
     description: "Auth Key/Client ID to use with the OAuth2 provider"
   shield.daemon.auth.oauth.secret:
