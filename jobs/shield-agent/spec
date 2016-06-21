@@ -5,7 +5,6 @@ packages:
   - bsdtar
   - plugins
   - elasticsearch-cloud-aws-plugin
-  - generated_agent_hostkey
 templates:
   bin/ctl: bin/ctl
   bin/monit_debugger: bin/monit_debugger
