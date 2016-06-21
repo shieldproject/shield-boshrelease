@@ -23,9 +23,11 @@ case $1 in
       curl -Lks "<%= endpoint %>/v1/meta/pubkey"
       set -e
 <% end %>
+<% if_p("shield.agent.daemon_public_key") do |key| %>
       cat <<EOF
-<%= p("shield.agent.daemon_public_key") %>
+<%= key %>
 EOF
+<% end %>
     } > /var/vcap/jobs/shield-agent/config/authorized_keys
 
     # store pid in $PIDFILE
