@@ -15,20 +15,16 @@ case $1 in
     pid_guard $PIDFILE $JOB_NAME
     echo "Startup requested for $JOB_NAME"
 
-    chown vcap:vcap /var/vcap/packages/generated_daemon_key/id_rsa*
-    chown vcap:vcap /var/vcap/packages/generated_agent_key/id_rsa*
+    chown vcap:vcap /var/vcap/packages/generated_agent_hostkey/id_rsa*
     echo "Attempting to set up SSH public keys"
     {
-<% if p("shield.agent.authorize_generated_daemon_key") %>
-      cat /var/vcap/packages/generated_daemon_key/id_rsa.pub
-<% end %>
 <% if_p("shield.agent.autoprovision") do |endpoint| %>
       set +e
       curl -Lks "<%= endpoint %>/v1/meta/pubkey"
       set -e
 <% end %>
       cat <<EOF
-<%= p("shield.agent.authorized_keys").join("\n") %>
+<%= p("shield.agent.daemon_public_key") %>
 EOF
     } > /var/vcap/jobs/shield-agent/config/authorized_keys
 

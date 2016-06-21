@@ -46,21 +46,22 @@ properties:
   shield:
     daemon:
       domain: (( grab jobs.shield.networks.shield1.static_ips.[0] ))
+      ssh_private_key: (( param "Please set the private key used by the shield daemon to talk to agents" ))
       database:
         host: (( grab jobs.shield.networks.shield1.static_ips.[0] ))
         port: 5524
-        username: shieldadmin
-        password: admin
-        db: shielddb
+        username: (( grab properties.databases.roles.0.name ))
+        password: (( grab properties.databases.roles.0.password ))
+        db: (( grab properties.databases.databases.0.name ))
       auth:
         oauth:
           sessions:
             db:
               host: (( grab jobs.shield.networks.shield1.static_ips.[0] ))
               port: 5524
-              username: shieldadmin
-              password: admin
-              name: sessionsdb
+              username: (( grab properties.databases.roles.0.name ))
+              password: (( grab properties.databases.roles.0.password ))
+              name: (( grab properties.databases.databases.1.name ))
 
     agent:
-      autoprovision: (( concat "http://" properties.shield.daemon.domain ))
+      autoprovision: (( concat "https://" properties.shield.daemon.domain ))

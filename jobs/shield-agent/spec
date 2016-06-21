@@ -4,9 +4,8 @@ packages:
   - shield
   - bsdtar
   - plugins
-  - generated_daemon_key
-  - generated_agent_key
   - elasticsearch-cloud-aws-plugin
+  - generated_agent_hostkey
 templates:
   bin/ctl: bin/ctl
   bin/monit_debugger: bin/monit_debugger
@@ -23,12 +22,8 @@ properties:
   shield.agent.port:
     description: "port to run agent"
     default: 5444
-  shield.agent.authorized_keys:
-    description: "public keys to permit"
-    default: []
-  shield.agent.authorize_generated_daemon_key:
-    description: "permit access via generated worker key, local to deployment"
-    default: true
+  shield.agent.daemon_public_key:
+    description: "public key to permit access from a shield daemon"
   shield.agent.autoprovision:
     description: "Optional HTTP API of the Shield installation to automatically provision authorized keys from"
   shield.agent.recovery.target_plugin:
