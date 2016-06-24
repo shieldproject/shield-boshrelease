@@ -24,7 +24,7 @@ meta:
 
   slack:
     webhook: (( vault "secret/pipelines/shield-boshrelease/slack:webhook" ))
-    channel: '#botspam'
+    channel: '#shield'
     blob_success:  '(( concat "$BUILD_PIPELINE_NAME: New version of $BUILD_JOB_NAME was detected, and updated in master. <" meta.url "/pipelines/$BUILD_PIPELINE_NAME| Cut a new release?>" ))'
     blob_failure:  '(( concat "$BUILD_PIPELINE_NAME: :airplane_arriving: <" meta.url "/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME| Failed to update the blob for $BUILD_JOB_NAME>" ))'
 
