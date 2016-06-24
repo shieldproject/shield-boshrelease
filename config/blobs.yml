@@ -36,6 +36,6 @@ nginx/pcre-8.37.tar.gz:
   sha: 4a24a20c61347d8da4edc86d5475aaf70ac146bb
   size: 2041593
 shield/shield.tar.gz:
-  object_id: a12d4c13-3f03-4300-979a-9e1496663439
-  sha: 3b6ae81a90969ac46215d5320a5e12e08eba6df7
-  size: 6370812
+  object_id: da970b00-08ac-476f-bdec-79d4b3271072
+  sha: 578a5a06d0bdb3be6f61b35415b027e82461434b
+  size: 3443647
