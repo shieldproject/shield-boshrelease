@@ -39,8 +39,8 @@ jobs:
   public: true
   plan:
   - aggregate:
-    - { get: git, include_source_tarball: true }
-    - { get: shield, trigger: true }
+    - { get: git }
+    - { get: shield, trigger: true, params: { include_source_tarball: true }}
   - task: update-shield
     config:
       image: docker:///starkandwayne/concourse
@@ -58,6 +58,7 @@ jobs:
         RELEASE_DIR: shield
         BLOB:        shield
         BLOB_BINARY: source.tar.gz
+        BLOB_URL:    https://github.com/starkandwayne/shield
         BLOB_DESTINATION: shield/shield.tar.gz
         AWS_ACCESS_KEY: (( grab meta.aws.access_key ))
         AWS_SECRET_KEY: (( grab meta.aws.secret_key ))

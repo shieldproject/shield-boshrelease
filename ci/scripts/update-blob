@@ -28,12 +28,6 @@ blobstore:
 EOF
 
 mkdir -p blobs/$(dirname ${BLOB_DESTINATION})
-echo pwd
-ls
-echo parent
-ls ..
-echo release dir
-ls ../${RELEASE_DIR}
 cp ../${RELEASE_DIR}/${BLOB_BINARY} blobs/${BLOB_DESTINATION}
 bosh -n upload blobs
 rm config/private.yml
@@ -43,8 +37,8 @@ if [[ -n "$(cd ${REPO_ROOT}; git status --porcelain)" ]]; then
   pushd ${REPO_ROOT}
   cat <<EOF >>ci/release_notes.md
 
-##### ${BLOB}
-Bumped ${BLOB} to v${VERSION}
+# ${BLOB}
+Bumped ${BLOB_URL} to v${VERSION}
 EOF
   popd
 
