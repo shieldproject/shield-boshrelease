@@ -1,0 +1,61 @@
+#!/bin/bash
+
+set -e
+
+if [[ -z ${RELEASE_DIR} ]]; then
+  echo >&2 "RELEASE_DIR envrionment variable not set, or empty. Did you misconfigure Concourse?"
+fi
+if [[ -z ${BLOB_DESTINATION} ]]; then
+  echo >&2 "BLOB_DESTINATION envrionment variable not set, or empty. Did you misconfigure Concourse?"
+fi
+if [[ -z ${BLOB_BINARY} ]]; then
+  echo >&2 "BLOB_BINARY environment variable not set, or empty. Did you misconfigure Concourse?"
+fi
+if [[ -z ${BLOB} ]]; then
+  echo >&2 "BLOB envrionment variable not set, or empty. Did you misconfigure Concourse?"
+fi
+
+VERSION=$(cat ${RELEASE_DIR}/version)
+
+pushd ${REPO_ROOT}
+
+cat <<EOF >config/private.yml
+---
+blobstore:
+  s3:
+    access_key_id: ${AWS_ACCESS_KEY}
+    secret_access_key: ${AWS_SECRET_KEY}
+EOF
+
+mkdir -p blobs/$(dirname ${BLOB_DESTINATION})
+cp ../${RELEASE_DIR}/${BLOB_BINARY} blobs/${BLOB_DESTINATION}
+bosh -n upload blobs
+rm config/private.yml
+popd
+
+if [[ -n "$(cd ${REPO_ROOT}; git status --porcelain)" ]]; then
+  pushd ${REPO_ROOT}
+  cat <<EOF >>ci/release_notes.md
+
+##### ${BLOB}
+Bumped ${BLOB} to v${VERSION}
+EOF
+  popd
+
+  # GIT!
+  if [[ -z $(git config --global user.email) ]]; then
+    git config --global user.email "ci@starkandwayne.com"
+  fi
+  if [[ -z $(git config --global user.name) ]]; then
+    git config --global user.name "CI Bot"
+  fi
+
+  (cd ${REPO_ROOT}
+   git merge --no-edit ${BRANCH}
+   git add -A
+   git status
+   git commit -m "Bumped ${BLOB} to v${VERSION}")
+fi
+
+# so that future steps in the pipeline can push our changes
+cp -a ${REPO_ROOT} ${REPO_OUT}
