@@ -20,7 +20,4 @@
   necessary, since the daemon key is no longer generated behind the scenes.
 
 # shield
-Bumped shield to v0.6.3.0
-
-# shield
 Bumped https://github.com/starkandwayne/shield to v0.6.4
