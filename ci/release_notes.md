@@ -18,3 +18,6 @@
   detection.
 - The `shield.agent.authorize_generated_daemon_key` has been removed. It is no longer
   necessary, since the daemon key is no longer generated behind the scenes.
+
+##### shield
+Bumped shield to v0.6.3.0
