@@ -6,7 +6,7 @@ REPO_DIR=${BOSH_INSTALL_TARGET}/src/github.com/starkandwayne
 
 mkdir -p ${REPO_DIR}
 tar -xzf shield/shield.tar.gz -C ${REPO_DIR}
-mv ${REPO_DIR}/${REPO_NAME}* ${REPO_DIR}/${REPO_NAME}
+mv ${REPO_DIR}/* ${REPO_DIR}/${REPO_NAME}
 
 export GOROOT=$(readlink -nf /var/vcap/packages/golang)
 export GOPATH=$BOSH_INSTALL_TARGET:${REPO_DIR}/${REPO_NAME}/Godeps/_workspace
