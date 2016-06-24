@@ -3,4 +3,4 @@ name: shield
 dependencies:
 - golang
 files:
-- shield/**/*
+- shield/shield.tar.gz

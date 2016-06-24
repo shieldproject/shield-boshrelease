@@ -1,19 +1,18 @@
 #!/usr/bin/env bash
 set -e -x
 
-REPO_NAME=github.com/starkandwayne/shield
+REPO_NAME=shield
+REPO_DIR=${BOSH_INSTALL_TARGET}/src/github.com/starkandwayne
 
-REPO_DIR=${BOSH_INSTALL_TARGET}/src/${REPO_NAME}
-
-mkdir -p $(dirname $REPO_DIR)
-
-cp -a $(basename $REPO_NAME)/ $REPO_DIR
+mkdir -p ${REPO_DIR}
+tar -xzf shield/shield.tar.gz -C ${REPO_DIR}
+mv ${REPO_DIR}/${REPO_NAME}* ${REPO_DIR}/${REPO_NAME}
 
 export GOROOT=$(readlink -nf /var/vcap/packages/golang)
-export GOPATH=$BOSH_INSTALL_TARGET:${REPO_DIR}/Godeps/_workspace
+export GOPATH=$BOSH_INSTALL_TARGET:${REPO_DIR}/${REPO_NAME}/Godeps/_workspace
 export PATH=$GOROOT/bin:$PATH
 
-pushd $REPO_DIR
+pushd ${REPO_DIR}/${REPO_NAME}
 BUILD_TYPE=install make plugins
 
 cp bin/shield-pipe ${BOSH_INSTALL_TARGET}/bin
