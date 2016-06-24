@@ -14,6 +14,5 @@ export PATH=$GOROOT/bin:$PATH
 
 pushd ${REPO_DIR}/${REPO_NAME}
 BUILD_TYPE=install make shield
-cp bin/bkp ${BOSH_INSTALL_TARGET}/bin
 cp -R webui ${BOSH_INSTALL_TARGET}/webui
 popd
