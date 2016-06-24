@@ -28,4 +28,6 @@ builds:
     version: 6.2.1
   dcda349a-6cf1-413e-85ed-eb024a11641e:
     version: 6.2.2
+  2fc42a79-7f8e-4847-813c-0f55b67317f0:
+    version: 6.3.0
 format-version: '2'
