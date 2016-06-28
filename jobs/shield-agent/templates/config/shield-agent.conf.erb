@@ -4,3 +4,8 @@ host_key_file: /etc/ssh/ssh_host_rsa_key
 listen_address: 0.0.0.0:<%= properties.shield.agent.port %>
 plugin_paths:
   - /var/vcap/packages/plugins/bin
+<% if_p("shield.agent.plugin_paths") do |tokens| %>
+<% tokens.each do |k, v| %>
+  - <%= v %>
+<% end %>
+<% end %>

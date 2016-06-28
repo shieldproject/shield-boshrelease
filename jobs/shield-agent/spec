@@ -33,6 +33,11 @@ properties:
     description: "Store plugin to use in emergency-recovery-mode"
   shield.agent.recovery.store_config:
     description: "A map of key-values that will be converted to JSON, representing the store plugin configration"
+  shield.agent.plugin_paths:
+    description: "Map of paths that the binary of the plugins can be found"
+    example: |
+      plugin_paths:
+        atmos: /var/vcap/packages/atmos-plugin/bin
 
   shield.log_level:
     description: "Log level for shield processes"
