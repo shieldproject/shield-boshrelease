@@ -39,3 +39,7 @@ shield/shield.tar.gz:
   object_id: da970b00-08ac-476f-bdec-79d4b3271072
   sha: 578a5a06d0bdb3be6f61b35415b027e82461434b
   size: 3443647
+mariadb/mariadb-10.1.14.tar.gz:
+  object_id: 4bc0ed46-64e6-4b54-9b04-538e0ec94619
+  sha: dcf46d638cd33032117a9f0d89e8650aa1309e74
+  size: 55341017
