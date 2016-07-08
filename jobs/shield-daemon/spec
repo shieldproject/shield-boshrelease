@@ -32,16 +32,18 @@ properties:
   shield.daemon.domain:
     description: "Hostname/IP SHIELD is accessed with"
 
+  shield.daemon.database.type:
+    description: "database type (postgres or mysql)"
   shield.daemon.database.port:
-    description: "port for postgres database"
+    description: "database port"
   shield.daemon.database.host:
-    description: "host for postgres database"
+    description: "database host"
   shield.daemon.database.username:
-    description: "username for postgres database"
+    description: "database username"
   shield.daemon.database.password:
-    description: "password for postgres database"
+    description: "database password"
   shield.daemon.database.db:
-    description: "db for postgres database"
+    description: "database name"
 
   shield.daemon.auth.oauth.provider:
     description: "OAuth2 provider to use with SHIELD (supported values: 'github' and 'cloudfoundry')"
