@@ -1,5 +1,12 @@
 #!/bin/bash
 
+<%
+  database_dsn = "postgres://#{ p('shield.daemon.database.username') }:#{ p('shield.daemon.database.password') }@#{ p('shield.daemon.database.host') }:#{ p('shield.daemon.database.port') }/#{ p('shield.daemon.database.db') }?sslmode=disable"
+  if p('shield.daemon.database.type') == "mysql"
+    database_dsn = "#{ p('shield.daemon.database.username') }:#{ p('shield.daemon.database.password') }@tcp(#{ p('shield.daemon.database.host') }:#{ p('shield.daemon.database.port') })/#{ p('shield.daemon.database.db') }?sql_mode=POSTGRESQL&default_storage_engine=INNODB"
+  end
+%>
+
 set -e # exit immediately if a simple command exits with a non-zero status
 set -u # report the usage of uninitialized variables
 
@@ -19,8 +26,8 @@ case $1 in
     # run migrations
 
     echo "Ensuring DB schema is up to date"
-    shield-schema -t postgres \
-         -d "postgres://<%= p("shield.daemon.database.username") %>:<%= p("shield.daemon.database.password") %>@<%= p("shield.daemon.database.host") %>:<%= p("shield.daemon.database.port") %>/<%= p("shield.daemon.database.db") %>?sslmode=disable"
+    shield-schema -t <%= p("shield.daemon.database.type") %> \
+         -d "<%= database_dsn %>"
 
     echo "Starting $JOB_NAME"
     export SHIELD_NAME="<%= p("shield.daemon.name") %>"

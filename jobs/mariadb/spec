@@ -1,0 +1,20 @@
+---
+name: mariadb
+
+templates:
+  mariadb_ctl.erb: bin/mariadb_ctl
+  mariadb_start.sh.erb: bin/mariadb_start.sh
+  my.cnf.erb: config/my.cnf
+
+packages:
+  - common
+  - mariadb
+
+properties:
+  databases.port:
+    description: "The database port"
+    default: 3306
+  databases.databases:
+    description: "A list of databases and associated properties to create"
+  databases.roles:
+    description: "A list of database roles"

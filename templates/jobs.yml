@@ -48,6 +48,7 @@ properties:
       domain: (( grab jobs.shield.networks.shield1.static_ips.[0] ))
       ssh_private_key: (( param "Please set the private key used by the shield daemon to talk to agents" ))
       database:
+        type: postgres
         host: (( grab jobs.shield.networks.shield1.static_ips.[0] ))
         port: 5524
         username: (( grab properties.databases.roles.0.name ))
