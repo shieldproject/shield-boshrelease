@@ -19,7 +19,7 @@ case $1 in
     {
 <% if_p("shield.agent.autoprovision") do |endpoint| %>
       set +e
-      curl -Lks "<%= endpoint %>/v1/meta/pubkey"
+      curl -Lks "<%= endpoint %>/v1/meta/pubkey" -m 20
       set -e
 <% end %>
 <% if_p("shield.agent.daemon_public_key") do |key| %>
