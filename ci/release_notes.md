@@ -9,3 +9,4 @@
   public key from the SHIELD core, to avoid deadlock conditions
   that arise when the start script cannot access the core, either
   due to networking issues, naming problems, or firewall / ACLs.
+- Fixes a bug where `shield list jobs --paused/--unpaused` is reversed.
