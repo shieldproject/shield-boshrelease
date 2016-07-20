@@ -1,3 +1,8 @@
+# Core Enhancements
+
+- SHIELD now works with MySQL and MariaDB databases. Use the configuration
+  option `database_type` to set the database driver to `mysql`.
+
 # Bug Fixes
 
 - Add a timeout of 20 seconds to the curl call that retrieves the
