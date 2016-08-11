@@ -48,6 +48,12 @@ properties:
     description: "Boolean to determine if SSL certs will be ignored when provisioning SHIELD data"
     default: true
 
+  shield.daemon.domain:
+    description: "Hostname/IP SHIELD is accessed with"
+  shield.daemon.port:
+    description: "port to run daemon (https requests)"
+    default: 443
+
   shield.target.name:
     description: "Target name"
   shield.target.plugin:
