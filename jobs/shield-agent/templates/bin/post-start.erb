@@ -35,6 +35,7 @@ else
 fi
 <% if_p("shield.job.name", "shield.job.store", "shield.job.retention", "shield.job.schedule") do |job_name, store, retention, schedule| %>
 
+TARGET=$(shield -c /tmp/.shield_agent_config --raw show target <%= target_name %> | jq -r '.uuid // empty')
 STORE=$(shield -c /tmp/.shield_agent_config --raw show store <%= store %> | jq -r '.uuid // empty')
 RETENTION=$(shield -c /tmp/.shield_agent_config --raw show retention policy <%= retention %> | jq -r '.uuid // empty')
 SCHEDULE=$(shield -c /tmp/.shield_agent_config --raw show schedule <%= schedule %> | jq -r '.uuid // empty')
