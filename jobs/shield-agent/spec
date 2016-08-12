@@ -5,6 +5,7 @@ packages:
   - bsdtar
   - plugins
   - elasticsearch-cloud-aws-plugin
+  - utils
 templates:
   bin/ctl: bin/ctl
   bin/monit_debugger: bin/monit_debugger
