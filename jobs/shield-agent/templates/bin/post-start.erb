@@ -33,7 +33,7 @@ else
   echo "Editing target"
 	cat /var/vcap/jobs/shield-agent/config/target.json | shield -c /tmp/.shield_agent_config --raw edit target
 fi
-<% if_p("shield.job.name", "shield.job.store", "shield.job.retention", "shield.job.schedule") do |job_name, retention, schedule, store| %>
+<% if_p("shield.job.name", "shield.job.store", "shield.job.retention", "shield.job.schedule") do |job_name, store, retention, schedule| %>
 
 STORE=$(shield -c /tmp/.shield_agent_config --raw show store <%= store %> | jq -r '.uuid // empty')
 RETENTION=$(shield -c /tmp/.shield_agent_config --raw show retention policy <%= retention %> | jq -r '.uuid // empty')
