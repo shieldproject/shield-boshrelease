@@ -22,7 +22,7 @@ export SHIELD_SKIP_SSL_VERIFY=true
 export SHIELD_API_TOKEN=<%= p("shield.provisioning_key") %>
 
     <% schedule.each do |name, value| %>
-cat <<EOF > /tmp/schedule"<%= name %>".json
+cat <<EOF > /tmp/schedule-"<%= name %>".json
 { 
  "name":    "<%= name %>",
  "when":    "<%= value %>"
@@ -32,30 +32,39 @@ EOF
 SCHEDULE=$(shield -c /tmp/.shield_daemon_config --raw show schedule <%= name %> | jq -r '.uuid // empty')
 if [[ -z ${SCHEDULE} ]]; then
   echo "Creating schedule"
-  cat /tmp/schedule"<%= name %>".json | shield -c /tmp/.shield_daemon_config --raw create schedule
+  cat /tmp/schedule-<%= name %>.json | shield -c /tmp/.shield_daemon_config --raw create schedule
 else
   echo "Editing schedule"
-  cat /tmp/schedule"<%= name %>".json | shield -c /tmp/.shield_daemon_config --raw edit schedule "<%= name %>" 
+  cat /tmp/schedule-<%= name %>.json | shield -c /tmp/.shield_daemon_config --raw edit schedule "<%= name %>" 
 fi
     <% end %>
 <% end %>
 
 
-<% if_p("shield.retention.name") do |retention| %>
+<% if_p("shield.retentions") do |retention| %>
 <%#
   The SHIELD_API_TOKEN is set here so that the post-start script will fail to render
   when provisioning_key is not specified, but the script is about to try to create retention
   policies
 %>
 export SHIELD_API_TOKEN=<%= p("shield.provisioning_key") %>
-RETENTION=$(shield -c /tmp/.shield_daemon_config --raw show retention policy <%= retention %> | jq -r '.uuid // empty')
+    <% retention.each do |name, expires| %>
+cat <<EOF > /tmp/retention-<%= name %>.json
+{ 
+ "name":    "<%= name %>",
+ "expires":  <%= expires %>
+}
+EOF
+
+RETENTION=$(shield -c /tmp/.shield_daemon_config --raw show retention policy <%= name %> | jq -r '.uuid // empty')
 if [[ -z ${RETENTION} ]]; then
   echo "Creating retention"
-	cat /var/vcap/jobs/shield-daemon/config/retention.json | shield -c /tmp/.shield_daemon_config --raw create retention policy
+  cat /tmp/retention-<%= name %>.json | shield -c /tmp/.shield_daemon_config --raw create retention policy
 else
   echo "Editing retention"
-  cat /var/vcap/jobs/shield-daemon/config/retention.json | shield -c /tmp/.shield_daemon_config --raw edit retention policy
+  cat /tmp/retention-<%= name %>.json | shield -c /tmp/.shield_daemon_config --raw edit retention policy "<%= name %>"
 fi
+    <% end %>
 <% end %>
 
 <% if_p("shield.store.name") do |store| %>

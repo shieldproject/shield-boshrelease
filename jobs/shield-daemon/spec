@@ -94,12 +94,12 @@ properties:
   shield.schedules:
    description: ""
    example: |
-      default: Monday 3d
+      weekly: Monday 3d
 
-  shield.retention.name:
-    description: "retention name"
-  shield.retention.expires:
-    description: "expires"
+  shield.retentions:
+    description: ""
+    example: |
+      week: 604800 
 
   shield.store.name:
     description: "store name"
