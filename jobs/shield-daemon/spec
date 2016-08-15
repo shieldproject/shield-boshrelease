@@ -101,9 +101,15 @@ properties:
     example: |
       week: 604800 
 
-  shield.store.name:
-    description: "store name"
-  shield.store.plugin:
-    description: "store plugin"
-  shield.store.config:
-    description: "store config"
+  shield.stores:
+    description: "array of stores"
+    example: |
+      amazon: 
+        plugin: s3
+        config:
+          s3_host: url 
+          access_key_id: xyq 
+          secret_access_key: zkq 
+          bucket: tt 
+          skip_ssl_validation: true
+          signature_version: "2"

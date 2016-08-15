@@ -14,14 +14,14 @@ shield -c /tmp/.shield_daemon_config create backend default https://<%= p("shiel
 export SHIELD_SKIP_SSL_VERIFY=true
 <% end %>
 
-<% if_p("shield.schedules") do |schedule| %>
+<% if_p("shield.schedules") do |schedules| %>
 <%#
   The SHIELD_API_TOKEN is set here so that the post-start script will fail to render
   when provisioning_key is not specified, but the script is about to try to create schedules
 %>
 export SHIELD_API_TOKEN=<%= p("shield.provisioning_key") %>
 
-    <% schedule.each do |name, value| %>
+    <% schedules.each do |name, value| %>
 cat <<EOF > /tmp/schedule-"<%= name %>".json
 { 
  "name":    "<%= name %>",
@@ -41,14 +41,14 @@ fi
 <% end %>
 
 
-<% if_p("shield.retentions") do |retention| %>
+<% if_p("shield.retentions") do |retentions| %>
 <%#
   The SHIELD_API_TOKEN is set here so that the post-start script will fail to render
   when provisioning_key is not specified, but the script is about to try to create retention
   policies
 %>
 export SHIELD_API_TOKEN=<%= p("shield.provisioning_key") %>
-    <% retention.each do |name, expires| %>
+    <% retentions.each do |name, expires| %>
 cat <<EOF > /tmp/retention-<%= name %>.json
 { 
  "name":    "<%= name %>",
@@ -67,18 +67,36 @@ fi
     <% end %>
 <% end %>
 
-<% if_p("shield.store.name") do |store| %>
+<% if_p("shield.stores") do |stores| %>
 <%#
   The SHIELD_API_TOKEN is set here so that the post-start script will fail to render
   when provisioning_key is not specified, but the script is about to try to create storess
 %>
 export SHIELD_API_TOKEN=<%= p("shield.provisioning_key") %>
-STORE=$(shield -c /tmp/.shield_daemon_config --raw show store <%= store %> | jq -r '.uuid // empty')
+<%
+  require 'json'
+%>
+
+    <% stores.each do |name, store| %>
+<%
+  require 'json'
+%>
+cat <<EOF > /tmp/store-<%= name %>.json
+{ 
+  "name":     "<%= name %>",
+  "plugin":   "<%= store["plugin"] %>",
+  "endpoint": <%= store["config"].to_json.dump %>
+}
+EOF
+
+
+STORE=$(shield -c /tmp/.shield_daemon_config --raw show store <%= name %> | jq -r '.uuid // empty')
 if [[ -z ${STORE} ]]; then
   echo "Creating store"
-	cat /var/vcap/jobs/shield-daemon/config/store.json | shield -c /tmp/.shield_daemon_config --raw create store
+	cat /tmp/store-<%= name %>.json | shield -c /tmp/.shield_daemon_config --raw create store
 else
   echo "Editing store"
-	cat /var/vcap/jobs/shield-daemon/config/store.json | shield -c /tmp/.shield_daemon_config --raw edit store
+	cat /tmp/store-<%= name %>.json | shield -c /tmp/.shield_daemon_config --raw edit store <%= name %> 
 fi
+    <% end %>
 <% end %>
