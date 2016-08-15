@@ -11,7 +11,6 @@ templates:
   bin/monit_debugger: bin/monit_debugger
   bin/post-start.erb: bin/post-start
   bin/emergency-recovery.erb: bin/emergency-recovery
-  config/target.json.erb: config/target.json
   config/shield-agent.conf.erb: config/shield-agent.conf
   data/properties.sh.erb: data/properties.sh
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
@@ -55,18 +54,19 @@ properties:
     description: "port to run daemon (https requests)"
     default: 443
 
-  shield.target.name:
-    description: "Target name"
-  shield.target.plugin:
-    description: "Plugin type"
-  shield.target.config:
-    description: "Hash of config information"
+  shield.targets:
+    description: "array of targets to add"
+    example: |
+      localdb: 
+        plugin: s3
+        config:
+          mysql_host: url 
 
-  shield.job.name:
-    description: "Job name"
-  shield.job.schedule:
-    description: "Name of job schedule"
-  shield.job.store:
-    description: "Name of job store"
-  shield.job.retention:
-    description: "Name of job retention"
+  shield.jobs:
+    description: "array of jobs to add"
+    example: |
+      localdb-weekly2amazon:
+          target: localdb
+          store: amazon
+          retention: week
+          schedule: weekly

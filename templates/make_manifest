@@ -112,6 +112,7 @@ spruce merge --prune meta \
   $templates/deployment.yml \
   $templates/jobs.yml \
   $templates/infrastructure-${infrastructure}.yml \
+  $templates/with-inputs.yml \
   $tmpdir/stub-with-uuid.yml \
   $* > $tmpdir/$NAME-manifest.yml
 
