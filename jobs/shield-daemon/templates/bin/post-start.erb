@@ -14,21 +14,32 @@ shield -c /tmp/.shield_daemon_config create backend default https://<%= p("shiel
 export SHIELD_SKIP_SSL_VERIFY=true
 <% end %>
 
-<% if_p("shield.schedule.name") do |schedule| %>
+<% if_p("shield.schedules") do |schedule| %>
 <%#
   The SHIELD_API_TOKEN is set here so that the post-start script will fail to render
   when provisioning_key is not specified, but the script is about to try to create schedules
 %>
 export SHIELD_API_TOKEN=<%= p("shield.provisioning_key") %>
-SCHEDULE=$(shield -c /tmp/.shield_daemon_config --raw show schedule <%= schedule %> | jq -r '.uuid // empty')
+
+    <% schedule.each do |name, value| %>
+cat <<EOF > /tmp/schedule"<%= name %>".json
+{ 
+ "name":    "<%= name %>",
+ "when":    "<%= value %>"
+}
+EOF
+
+SCHEDULE=$(shield -c /tmp/.shield_daemon_config --raw show schedule <%= name %> | jq -r '.uuid // empty')
 if [[ -z ${SCHEDULE} ]]; then
   echo "Creating schedule"
-  cat /var/vcap/jobs/shield-daemon/config/schedule.json | shield -c /tmp/.shield_daemon_config --raw create schedule
+  cat /tmp/schedule"<%= name %>".json | shield -c /tmp/.shield_daemon_config --raw create schedule
 else
   echo "Editing schedule"
-  cat /var/vcap/jobs/shield-daemon/config/schedule.json | shield -c /tmp/.shield_daemon_config --raw edit schedule
+  cat /tmp/schedule"<%= name %>".json | shield -c /tmp/.shield_daemon_config --raw edit schedule "<%= name %>" 
 fi
+    <% end %>
 <% end %>
+
 
 <% if_p("shield.retention.name") do |retention| %>
 <%#

@@ -91,11 +91,10 @@ properties:
     description: "Boolean to determine if SSL certs will be ignored when provisioning SHIELD data"
     default: true
 
-
-  shield.schedule.name:
-    description: "schedule name"
-  shield.schedule.when:
-    description: "schedule when"
+  shield.schedules:
+   description: ""
+   example: |
+      default: Monday 3d
 
   shield.retention.name:
     description: "retention name"
