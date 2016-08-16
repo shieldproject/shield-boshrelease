@@ -1,6 +1,8 @@
 S.H.I.E.L.D. Backup Solution
 ============================
 
+Questions? Pop in our [slack channel](https://cloudfoundry.slack.com/messages/shield/)!
+
 [SHIELD][shield] provides an easy-to-use backup solution for BOSH
 deployed services, for operations and appliction delivery teams.
 
