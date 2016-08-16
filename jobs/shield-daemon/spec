@@ -88,10 +88,28 @@ properties:
     description: "Boolean to determine if SSL certs will be ignored when provisioning SHIELD data"
     default: true
 
+  shield.schedule.name:
+    description: "schedule name"
+  shield.schedule.when:
+    description: "schedule when"
+
+  shield.retention.name:
+    description: "retention name"
+  shield.retention.expires:
+    description: "expires"
+
+  shield.store.name:
+    description: "store name"
+  shield.store.plugin:
+    description: "store plugin"
+  shield.store.config:
+    description: "store config"
+
   shield.schedules:
    description: "An array of the schedules to be added"
    example: |
       weekly: Monday 3d
+
 
   shield.retentions:
     description: "An array of retentions to be added"

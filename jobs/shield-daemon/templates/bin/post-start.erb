@@ -14,7 +14,15 @@ shield -c /tmp/.shield_daemon_config create backend default https://<%= p("shiel
 export SHIELD_SKIP_SSL_VERIFY=true
 <% end %>
 
-<% if_p("shield.schedules") do |schedules| %>
+
+<%  schedules = p("shield.schedules", [])
+if_p("shield.schedule") do |sch|
+    schedules[sch["name"]] = {"when" => sch["when"]}
+end            
+%>
+
+
+<% if schedules.any? %>
 <%#
   The SHIELD_API_TOKEN is set here so that the post-start script will fail to render
   when provisioning_key is not specified, but the script is about to try to create schedules
@@ -25,7 +33,7 @@ export SHIELD_API_TOKEN=<%= p("shield.provisioning_key") %>
 cat <<EOF > /tmp/schedule-"<%= name %>".json
 { 
  "name":    "<%= name %>",
- "when":    "<%= value %>"
+ "when":    "<%= value["when"] %>"
 }
 EOF
 
@@ -37,22 +45,31 @@ else
   echo "Editing schedule"
   cat /tmp/schedule-<%= name %>.json | shield -c /tmp/.shield_daemon_config --raw edit schedule "<%= name %>" 
 fi
+
+    # End of schedule
     <% end %>
+
+# End of schedules
 <% end %>
 
+<%  retentions = p("shield.retentions", [])
+if_p("shield.retention") do |ret|
+    retentions[ret["name"]] = {"expires" => ret["expires"]}
+end            
+%>
 
-<% if_p("shield.retentions") do |retentions| %>
+<% if retentions.any? %>
 <%#
   The SHIELD_API_TOKEN is set here so that the post-start script will fail to render
   when provisioning_key is not specified, but the script is about to try to create retention
   policies
 %>
 export SHIELD_API_TOKEN=<%= p("shield.provisioning_key") %>
-    <% retentions.each do |name, expires| %>
+    <% retentions.each do |name, value| %>
 cat <<EOF > /tmp/retention-<%= name %>.json
 { 
  "name":    "<%= name %>",
- "expires":  <%= expires %>
+ "expires":  <%= value["expires"].to_i %>
 }
 EOF
 
@@ -67,7 +84,13 @@ fi
     <% end %>
 <% end %>
 
-<% if_p("shield.stores") do |stores| %>
+<%  stores = p("shield.stores", [])
+if_p("shield.store") do |st|
+    stores[st["name"]] = {"plugin" => st["plugin"], "config" => st["config"]}
+end            
+%>
+
+<% if stores.any? %>
 <%#
   The SHIELD_API_TOKEN is set here so that the post-start script will fail to render
   when provisioning_key is not specified, but the script is about to try to create storess

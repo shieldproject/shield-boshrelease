@@ -3,11 +3,38 @@ properties:
     agent:
       autoprovision: https://10.244.2.2
     provisioning_key: ahardprovisioningkey
+    target:
+      name: oldTarget
+      plugin: postgres
+      config:
+        pg_user: shieldadmin
+        pg_password: admin
+        pg_host: 127.0.0.1
+        pg_port: 5525
+        pg_database: shielddb
+    job:
+      name: oldJob 
+      target: oldTarget
+      store: oldStore
+      retention: oldRet
+      schedule: oldSched
+    retention: 
+      name: oldRet
+      expires: 31536000
+    schedule:
+      name: oldSched
+      when: daily 4am 
+    store:
+      name: oldStore
+      plugin: fs
+      config:
+        base_dir: /tmp 
+        bsdtar: bsdtar 
     targets:
       localdb:
         plugin: postgres
         config:
-          pg_user: shieldadmin,
+          pg_user: shieldadmin
           pg_password: admin
           pg_host: 127.0.0.1
           pg_port: 5524

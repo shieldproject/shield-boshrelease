@@ -54,6 +54,14 @@ properties:
     description: "port to run daemon (https requests)"
     default: 443
 
+  shield.target.name:
+    description: "Target name"
+  shield.target.plugin:
+    description: "Plugin type"
+  shield.target.config:
+    description: "Hash of config information"
+
+
   shield.targets:
     description: "array of targets to add"
     example: |
@@ -61,6 +69,18 @@ properties:
         plugin: s3
         config:
           mysql_host: url 
+
+  shield.job.name:
+    description: "Job name"
+  shield.job.target:
+    description: "Name of job target"
+  shield.job.schedule:
+    description: "Name of job schedule"
+  shield.job.store:
+    description: "Name of job store"
+  shield.job.retention:
+    description: "Name of job retention"
+
 
   shield.jobs:
     description: "array of jobs to add"

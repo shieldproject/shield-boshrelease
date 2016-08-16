@@ -16,7 +16,13 @@ shield -c /tmp/.shield_agent_config create backend default https://<%= p("shield
   my_ip = spec.networks.send(spec.networks.methods(false).first).ip
 %>
 
-<% if_p("shield.targets") do |targets| %>
+<%  targets = p("shield.targets", [])
+if_p("shield.target") do |target|
+    targets[target["name"]] = {"plugin" => target["plugin"], "config" => target["config"]}
+end            
+%>
+
+<% if targets.any? %>
 <%#
   The SHIELD_API_TOKEN is set here so that the post-start script will fail to render
   when provisioning_key is not specified, but the script is about to try to create targets
@@ -57,7 +63,16 @@ fi
 # End Targets
 <% end %>
 
-<% if_p("shield.jobs") do |jobs| %>
+<%  jobs = p("shield.jobs", [])
+if_p("shield.job") do |job|
+    jobs[job["name"]] = { "target" => job["target"], 
+                          "store" => job["store"],
+                          "retention" => job["retention"],
+                          "schedule" => job["schedule"] }
+end            
+%>
+
+<% if jobs.any? %>
 <%#
   The SHIELD_API_TOKEN is set here so that the post-start script will fail to render
   when provisioning_key is not specified, but the script is about to try to create targets
