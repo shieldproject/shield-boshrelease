@@ -17,7 +17,7 @@ export SHIELD_SKIP_SSL_VERIFY=true
 
 <%  schedules = p("shield.schedules", [])
 if_p("shield.schedule") do |sch|
-    schedules[sch["name"]] = {"when" => sch["when"]}
+    schedules[sch["name"]] = sch["when"]
 end            
 %>
 
@@ -33,7 +33,7 @@ export SHIELD_API_TOKEN=<%= p("shield.provisioning_key") %>
 cat <<EOF > /tmp/schedule-"<%= name %>".json
 { 
  "name":    "<%= name %>",
- "when":    "<%= value["when"] %>"
+ "when":    "<%= value %>"
 }
 EOF
 
@@ -54,7 +54,7 @@ fi
 
 <%  retentions = p("shield.retentions", [])
 if_p("shield.retention") do |ret|
-    retentions[ret["name"]] = {"expires" => ret["expires"]}
+    retentions[ret["name"]] = ret["expires"]
 end            
 %>
 
@@ -69,7 +69,7 @@ export SHIELD_API_TOKEN=<%= p("shield.provisioning_key") %>
 cat <<EOF > /tmp/retention-<%= name %>.json
 { 
  "name":    "<%= name %>",
- "expires":  <%= value["expires"].to_i %>
+ "expires":  <%= value %>
 }
 EOF
 
