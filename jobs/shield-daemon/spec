@@ -84,6 +84,8 @@ properties:
 
   shield.provisioning_key:
     description: "API Key to use when provisioning schedules, retention policies, or stores. Required if shield.schedule, shield.retention, or shield.store have data"
+    default: ''
+
   shield.skip_ssl_verify:
     description: "Boolean to determine if SSL certs will be ignored when provisioning SHIELD data"
     default: true
@@ -106,25 +108,25 @@ properties:
     description: "store config"
 
   shield.schedules:
-   description: "An array of the schedules to be added"
-   example: |
+    description: "An array of the schedules to be added"
+    example: |
       weekly: Monday 3d
 
 
   shield.retentions:
     description: "An array of retentions to be added"
     example: |
-      week: 604800 
+      week: 604800
 
   shield.stores:
     description: "An array of stores to be added"
     example: |
-      amazon: 
+      amazon:
         plugin: s3
         config:
-          s3_host: url 
-          access_key_id: id 
-          secret_access_key: key 
-          bucket: name 
+          s3_host: url
+          access_key_id: id
+          secret_access_key: key
+          bucket: name
           skip_ssl_validation: true
           signature_version: "2"

@@ -44,6 +44,7 @@ properties:
     default: "info"
   shield.provisioning_key:
     description: "API Key to use when provisioning jobs, or targets. Required if shield.target or shield.job have data"
+    default: ''
   shield.skip_ssl_verify:
     description: "Boolean to determine if SSL certs will be ignored when provisioning SHIELD data"
     default: true
