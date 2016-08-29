@@ -10,28 +10,25 @@ done
     in case we are colocated with shield-agent. %>
 shield -c /tmp/.shield_daemon_config create backend default https://<%= p("shield.daemon.domain") %>:<%= p("shield.daemon.port") %>
 
-<% if p("shield.skip_ssl_verify") %>
-export SHIELD_SKIP_SSL_VERIFY=true
-<% end %>
-
-
-<%  schedules = p("shield.schedules", [])
-if_p("shield.schedule") do |sch|
-    schedules[sch["name"]] = sch["when"]
-end            
-%>
-
-
-<% if schedules.any? %>
 <%#
   The SHIELD_API_TOKEN is set here so that the post-start script will fail to render
   when provisioning_key is not specified, but the script is about to try to create schedules
 %>
 export SHIELD_API_TOKEN=<%= p("shield.provisioning_key") %>
 
+<% if p("shield.skip_ssl_verify") %>
+export SHIELD_SKIP_SSL_VERIFY=true
+<% end %>
+
+<%  schedules = p("shield.schedules", {}) %>
+<% if_p("shield.schedule.name", "shield.schedule.when")  do |name, wenn|
+  schedules[name]= wenn
+end %>
+
+<% if schedules.any? %>
     <% schedules.each do |name, value| %>
-cat <<EOF > /tmp/schedule-"<%= name %>".json
-{ 
+cat <<EOF > /tmp/schedule-<%= name %>.json
+{
  "name":    "<%= name %>",
  "when":    "<%= value %>"
 }
@@ -52,22 +49,15 @@ fi
 # End of schedules
 <% end %>
 
-<%  retentions = p("shield.retentions", [])
-if_p("shield.retention") do |ret|
-    retentions[ret["name"]] = ret["expires"]
-end            
-%>
+<%  retentions = p("shield.retentions", {}) %>
+<% if_p("shield.retention.name", "shield.retention.expires")  do |name, expires|
+    retentions[name] = expires
+end %>
 
 <% if retentions.any? %>
-<%#
-  The SHIELD_API_TOKEN is set here so that the post-start script will fail to render
-  when provisioning_key is not specified, but the script is about to try to create retention
-  policies
-%>
-export SHIELD_API_TOKEN=<%= p("shield.provisioning_key") %>
     <% retentions.each do |name, value| %>
 cat <<EOF > /tmp/retention-<%= name %>.json
-{ 
+{
  "name":    "<%= name %>",
  "expires":  <%= value %>
 }
@@ -84,18 +74,12 @@ fi
     <% end %>
 <% end %>
 
-<%  stores = p("shield.stores", [])
-if_p("shield.store") do |st|
-    stores[st["name"]] = {"plugin" => st["plugin"], "config" => st["config"]}
-end            
-%>
+<%  stores = p("shield.stores", {}) %>
+<% if_p("shield.store.name", "shield.store.plugin", "shield.store.config")  do |name, plugin, config|
+    stores[name] = {"plugin" => plugin, "config" => config}
+end %>
 
 <% if stores.any? %>
-<%#
-  The SHIELD_API_TOKEN is set here so that the post-start script will fail to render
-  when provisioning_key is not specified, but the script is about to try to create storess
-%>
-export SHIELD_API_TOKEN=<%= p("shield.provisioning_key") %>
 <%
   require 'json'
 %>
@@ -105,13 +89,12 @@ export SHIELD_API_TOKEN=<%= p("shield.provisioning_key") %>
   require 'json'
 %>
 cat <<EOF > /tmp/store-<%= name %>.json
-{ 
+{
   "name":     "<%= name %>",
   "plugin":   "<%= store["plugin"] %>",
   "endpoint": <%= store["config"].to_json.dump %>
 }
 EOF
-
 
 STORE=$(shield -c /tmp/.shield_daemon_config --raw show store <%= name %> | jq -r '.uuid // empty')
 if [[ -z ${STORE} ]]; then
@@ -119,7 +102,7 @@ if [[ -z ${STORE} ]]; then
 	cat /tmp/store-<%= name %>.json | shield -c /tmp/.shield_daemon_config --raw create store
 else
   echo "Editing store"
-	cat /tmp/store-<%= name %>.json | shield -c /tmp/.shield_daemon_config --raw edit store <%= name %> 
+	cat /tmp/store-<%= name %>.json | shield -c /tmp/.shield_daemon_config --raw edit store <%= name %>
 fi
     <% end %>
 <% end %>

@@ -7,22 +7,6 @@ do
 done
 
 <% if_p("shield.agent.autoprovision") do |server| %>
-
-<%# Create a specific  config file for shield-agent stuff, to avoid race conditions
-    in case we are colocated with shield-daemon. %>
-shield -c /tmp/.shield_agent_config create backend default https://<%= p("shield.daemon.domain") %>:<%= p("shield.daemon.port") %>
-
-<%
-  my_ip = spec.networks.send(spec.networks.methods(false).first).ip
-%>
-
-<%  targets = p("shield.targets", [])
-if_p("shield.target") do |target|
-    targets[target["name"]] = {"plugin" => target["plugin"], "config" => target["config"]}
-end            
-%>
-
-<% if targets.any? %>
 <%#
   The SHIELD_API_TOKEN is set here so that the post-start script will fail to render
   when provisioning_key is not specified, but the script is about to try to create targets
@@ -30,11 +14,22 @@ end
 %>
 export SHIELD_API_TOKEN=<%= p("shield.provisioning_key") %>
 
-
 <% if p("shield.skip_ssl_verify") %>
 export SHIELD_SKIP_SSL_VERIFY=true
 <% end %>
 
+<%# Create a specific  config file for shield-agent stuff, to avoid race conditions
+    in case we are colocated with shield-daemon. %>
+shield -c /tmp/.shield_agent_config create backend default https://<%= p("shield.daemon.domain") %>:<%= p("shield.daemon.port") %>
+
+<% my_ip = spec.networks.send(spec.networks.methods(false).first).ip %>
+
+<%  targets = p("shield.targets", {}) %>
+<% if_p("shield.target.name","shield.target.plugin","shield.target.config") do |name,plugin,config|
+    targets[name] = {"plugin" => plugin, "config" => config}
+end %>
+
+<% if targets.any? %>
     <% targets.each do |name, target| %>
 <%
   require 'json'
@@ -63,28 +58,15 @@ fi
 # End Targets
 <% end %>
 
-<%  jobs = p("shield.jobs", [])
-if_p("shield.job") do |job|
-    jobs[job["name"]] = { "target" => job["target"], 
-                          "store" => job["store"],
-                          "retention" => job["retention"],
-                          "schedule" => job["schedule"] }
-end            
-%>
+<%  jobs = p("shield.jobs", {}) %>
+<% if_p("shield.job.name","shield.job.target", "shield.job.store","shield.job.retention", "shield.job.schedule") do |name,target,store,retention,schedule|
+    jobs[name] = { "target" => target,
+                   "store" => store,
+                   "retention" => retention,
+                   "schedule" => schedule }
+end %>
 
 <% if jobs.any? %>
-<%#
-  The SHIELD_API_TOKEN is set here so that the post-start script will fail to render
-  when provisioning_key is not specified, but the script is about to try to create targets
-  or jobs
-%>
-export SHIELD_API_TOKEN=<%= p("shield.provisioning_key") %>
-
-
-<% if p("shield.skip_ssl_verify") %>
-export SHIELD_SKIP_SSL_VERIFY=true
-<% end %>
-
     <% jobs.each do |name, job| %>
 TARGET=$(shield -c /tmp/.shield_agent_config --raw show target <%= job["target"] %> | jq -r '.uuid // empty')
 STORE=$(shield -c /tmp/.shield_agent_config --raw show store <%= job["store"] %> | jq -r '.uuid // empty')
@@ -112,7 +94,6 @@ fi
 
     # End Job
     <% end %>
-
 
 # End Jobs
 <% end %>
