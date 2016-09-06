@@ -40,4 +40,6 @@ builds:
     version: 6.3.4
   a45354d3-d0ab-4714-8a0e-330e9fdd18d8:
     version: 6.3.5
+  928b8be6-6542-431f-a962-7199abe66f0f:
+    version: 6.3.6
 format-version: '2'
