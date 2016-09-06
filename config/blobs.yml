@@ -36,9 +36,9 @@ nginx/pcre-8.37.tar.gz:
   sha: 4a24a20c61347d8da4edc86d5475aaf70ac146bb
   size: 2041593
 shield/shield.tar.gz:
-  object_id: 39280a93-067c-4e07-8ecc-d2732712ed24
-  sha: ae1706529b3e3d11d131441d9ff94454ce4d0741
-  size: 3506270
+  object_id: 613aa465-caff-471c-b2b2-589e52e68936
+  sha: fcf4566acf9485dadca7dc700241efd7091a3e3e
+  size: 3506099
 mariadb/mariadb-10.1.14.tar.gz:
   object_id: 4bc0ed46-64e6-4b54-9b04-538e0ec94619
   sha: dcf46d638cd33032117a9f0d89e8650aa1309e74
