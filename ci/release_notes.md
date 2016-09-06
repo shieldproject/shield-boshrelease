@@ -10,3 +10,9 @@
 
 # shield
 Bumped https://github.com/starkandwayne/shield to v0.6.6
+
+
+# Thanks
+
+Many thanks to @karampok, @gogolok, @frodenas, and @fearoffish for their work on this
+release!
