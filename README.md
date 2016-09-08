@@ -20,12 +20,12 @@ Before you can deploy SHIELD, you're going to need to upload this
 BOSH release to your BOSH-lite, using the CLI:
 
     bosh target https://192.168.50.4:25555
-    bosh upload release https://bosh.io/d/github.com/cloudfoundry-community/shield-boshrelease
+    bosh upload release https://bosh.io/d/github.com/starkandwayne/shield-boshrelease
 
 You can create a small, working manifest file from this git
 repository:
 
-    git clone https://github.com/cloudfoundry-community/shield-boshrelease
+    git clone https://github.com/starkandwayne/shield-boshrelease
     cd shield-boshrelease
     ./templates/make_manifest warden
     bosh -n deploy
