@@ -6,6 +6,8 @@ do
   export PATH=${package_bin_dir}:$PATH
 done
 
+export TMPDIR=${TMPDIR:="/tmp"}
+
 <% if_p("shield.agent.autoprovision") do |server| %>
 <%#
   The SHIELD_API_TOKEN is set here so that the post-start script will fail to render
