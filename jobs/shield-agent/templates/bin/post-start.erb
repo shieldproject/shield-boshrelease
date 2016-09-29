@@ -6,6 +6,8 @@ do
   export PATH=${package_bin_dir}:$PATH
 done
 
+export TMPDIR=${TMPDIR:="/tmp"}
+
 <% if_p("shield.agent.autoprovision") do |server| %>
 <%#
   The SHIELD_API_TOKEN is set here so that the post-start script will fail to render
@@ -20,7 +22,7 @@ export SHIELD_SKIP_SSL_VERIFY=true
 
 <%# Create a specific  config file for shield-agent stuff, to avoid race conditions
     in case we are colocated with shield-daemon. %>
-shield -c /tmp/.shield_agent_config create backend default https://<%= p("shield.daemon.domain") %>:<%= p("shield.daemon.port") %>
+shield -c $TMPDIR/.shield_agent_config create backend default https://<%= p("shield.daemon.domain") %>:<%= p("shield.daemon.port") %>
 
 <% my_ip = spec.networks.send(spec.networks.methods(false).first).ip %>
 
@@ -34,7 +36,7 @@ end %>
 <%
   require 'json'
 %>
-cat <<EOF > /tmp/target-<%= name %>.json
+cat <<EOF > $TMPDIR/target-<%= name %>.json
 {
   "name":     "<%= name %>",
   "plugin":   "<%= target["plugin"] %>",
@@ -43,13 +45,13 @@ cat <<EOF > /tmp/target-<%= name %>.json
 }
 EOF
 
-TARGET=$(shield -c /tmp/.shield_agent_config --raw show target <%= name %> | jq -r '.uuid // empty')
+TARGET=$(shield -c $TMPDIR/.shield_agent_config --raw show target <%= name %> | jq -r '.uuid // empty')
 if [[ -z ${TARGET} ]]; then
   echo "Creating target"
-  cat /tmp/target-<%= name %>.json | shield -c /tmp/.shield_agent_config --raw create target
+  cat $TMPDIR/target-<%= name %>.json | shield -c $TMPDIR/.shield_agent_config --raw create target
 else
   echo "Editing target"
-  cat /tmp/target-<%= name %>.json | shield -c /tmp/.shield_agent_config --raw edit target <%= name %>
+  cat $TMPDIR/target-<%= name %>.json | shield -c $TMPDIR/.shield_agent_config --raw edit target <%= name %>
 fi
 
   # End Target
@@ -68,12 +70,12 @@ end %>
 
 <% if jobs.any? %>
     <% jobs.each do |name, job| %>
-TARGET=$(shield -c /tmp/.shield_agent_config --raw show target <%= job["target"] %> | jq -r '.uuid // empty')
-STORE=$(shield -c /tmp/.shield_agent_config --raw show store <%= job["store"] %> | jq -r '.uuid // empty')
-RETENTION=$(shield -c /tmp/.shield_agent_config --raw show retention policy <%= job["retention"] %> | jq -r '.uuid // empty')
-SCHEDULE=$(shield -c /tmp/.shield_agent_config --raw show schedule <%= job["schedule"] %> | jq -r '.uuid // empty')
+TARGET=$(shield -c $TMPDIR/.shield_agent_config --raw show target <%= job["target"] %> | jq -r '.uuid // empty')
+STORE=$(shield -c $TMPDIR/.shield_agent_config --raw show store <%= job["store"] %> | jq -r '.uuid // empty')
+RETENTION=$(shield -c $TMPDIR/.shield_agent_config --raw show retention policy <%= job["retention"] %> | jq -r '.uuid // empty')
+SCHEDULE=$(shield -c $TMPDIR/.shield_agent_config --raw show schedule <%= job["schedule"] %> | jq -r '.uuid // empty')
 
-cat <<EOF > /tmp/job-<%= name %>.json
+cat <<EOF > $TMPDIR/job-<%= name %>.json
 {"name":      "<%= name %>",
  "target":    "${TARGET}",
  "store":     "${STORE}",
@@ -83,13 +85,13 @@ cat <<EOF > /tmp/job-<%= name %>.json
 }
 EOF
 
-JOB=$(shield -c /tmp/.shield_agent_config --raw show job <%= name %>  | jq -r '.uuid // empty')
+JOB=$(shield -c $TMPDIR/.shield_agent_config --raw show job <%= name %>  | jq -r '.uuid // empty')
 if [[ -z ${JOB} ]]; then
   echo "Creating job"
-  cat /tmp/job-<%= name %>.json | shield -c /tmp/.shield_agent_config --raw create job
+  cat $TMPDIR/job-<%= name %>.json | shield -c $TMPDIR/.shield_agent_config --raw create job
 else
   echo "Editing job"
-  cat /tmp/job-<%= name %>.json | shield -c /tmp/.shield_agent_config --raw edit job <%= name %>
+  cat $TMPDIR/job-<%= name %>.json | shield -c $TMPDIR/.shield_agent_config --raw edit job <%= name %>
 fi
 
     # End Job
