@@ -44,7 +44,13 @@ http {
     listen <%= p('shield.daemon.http_port') %>;
     server_name  _;
     ssl off;
+    <% if p('nginx.allow_http') %>
+    location / {
+      proxy_pass http://shield;
+    }
+    <% else %>
     return 301 https://<%= p('shield.daemon.domain') %>:<%= p('shield.daemon.port') %>$request_uri;
+    <% end %>
   }
 
   server {

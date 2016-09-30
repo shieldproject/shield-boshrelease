@@ -20,6 +20,9 @@ properties:
   shield.daemon.domain:
     description: "Hostname/IP SHIELD is accessed with"
 
+  nginx.allow_http:
+    description: 'Allow http instead of redirecting to https'
+    default: false
   nginx.worker_processes:
     description: 'Number of nginx workers'
     default: 2
