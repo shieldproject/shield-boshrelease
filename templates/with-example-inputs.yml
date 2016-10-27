@@ -36,9 +36,9 @@ properties:
       monthly: 2st sunday at 0am
     retentions:
       DevPolicy: 31536000
-      week: 31536000
-      year: 604800
+      week: 604800
       month: 2678400
+      year: 31536000
     stores:
       amazon:
         plugin: s3
