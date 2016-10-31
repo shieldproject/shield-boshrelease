@@ -1,18 +1,11 @@
-#!/usr/bin/env bash
-set -e -x
+#!/bin/bash
+set -ex
 
-REPO_NAME=shield
-REPO_DIR=${BOSH_INSTALL_TARGET}/src/github.com/starkandwayne
-
-mkdir -p ${REPO_DIR}
-tar -xzf shield/shield.tar.gz -C ${REPO_DIR}
-mv ${REPO_DIR}/* ${REPO_DIR}/${REPO_NAME}
-
-export GOROOT=$(readlink -nf /var/vcap/packages/golang)
-export GOPATH=$BOSH_INSTALL_TARGET:${REPO_DIR}/${REPO_NAME}/Godeps/_workspace
-export PATH=$GOROOT/bin:$PATH
-
-pushd ${REPO_DIR}/${REPO_NAME}
-BUILD_TYPE=install make shield
-cp -R webui ${BOSH_INSTALL_TARGET}/webui
-popd
+tar -xzvf shield/shield-server-linux-amd64.tar.gz
+cd shield-server-linux-amd64
+mkdir -p ${BOSH_INSTALL_TARGET}/bin
+cp agent/shield-agent   ${BOSH_INSTALL_TARGET}/bin
+cp daemon/shieldd       ${BOSH_INSTALL_TARGET}/bin
+cp daemon/shield-schema ${BOSH_INSTALL_TARGET}/bin
+cp daemon/shield-pipe   ${BOSH_INSTALL_TARGET}/bin
+cp -R webui             ${BOSH_INSTALL_TARGET}/webui

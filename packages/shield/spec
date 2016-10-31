@@ -1,6 +1,5 @@
 ---
 name: shield
-dependencies:
-- golang
+dependencies: []
 files:
-- shield/shield.tar.gz
+- shield/shield-server-linux-amd64.tar.gz
