@@ -3,67 +3,30 @@
 set -e
 
 template_prefix="shield"
-if [[ -z ${STEMCELL_OS} || ${STEMCELL_OS} == "" ]] ; then
-	envar=0
-else
-	envar=1
-fi
+STEMCELL_OS=${STEMCELL_OS:-ubuntu}
 
-STEMCELL_OS=${STEMCELL_OS:-${2}}
-
-infrastructure=${1}
+infrastructure=$1
 
 fail() {
 	echo >&2 $*
 }
 
-info() {
-	echo >&1 $*
-}
-
-if [[ "${infrastructure}" != "aws" && "${infrastructure}" != "warden" ]] ; then
-  fail "usage: ./make_manifest <aws|warden> <ubuntu|centos>"
+if [[ "$infrastructure" != "aws-ec2" && "$infrastructure" != "warden" ]] ; then
+  fail "usage: ./make_manifest <aws-ec2|warden>"
   exit 1
 fi
 
-
-if [[ ${infrastructure} == "warden" ]] ; then
-	if [[ ${STEMCELL_OS} == *yml || -z ${STEMCELL_OS} ]] ; then
-		info "STEMCELL_OS not specified and has been set to Ubuntu for warden."
-		STEMCELL_OS="ubuntu"
-		shift
-	elif [[ -z ${STEMCELL_OS} ]] ; then
-		info "STEMCELL_OS not specified and has been set to Ubuntu for warden."
-		STEMCELL_OS="ubuntu"
-	elif [[ ${STEMCELL_OS} == "centos" ]] ; then
-		info "CentOS is not an available STEMCELL_OS for warden and has been changed to Ubuntu. Please check your command line arguments."
-		STEMCELL_OS="ubuntu"
-		shift ; if [[ ${envar} == 1 ]] ; then shift ; fi
-	elif [[ ${STEMCELL_OS} != "ubuntu" ]] ; then
-		fail "Second argument is neither the STEMCELL_OS nor a YAML file for merging. Please check your command line arguments."
-		fail "Unrecognized argument: ${2}"
-		exit 1
-	fi
-fi
-
-if [[ ${infrastructure} == "aws" ]] ; then
-	if [[ ${STEMCELL_OS} == "centos" || ${STEMCELL_OS} == "ubuntu" ]] ; then
-		shift ; if [[ ${envar} == 0 ]] ; then shift ; fi
-	else
-		fail "Unrecognized STEMCELL_OS ${STEMCELL_OS} for AWS. Please check your command line arguments."
-		exit 1
-	fi
-fi
-
 case "${infrastructure}/${STEMCELL_OS}" in
-  (warden/ubuntu)   STEMCELL_URL="https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent" ;;
-  (aws/ubuntu)      STEMCELL_URL="https://bosh.io/d/stemcells/bosh-aws-xen-ubuntu-trusty-go_agent" ;;
-  (aws/centos)      STEMCELL_URL="https://bosh.io/d/stemcells/bosh-aws-xen-centos-7-go_agent" ;;
+  (warden/*)       STEMCELL_URL="https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent" ;;
+  (aws-ec2/ubuntu) STEMCELL_URL="https://bosh.io/d/stemcells/bosh-aws-xen-ubuntu-trusty-go_agent" ;;
+  (aws-ec2/centos) STEMCELL_URL="https://bosh.io/d/stemcells/bosh-aws-xen-centos-7-go_agent" ;;
   (*)
     fail "Invalid infrastructure or OS specified."
     exit 1
     ;;
 esac
+
+shift
 
 BOSH_STATUS=$(bosh status)
 DIRECTOR_UUID=$(echo "$BOSH_STATUS" | grep UUID | awk '{print $2}')
@@ -71,12 +34,12 @@ DIRECTOR_CPI=$(echo "$BOSH_STATUS" | grep CPI | awk '{print $2}' | sed -e 's/_cp
 DIRECTOR_NAME=$(echo "$BOSH_STATUS" | grep Name | awk '{print $2}')
 NAME=$template_prefix-$infrastructure
 
-if [[ $infrastructure == "warden" && ${DIRECTOR_CPI} != "warden" ]]; then
+if [[ $infrastructure = "warden" && ${infrastructure} != "warden" ]]; then
   fail "Not targeting bosh-lite with warden CPI. Please make sure you have run 'bosh target' and are targeting a BOSH lite before running this script."
   exit 1
 fi
 
-if [[ $infrastructure = "aws" && ${DIRECTOR_CPI} != "aws" ]]; then
+if [[ $infrastructure = "aws-ec2" && ${DIRECTOR_CPI} != "aws" ]]; then
   fail "Not targeting an AWS BOSH. Please make sure you have run 'bosh target' and are targeting an AWS BOSH before running this script."
   exit 1
 fi
@@ -89,6 +52,7 @@ STEMCELL=${STEMCELL:-$(latest_uploaded_stemcell)}
 if [[ -z ${STEMCELL} ]]; then
   echo
   echo "Uploading latest $DIRECTOR_CPI/$STEMCELL_OS stemcell..."
+  echo " (from ${STEMCELL_URL})"
   bosh upload stemcell $STEMCELL_URL
 fi
 STEMCELL=${STEMCELL:-$(latest_uploaded_stemcell)}
