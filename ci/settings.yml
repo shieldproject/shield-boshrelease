@@ -57,9 +57,9 @@ jobs:
         REPO_OUT:    pushme
         RELEASE_DIR: shield
         BLOB:        shield
-        BLOB_BINARY: source.tar.gz
+        BLOB_BINARY: shield-server-linux-amd64.tar.gz
         BLOB_URL:    https://github.com/starkandwayne/shield
-        BLOB_DESTINATION: shield/shield.tar.gz
+        BLOB_DESTINATION: shield/shield-server-linux-amd64.tar.gz
         AWS_ACCESS_KEY: (( grab meta.aws.access_key ))
         AWS_SECRET_KEY: (( grab meta.aws.secret_key ))
         BRANCH:         (( grab meta.github.branch ))
