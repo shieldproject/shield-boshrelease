@@ -71,7 +71,7 @@ DIRECTOR_CPI=$(echo "$BOSH_STATUS" | grep CPI | awk '{print $2}' | sed -e 's/_cp
 DIRECTOR_NAME=$(echo "$BOSH_STATUS" | grep Name | awk '{print $2}')
 NAME=$template_prefix-$infrastructure
 
-if [[ $DIRECTOR_NAME = "warden" && ${infrastructure} != "warden" ]]; then
+if [[ $infrastructure == "warden" && ${DIRECTOR_CPI} != "warden" ]]; then
   fail "Not targeting bosh-lite with warden CPI. Please make sure you have run 'bosh target' and are targeting a BOSH lite before running this script."
   exit 1
 fi
