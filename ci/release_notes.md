@@ -8,6 +8,10 @@
   IP address auto-detection (i.e. when deploying via `bosh-init`),
   and you still want to auto-provision stuff.
 
+- You can now use the autoprovisioning features of the
+  `shield-agent` job to provision out your Schedules and Retention
+  Policies.  Automatically.  Life is good.
+
 - You can now disable SSL/TLS on the SHIELD Web UI / API.
   This isn't recommended, but you can do it.
 

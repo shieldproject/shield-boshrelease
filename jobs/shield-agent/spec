@@ -93,3 +93,15 @@ properties:
           store: amazon
           retention: week
           schedule: weekly
+
+  shield.schedules:
+    description: Schedules to autoprovision in SHIELD, keyed by name.
+    example: |
+      Daily: daily 4am
+      Weekly: weekly on monday 3am
+
+  shield.retention-policies:
+    description: Retention policies to autoprovision in SHIELD, keyed by name.
+    example: |
+      Short-term:  90d
+      Long-term:  180d

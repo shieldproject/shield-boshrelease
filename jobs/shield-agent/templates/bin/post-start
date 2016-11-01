@@ -34,6 +34,37 @@ shield -c $TMPDIR/.shield_agent_config create backend default https://<%= p("shi
    end
 %>
 
+<% p('shield.schedules').each do |name, schedule| %>
+cat <<EOF > $TMPDIR/schedule-<%= name %>.json
+{"name":"<%= name %>",
+ "when":"<%= schedule %>"}
+EOF
+SCHED=$(shield -c $TMPDIR/.shield_agent_config --raw show schedule <%= name %> | jq -r '.uuid // empty')
+if [[ -z ${SCHED} ]]; then
+  echo "Creating schedule"
+  cat $TMPDIR/schedule-<%= name %>.json | shield -c $TMPDIR/.shield_agent_config --raw create schedule
+else
+  echo "Editing schedule"
+  cat $TMPDIR/schedule-<%= name %>.json | shield -c $TMPDIR/.shield_agent_config --raw edit schedule <%= name %>
+fi
+<% end %>
+
+<% p('shield.retention-policies').each do |name, retention| %>
+cat <<EOF > $TMPDIR/retention-<%= name %>.json
+{"name":"<%= name %>",
+ "expires":<%= retention.to_i * 86400 %>}
+EOF
+POLICY=$(shield -c $TMPDIR/.shield_agent_config --raw show retention policy <%= name %> | jq -r '.uuid // empty')
+if [[ -z ${POLICY} ]]; then
+  echo "Creating retention policy"
+  cat $TMPDIR/retention-<%= name %>.json | shield -c $TMPDIR/.shield_agent_config --raw create retention policy
+else
+  echo "Editing retention policy"
+  cat $TMPDIR/retention-<%= name %>.json | shield -c $TMPDIR/.shield_agent_config --raw edit retention policy <%= name %>
+fi
+<% end %>
+
+
 <%  targets = p("shield.targets", {}) %>
 <% if_p("shield.target.name","shield.target.plugin","shield.target.config") do |name,plugin,config|
     targets[name] = {"plugin" => plugin, "config" => config}
