@@ -18,6 +18,8 @@ templates:
   helpers/ctl_utils.sh:     helpers/ctl_utils.sh
 
 properties:
+  shield.agent.ip:
+    description: IP address that the agent can be contacted at.  Normally, this can be automatically detected, but for certain circumstances (i.e. bosh-init deployments), you must specify it.
   shield.agent.port:
     description: "port to run agent"
     default: 5444

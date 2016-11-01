@@ -24,7 +24,15 @@ export SHIELD_SKIP_SSL_VERIFY=true
     in case we are colocated with shield-daemon. %>
 shield -c $TMPDIR/.shield_agent_config create backend default https://<%= p("shield.daemon.domain") %>:<%= p("shield.daemon.port") %>
 
-<% my_ip = spec.networks.send(spec.networks.methods(false).first).ip %>
+<%
+   my_ip = nil
+   if_p('shield.agent.ip') do |ip|
+     my_ip = ip
+   end
+   if my_ip.nil?
+     my_ip = spec.networks.send(spec.networks.methods(false).first).ip
+   end
+%>
 
 <%  targets = p("shield.targets", {}) %>
 <% if_p("shield.target.name","shield.target.plugin","shield.target.config") do |name,plugin,config|
