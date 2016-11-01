@@ -7,7 +7,6 @@ packages:
 templates:
   bin/ctl:              bin/ctl
   bin/monit_debugger:   bin/monit_debugger
-  bin/post-start:       bin/post-start
   config/shieldd.conf:  config/shieldd.conf
   shared/id_rsa:        shared/id_rsa
   data/properties.sh:   data/properties.sh
@@ -82,52 +81,3 @@ properties:
   shield.log_level:
     description: "Log level for shield processes"
     default: "info"
-
-  shield.provisioning_key:
-    description: "API Key to use when provisioning schedules, retention policies, or stores. Required if shield.schedule, shield.retention, or shield.store have data"
-    default: ''
-
-  shield.skip_ssl_verify:
-    description: "Boolean to determine if SSL certs will be ignored when provisioning SHIELD data"
-    default: true
-
-  shield.schedule.name:
-    description: "schedule name"
-  shield.schedule.when:
-    description: "schedule when"
-
-  shield.retention.name:
-    description: "retention name"
-  shield.retention.expires:
-    description: "expires"
-
-  shield.store.name:
-    description: "store name"
-  shield.store.plugin:
-    description: "store plugin"
-  shield.store.config:
-    description: "store config"
-
-  shield.schedules:
-    description: "An array of the schedules to be added"
-    example: |
-      weekly: Monday 3d
-
-
-  shield.retentions:
-    description: "An array of retentions to be added"
-    example: |
-      week: 604800
-
-  shield.stores:
-    description: "An array of stores to be added"
-    example: |
-      amazon:
-        plugin: s3
-        config:
-          s3_host: url
-          access_key_id: id
-          secret_access_key: key
-          bucket: name
-          skip_ssl_validation: true
-          signature_version: "2"

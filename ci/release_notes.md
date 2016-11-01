@@ -15,4 +15,16 @@
 - You can now disable SSL/TLS on the SHIELD Web UI / API.
   This isn't recommended, but you can do it.
 
+## Deprecated Things
+
+- Singular auto-provisioning properties (`shield.job`,
+  `shield.target`, `shield.store`, `shield.schedule` and
+  `shield.retention` are no longer supported.  Use the map-based
+  plural variants instead.
+
+- Auto-provisioning on the `shield-daemon` job is now deprecated.
+  All object types can be provisioned by the `shield-agent` job.
+  Unless you are running a SHIELD without an agent, you won't
+  notice a thing.
+
 [shield-0.7.0]: https://github.com/starkandwayne/shield/releases/tag/v0.7.0

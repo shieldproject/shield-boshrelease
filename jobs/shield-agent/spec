@@ -57,51 +57,52 @@ properties:
     description: "port to run daemon (https requests)"
     default: 443
 
-  shield.target.name:
-    description: "Target name"
-  shield.target.plugin:
-    description: "Plugin type"
-  shield.target.config:
-    description: "Hash of config information"
-
+  shield.stores:
+    description:
+      A list of Stores to autoprovision in SHIELD, keyed by name, i.e.:
+        shield:
+          stores:
+            amazon:
+              plugin: s3
+              config:
+                secret_key: foo
+                bucket:     my-backups
 
   shield.targets:
-    description: "array of targets to add"
-    example: |
-      localdb: 
-        plugin: s3
-        config:
-          mysql_host: url 
-
-  shield.job.name:
-    description: "Job name"
-  shield.job.target:
-    description: "Name of job target"
-  shield.job.schedule:
-    description: "Name of job schedule"
-  shield.job.store:
-    description: "Name of job store"
-  shield.job.retention:
-    description: "Name of job retention"
-
+    description:
+      A list of Targets to autoprovision in SHIELD, keyed by name, i.e.:
+        shield:
+          targets:
+            localdb:
+              plugin: postgres
+              config:
+                pg_host: 10.0.0.6
+                pg_port: 5524
+                # etc.
 
   shield.jobs:
-    description: "array of jobs to add"
-    example: |
-      localdb-weekly2amazon:
-          target: localdb
-          store: amazon
-          retention: week
-          schedule: weekly
+    description: |
+      A list of Jobs to autoprovision in SHIELD, keyed by name, i.e.:
+        shield:
+          jobs:
+            my-backups:
+              target:     localdb
+              store:      amazon
+              retention:  longterm
+              schedule:   weekly
 
   shield.schedules:
-    description: Schedules to autoprovision in SHIELD, keyed by name.
-    example: |
-      Daily: daily 4am
-      Weekly: weekly on monday 3am
+    description: |
+      A list of Schedules to autoprovision in SHIELD, keyed by name, i.e.:
+        shield:
+          schedules:
+            Daily: daily 4am
+            Weekly: weekly on monday 3am
 
   shield.retention-policies:
-    description: Retention policies to autoprovision in SHIELD, keyed by name.
-    example: |
-      Short-term:  90d
-      Long-term:  180d
+    description: |
+      A list of Retention policies to autoprovision in SHIELD, keyed by name, i.e.:
+        shield:
+          retention-policies:
+            Short-term:  90d
+            Long-term:  180d
