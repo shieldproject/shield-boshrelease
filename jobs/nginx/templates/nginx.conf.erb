@@ -40,6 +40,7 @@ http {
     server localhost:8080;
   }
 
+  <% if p('nginx.enable_ssl', true) %>
   server {
     listen <%= p('shield.daemon.http_port') %>;
     server_name  _;
@@ -65,4 +66,17 @@ http {
       proxy_pass http://shield;
     }
   }
+  <% else %>
+  server {
+    listen <%= p('shield.daemon.http_port') %>;
+    server_name  _;
+    server_name_in_redirect off;
+
+    ssl off;
+
+    location / {
+      proxy_pass http://shield;
+    }
+  }
+  <% end %>
 }

@@ -38,6 +38,9 @@ properties:
   nginx.proxy_send_timeout:
     description: 'Timeout for send queries to the upstream server'
     default: 120
+  nginx.enable_ssl:
+    description: Enable (and enforce) access to SHIELD over SSL/TLS.  Disabling not recommended.
+    default: true
   nginx.ssl_timeout:
     description: 'Timeout for reusing the previously negotiated cryptographic parameters'
     default: 7200
