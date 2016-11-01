@@ -5,6 +5,7 @@ tar -xzvf shield/shield-server-linux-amd64.tar.gz
 cd shield-server-linux-amd64
 mkdir -p ${BOSH_INSTALL_TARGET}/bin
 cp agent/shield-agent   ${BOSH_INSTALL_TARGET}/bin
+cp cli/shield           ${BOSH_INSTALL_TARGET}/bin
 cp daemon/shieldd       ${BOSH_INSTALL_TARGET}/bin
 cp daemon/shield-schema ${BOSH_INSTALL_TARGET}/bin
 cp daemon/shield-pipe   ${BOSH_INSTALL_TARGET}/bin
