@@ -3,13 +3,14 @@ name: shield-daemon
 packages:
   - shield
   - utils
+
 templates:
-  bin/ctl: bin/ctl
-  bin/monit_debugger: bin/monit_debugger
-  bin/post-start.erb: bin/post-start
-  config/shieldd.conf.erb: config/shieldd.conf
-  shared/id_rsa: shared/id_rsa
-  data/properties.sh.erb: data/properties.sh
+  bin/ctl:              bin/ctl
+  bin/monit_debugger:   bin/monit_debugger
+  bin/post-start:       bin/post-start
+  config/shieldd.conf:  config/shieldd.conf
+  shared/id_rsa:        shared/id_rsa
+  data/properties.sh:   data/properties.sh
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
 

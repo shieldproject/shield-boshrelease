@@ -28,8 +28,9 @@ case $1 in
         -signkey $CERTS_DIR/ssl_key -out $CERTS_DIR/ssl_crt
     fi
 
-    exec /var/vcap/packages/nginx/sbin/nginx -c $JOB_DIR/config/nginx.conf \
-      >>$LOG_DIR/nginx.stdout.log 2>>$LOG_DIR/nginx.stderr.log
+    exec /var/vcap/packages/nginx/sbin/nginx \
+      -c $JOB_DIR/config/nginx.conf \
+      >>$LOG_DIR/nginx.log 2>&1
     ;;
 
   stop)

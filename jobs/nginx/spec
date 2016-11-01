@@ -1,14 +1,14 @@
 ---
 name: nginx
-templates:
-  mime.types: config/mime.types
-  nginx.conf.erb: config/nginx.conf
-  nginx_ctl: bin/nginx_ctl
-  ssl_key.erb: config/ssl_key
-  ssl_crt.erb: config/ssl_crt
-
 packages:
 - nginx
+
+templates:
+  bin/nginx_ctl:     bin/nginx_ctl
+  config/nginx.conf: config/nginx.conf
+  config/mime.types: config/mime.types
+  config/ssl_key:    config/ssl_key
+  config/ssl_crt:    config/ssl_crt
 
 properties:
   shield.daemon.port:

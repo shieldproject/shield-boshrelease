@@ -1,14 +1,13 @@
 ---
 name: mariadb
-
-templates:
-  mariadb_ctl.erb: bin/mariadb_ctl
-  mariadb_start.sh.erb: bin/mariadb_start.sh
-  my.cnf.erb: config/my.cnf
-
 packages:
   - common
   - mariadb
+
+templates:
+  bin/mariadb_ctl:       bin/mariadb_ctl
+  bin/mariadb_start.sh:  bin/mariadb_start.sh
+  config/my.cnf:         config/my.cnf
 
 properties:
   databases.port:
