@@ -15,69 +15,68 @@ templates:
 
 properties:
   shield.daemon.name:
-    description: "name to display to `shield status' calls"
+    description: The name of your SHIELD installation (to display to `shield status' calls).
     default: "(none)"
   shield.daemon.ssh_private_key:
-    description: >
-      private key to use for communicating with the shield-agent.
+    description: SSH private key to use for communicating with the shield-agent.
   shield.daemon.port:
-    description: "port to run daemon (https requests)"
+    description: Port to bind for HTTPS API and Web UI requests
     default: 443
   shield.daemon.http_port:
-    description: "Port for http requests"
+    description: Port to bind for HTTP API and Web UI requests
     default: 80
   shield.daemon.domain:
-    description: "Hostname/IP SHIELD is accessed with"
+    description: Fully-qualified domain name (or IP address) of your SHIELD installation
 
   shield.daemon.database.type:
-    description: "database type (postgres or mysql)"
-  shield.daemon.database.port:
-    description: "database port"
+    description: Type of database backend to use ('postgres' or 'mysql').
   shield.daemon.database.host:
-    description: "database host"
+    description: Hostname or IP address of the backend database server.
+  shield.daemon.database.port:
+    description: TCP port that the database server is listening on.
   shield.daemon.database.username:
-    description: "database username"
+    description: Username to use for accessing the database.
   shield.daemon.database.password:
-    description: "database password"
+    description: Password to use for accessing the database.
   shield.daemon.database.db:
-    description: "database name"
+    description: Name of the SHIELD database
 
   shield.daemon.auth.oauth.provider:
     description: "OAuth2 provider to use with SHIELD (supported values: 'github' and 'cloudfoundry')"
   shield.daemon.auth.oauth.key:
-    description: "Auth Key/Client ID to use with the OAuth2 provider"
+    description: Auth Key/Client ID to use with the OAuth2 provider
   shield.daemon.auth.oauth.secret:
-    description: "Auth Secret/Client Secret to use with the OAuth2 provider"
+    description: Auth Secret/Client Secret to use with the OAuth2 provider
   shield.daemon.auth.oauth.authorization.orgs:
-    description: "List of organizations that users must be members of to access SHIELD. This *MUST* be specified or no one will be able to access SHIELD."
-  shield.daemon.auth.oauth.sessions.db.port:
-    description: "port for postgres database"
+    description: List of organizations that users must be members of to access SHIELD. This MUST* be specified or no one will be able to access SHIELD.
   shield.daemon.auth.oauth.sessions.db.host:
-    description: "host for postgres database"
+    description: Hostname or IP address of the database server.
+  shield.daemon.auth.oauth.sessions.db.port:
+    description: TCP port that the database server is listening on.
   shield.daemon.auth.oauth.sessions.db.username:
-    description: "username for postgres database"
+    description: Username to use for accessing the session database.
   shield.daemon.auth.oauth.sessions.db.password:
-    description: "password for postgres database"
+    description: Password to use for accessing the session database.
   shield.daemon.auth.oauth.sessions.db.name:
-    description: "db for postgres database"
+    description: Name of the database to use for storing session data.
   shield.daemon.auth.oauth.sessions.max_age:
-    description: "Maximum age for an authenticated session in seconds"
+    description: Maximum age for an authenticated session (in seconds).
     default: 2592000
 
   shield.daemon.auth.basic_user:
-    description: "Username to use with basic auth for SHIELD (disabled if oauth is enabled)"
+    description: Username to use with basic auth for SHIELD (disabled if oauth is enabled)
     default: "admin"
   shield.daemon.auth.basic_password:
-    description: "Password to use with basic auth for SHIELD (disabled if oauth is enabled)"
+    description: Password to use with basic auth for SHIELD (disabled if oauth is enabled)
     default: "admin"
 
   shield.daemon.auth.api_keys:
-    description: "Map of API keys to grant script-level access to SHIELD (keys are names of keys, values are keys themselves)"
+    description: Map of API keys to grant script-level access to SHIELD (keys are names of keys, values are keys themselves)
     example: |
       api_keys:
         my_script: AwB6iMPhTHiE7V2ngLNv
         autoprovision: KTocoRDwtasU22kiA3Go
 
   shield.log_level:
-    description: "Log level for shield processes"
+    description: Log level for shield processes
     default: "info"

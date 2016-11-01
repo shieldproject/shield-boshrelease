@@ -61,7 +61,7 @@ From here, you'll want to make sure your name is correct in
 `name.yml`:
 
     ---
-    name: my-bolo
+    name: my-shield
 
 and that your BOSH director's UUID is set in `director.yml`:
 

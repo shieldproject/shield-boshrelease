@@ -11,18 +11,34 @@ templates:
   config/pg_hba.conf:       config/pg_hba.conf
 
 properties:
-  databases.db_scheme:
-    description: "The database scheme"
   databases.port:
-    description: "The database port"
-  databases.address:
-    description: "The database address"
-  databases.databases:
-    description: "A list of databases and associated properties to create"
-  databases.roles:
-    description: "A list of database roles and associated properties to create"
+    description: Port to listen on
+
   databases.max_connections:
     description: "Maximum number of database connections"
   databases.log_line_prefix:
     description: "The postgres `printf` style string that is output at the beginning of each log line"
     default: "%m: "
+
+  databases.roles:
+    description: |
+      A list of database users (roles) to create.
+      Each entry in the list must be a map containing at least the 'name' and 'password' keys.
+      An optional 'permissions' key can be set as a list of rights to assign the user.
+      Example:
+        databases:
+          roles:
+            - name:     shieldadmin
+              password: its-a-secret
+
+  databases.databases:
+    description: |
+      A list of databases and associated properties to create.
+      Each entry in the list must have a 'name' key defined.
+      If the 'citext' key is set to a true value, the PostgreSQL citext extension will be installed.
+      The optional 'run_on_every_startup' parameter can be set to a valid SQL query to run everytime the monit job starts.
+      Example:
+        databases:
+          databases:
+            - name:   shielddb
+              citext: true

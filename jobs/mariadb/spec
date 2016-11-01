@@ -11,9 +11,22 @@ templates:
 
 properties:
   databases.port:
-    description: "The database port"
+    description: MySQL port to bind.
     default: 3306
+
   databases.databases:
-    description: "A list of databases and associated properties to create"
+    description: |
+      A list of databases to provision.
+      Each entry in the list must be a map with the 'name' key set, i.e.:
+        databases:
+          databases:
+            - name: shielddb
+
   databases.roles:
-    description: "A list of database roles"
+    description: |
+      A list of database users (roles) to create.  All users created will have full access to all databases.
+      Each entry in the list must be a map with 'name' and 'password' keys, a la:
+        databases:
+          roles:
+            - name:     shieldadmin
+              password: its-a-secret

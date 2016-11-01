@@ -12,39 +12,41 @@ templates:
 
 properties:
   shield.daemon.port:
-    default: 443
     description: "Port to listen on for encrypted traffic"
+    default: 443
+
   shield.daemon.http_port:
-    default: 80
     description: "Port non-encrypted traffic should listen on. Redirects to https_port"
+    default: 80
+
   shield.daemon.domain:
     description: "Hostname/IP SHIELD is accessed with"
 
   nginx.worker_processes:
-    description: 'Number of nginx workers'
+    description: "Number of nginx workers"
     default: 2
   nginx.worker_connections:
-    description: 'Number of nginx connections per worker'
+    description: "Number of nginx connections per worker"
     default: 8192
   nginx.keepalive_timeout:
-    description: 'Timeout for keep-alive connections'
-    default: '75 20'
+    description: "Timeout for keep-alive connections"
+    default: "75 20"
   nginx.proxy_connect_timeout:
-    description: 'Timeout for the connection to the upstream server'
+    description: "Timeout for the connection to the upstream server"
     default: 300
   nginx.proxy_read_timeout:
-    description: 'Timeout for read queries to the upstream server'
+    description: "Timeout for read queries to the upstream server"
     default: 120
   nginx.proxy_send_timeout:
-    description: 'Timeout for send queries to the upstream server'
+    description: "Timeout for send queries to the upstream server"
     default: 120
   nginx.enable_ssl:
     description: Enable (and enforce) access to SHIELD over SSL/TLS.  Disabling not recommended.
     default: true
   nginx.ssl_timeout:
-    description: 'Timeout for reusing the previously negotiated cryptographic parameters'
+    description: "Timeout for reusing the previously negotiated cryptographic parameters"
     default: 7200
   nginx.ssl_key:
-    description: 'SSL private key (PEM encoded)'
+    description: "SSL private key (PEM encoded)"
   nginx.ssl_crt:
-    description: 'SSL Certificate (PEM encoded)'
+    description: "SSL Certificate (PEM encoded)"

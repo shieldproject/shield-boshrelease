@@ -15,6 +15,10 @@
 - You can now disable SSL/TLS on the SHIELD Web UI / API.
   This isn't recommended, but you can do it.
 
+- Job spec file property definitions are more accurately
+  described.  If you like to read raw spec files to figure out how
+  to use BOSH releases, you're welcome.
+
 ## Deprecated Things
 
 - Singular auto-provisioning properties (`shield.job`,
