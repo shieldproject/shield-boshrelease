@@ -67,8 +67,8 @@ EOF
 <% end %>
 
 <% p('shield.targets', {}).each do |name, target| %>
-cat <<EOF | provision '<%= name %>' target
-{"name":     "<%= name %>",
+cat <<EOF | provision '<%= target["name"] || name %>' target
+{"name":     "<%= target["name"] || name %>",
  "plugin":   "<%= target["plugin"] %>",
  "endpoint": <%= target["config"].to_json.dump %>,
  "agent":    "<%= my_ip %>:<%= p("shield.agent.port") %>"}
@@ -76,15 +76,15 @@ EOF
 <% end %>
 
 <% p('shield.stores', {}).each do |name, store| %>
-cat <<EOF | provision '<%= name %>' store
-{"name":     "<%= name %>",
+cat <<EOF | provision '<%= store["name"] || name %>' store
+{"name":     "<%= store["name"] || name %>",
  "plugin":   "<%= store["plugin"] %>",
  "endpoint": <%= store["config"].to_json.dump %>}
 EOF
 <% end %>
 
 <% p('shield.jobs', {}).each do |name, job| %>
-job '<%= name %>'             \
+job '<%= job["name"] || name %>' \
     '<%= job["target"] %>'    \
     '<%= job["store"] %>'     \
     '<%= job["retention"] %>' \
