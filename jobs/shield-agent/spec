@@ -58,8 +58,10 @@ properties:
     default: 443
 
   shield.stores:
-    description:
-      A list of Stores to autoprovision in SHIELD, keyed by name, i.e.:
+    description: |
+      A list of Stores to autoprovision in SHIELD, keyed by name.
+      You can optionally override the name of the store with a 'name' attribute.
+      For example:
         shield:
           stores:
             amazon:
@@ -69,8 +71,10 @@ properties:
                 bucket:     my-backups
 
   shield.targets:
-    description:
-      A list of Targets to autoprovision in SHIELD, keyed by name, i.e.:
+    description: |
+      A list of Targets to autoprovision in SHIELD, keyed by name.
+      You can optionally override the name of the target with a 'name' attribute.
+      For example:
         shield:
           targets:
             localdb:
@@ -82,7 +86,9 @@ properties:
 
   shield.jobs:
     description: |
-      A list of Jobs to autoprovision in SHIELD, keyed by name, i.e.:
+      A list of Jobs to autoprovision in SHIELD, keyed by name.
+      You can optionally override the name of the job with a 'name' attribute.
+      For example:
         shield:
           jobs:
             my-backups:
@@ -93,7 +99,8 @@ properties:
 
   shield.schedules:
     description: |
-      A list of Schedules to autoprovision in SHIELD, keyed by name, i.e.:
+      A list of Schedules to autoprovision in SHIELD, keyed by name.
+      For example:
         shield:
           schedules:
             Daily: daily 4am
@@ -101,7 +108,8 @@ properties:
 
   shield.retention-policies:
     description: |
-      A list of Retention policies to autoprovision in SHIELD, keyed by name, i.e.:
+      A list of Retention policies to autoprovision in SHIELD, keyed by name.
+      For example:
         shield:
           retention-policies:
             Short-term:  90d
