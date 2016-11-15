@@ -16,9 +16,13 @@ properties:
 
   databases.max_connections:
     description: "Maximum number of database connections"
+
   databases.log_line_prefix:
     description: "The postgres `printf` style string that is output at the beginning of each log line"
     default: "%m: "
+  databases.log_level:
+    description: PostgreSQL log level, one of DEBUG{1..5}, LOG, NOTICE, WARNING, ERROR, FATAL or PANIC.
+    default: ERROR
 
   databases.roles:
     description: |
