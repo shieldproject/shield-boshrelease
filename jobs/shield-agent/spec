@@ -24,9 +24,9 @@ properties:
     description: "port to run agent"
     default: 5444
   shield.agent.daemon_public_key:
-    description: "public key to permit access from a shield daemon"
+    description: "SSH Public Key used by the shield-daemon job to permit access to this agent.  You must at least specify this property, or the shield.agent.autoprovision property."
   shield.agent.autoprovision:
-    description: "Optional HTTP API of the Shield installation to automatically provision authorized keys from"
+    description: "Optional HTTP API of the SHIELD API to automatically retrieve the shield-daemon SSH Public Key from.  You must at least specify this property, or the shield.agent.daemon_public_key property."
   shield.agent.recovery.target_plugin:
     description: "Target plugin to use in emergency-recovery-mode"
   shield.agent.recovery.target_config:
