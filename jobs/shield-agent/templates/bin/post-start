@@ -33,7 +33,7 @@ provision() {
 		tee >(shield -c ${SHIELD_CONFIG} --raw create $*)
 	else
 		echo "Editing existing $* named '$name'"
-		tee >(shield -c ${SHIELD_CONFIG} --raw edit $*)
+		tee >(shield -c ${SHIELD_CONFIG} --raw edit $* ${uuid})
 	fi
 }
 job() {
