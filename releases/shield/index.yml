@@ -48,4 +48,6 @@ builds:
     version: 6.4.1
   abecfa40-4910-4215-9bc6-b2335f58e44c:
     version: 6.4.2
+  27d32ed4-693d-4bbc-98d6-4e913d20caba:
+    version: 6.5.0
 format-version: '2'
