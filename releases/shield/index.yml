@@ -50,4 +50,6 @@ builds:
     version: 6.4.2
   27d32ed4-693d-4bbc-98d6-4e913d20caba:
     version: 6.5.0
+  a33ac379-96dc-4e7f-82e0-b72eb1f93390:
+    version: 6.5.1
 format-version: '2'
