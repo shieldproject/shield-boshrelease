@@ -1,0 +1,2 @@
+# this file exists because BOSH cannot handle a
+# job that doesn't define at least one template

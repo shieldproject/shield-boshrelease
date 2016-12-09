@@ -1,0 +1,9 @@
+---
+name: xtrabackup
+packages:
+  - xtrabackup
+
+templates:
+  ignore: ignore
+
+properties: {}
