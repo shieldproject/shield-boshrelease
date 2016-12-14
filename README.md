@@ -192,6 +192,13 @@ A _store plugin_ for storing archive blobs in an S3 bucket.
 
 [Documentation available here][plugin-s3-docs]
 
+### xtrabackup
+
+A _target plugin_ for backing up one or more (or all!) MySQL
+databases on a node.
+
+[Documentation available here][plugin-xtrabackup-docs]
+
 
 
 [shield]:  https://github.com/starkandwayne/shield
@@ -204,3 +211,4 @@ A _store plugin_ for storing archive blobs in an S3 bucket.
 [plugin-mysql-docs]:    https://godoc.org/github.com/starkandwayne/shield/plugin/mysql
 [plugin-fs-docs]:       https://godoc.org/github.com/starkandwayne/shield/plugin/fs
 [plugin-s3-docs]:       https://godoc.org/github.com/starkandwayne/shield/plugin/s3
+[plugin-xtrabackup-docs]:       https://godoc.org/github.com/starkandwayne/shield/plugin/xtrabackup
