@@ -2,12 +2,10 @@
 set -e
 set -x
 
-XTRABACKUP_VERSION=2.2.10
+XTRABACKUP_VERSION=2.4.5
 PREFIX=${BOSH_INSTALL_TARGET}
 
 export PATH=$PATH:${BOSH_INSTALL_TARGET}/bin:/var/vcap/packages/mariadb/bin
-
-# Install Xtrabackup runtime dependencies
 
 # socat
 tar xzf xtrabackup/socat-1.7.2.4.tar.gz
@@ -39,9 +37,7 @@ tar xzf xtrabackup/libdbd-mysql-perl_4.025.orig.tar.gz
   make install prefix=$PREFIX
 )
 
-# Install Xtrabackup compilation dependencies
 # autoconf
-
 tar xzf xtrabackup/autoconf-2.65.tar.gz
 (
   set -e
@@ -77,19 +73,38 @@ tar xzf xtrabackup/libaio_0.3.110.orig.tar.gz
   set -e
   cd libaio-0.3.110
   make install
-
 )
 
-tar xzf xtrabackup/percona-xtrabackup-percona-xtrabackup-${XTRABACKUP_VERSION}.tar.gz
+# libev
+tar xzf xtrabackup/libev-4.23.tar.gz
 (
   set -e
-  cd percona-xtrabackup-percona-xtrabackup-${XTRABACKUP_VERSION}
+  cd libev-4.23
+  ./configure --prefix=$PREFIX
+  make
+  make install prefix=$PREFIX
+)
+
+# boost
+tar zxf  xtrabackup/boost_1_59_0.tar.gz
+(
+  set -e
+  cd boost_1_59_0
+  mv boost $PREFIX
+)
+
+# xtrabackup
+
+tar xzf xtrabackup/percona-xtrabackup-${XTRABACKUP_VERSION}.tar.gz
+(
+  set -e
+  cd percona-xtrabackup-${XTRABACKUP_VERSION}
 
   cmake \
       -DBUILD_CONFIG=xtrabackup_release \
-      -DCMAKE_INSTALL_PREFIX=${BOSH_INSTALL_TARGET} \
-      -DWITH_MAN_PAGES=OFF
+      -DCMAKE_INSTALL_PREFIX=${PREFIX} \
+      -DWITH_MAN_PAGES=OFF \
+      -DWITH_BOOST=${PREFIX}
   make -j4
   make install
 )
-
