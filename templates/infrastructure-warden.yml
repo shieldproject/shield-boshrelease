@@ -30,11 +30,11 @@ networks:
 - name: shield1
   type: manual
   subnets:
-  - range: 10.244.2.0/24
+  - range: 10.244.204.0/24
     name: shield1
-    gateway: 10.244.2.1
+    gateway: 10.244.204.1
     static:
-      - 10.244.2.2-10.244.2.60
+      - 10.244.204.2-10.244.204.60
 
 properties:
   shield:
