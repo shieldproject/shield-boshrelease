@@ -52,4 +52,6 @@ builds:
     version: 6.5.0
   a33ac379-96dc-4e7f-82e0-b72eb1f93390:
     version: 6.5.1
+  1595ea1d-0731-48ec-bac3-d6eb1648ce57:
+    version: 6.5.2
 format-version: '2'
