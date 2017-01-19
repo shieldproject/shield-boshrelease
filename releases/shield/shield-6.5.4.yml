@@ -1,0 +1,93 @@
+---
+packages:
+- name: bsdtar
+  version: fe279cae5da0aa7b9cbf07238dad8afba6c8edc7
+  fingerprint: fe279cae5da0aa7b9cbf07238dad8afba6c8edc7
+  sha1: 663111538ee1a1dd4a07359e6505bc42fd93fd0c
+  dependencies: []
+- name: common
+  version: e401816a4748292163679fafcbd8f818ed8154a5
+  fingerprint: e401816a4748292163679fafcbd8f818ed8154a5
+  sha1: 0b1287640734911ce99ff809e91a496c563ce2aa
+  dependencies: []
+- name: elasticsearch-cloud-aws-plugin
+  version: a8701cdd6895f248d4d51fd918e4d71daa678b4f
+  fingerprint: a8701cdd6895f248d4d51fd918e4d71daa678b4f
+  sha1: f01aa7c96d7610516acdc68d73f69481a19298c1
+  dependencies: []
+- name: mariadb
+  version: 527563776d016f4aa93fa3e9b03f8cd65e2d825a
+  fingerprint: 527563776d016f4aa93fa3e9b03f8cd65e2d825a
+  sha1: 3d3cc2c9d0ce01e4273d901c8c032537df1004f1
+  dependencies: []
+- name: nginx
+  version: 3e69a75504769646a78bc7464722f10c73489129
+  fingerprint: 3e69a75504769646a78bc7464722f10c73489129
+  sha1: a4b06094253406d7a91f15ecf4164298251cf7f4
+  dependencies: []
+- name: plugins
+  version: face50483e88665ee0d4b7c9541b634555e0e36c
+  fingerprint: face50483e88665ee0d4b7c9541b634555e0e36c
+  sha1: 8058bc6c0659c59765ffffb6646ea7ca31767982
+  dependencies: []
+- name: postgres-9.4
+  version: 06a51985e0701707b27d45c7a5757171b5cefb8c
+  fingerprint: 06a51985e0701707b27d45c7a5757171b5cefb8c
+  sha1: 6c8985086261278e33cc3d5e82f23b2dc3ebfd98
+  dependencies: []
+- name: shield-mysql
+  version: ccf715e8091054ac22cdcbeb9ded4ab213adaef7
+  fingerprint: ccf715e8091054ac22cdcbeb9ded4ab213adaef7
+  sha1: 136de8d4ab44d4501fcab741cb97757edab03c68
+  dependencies: []
+- name: shield
+  version: 63a88edaf3dae61dfa015c0fb6d6e9143bb1f7cc
+  fingerprint: 63a88edaf3dae61dfa015c0fb6d6e9143bb1f7cc
+  sha1: 3d399f4c0de276923e55e94637f50a43a291f31b
+  dependencies: []
+- name: utils
+  version: c33cc8c7e9c3927d3b5cd9f6f0e321dfde86bd9e
+  fingerprint: c33cc8c7e9c3927d3b5cd9f6f0e321dfde86bd9e
+  sha1: 957a1c1890528cfcefe6a67767bc51b2a07cb736
+  dependencies: []
+jobs:
+- name: agent-mysql
+  version: 5f637ac05b3477fc9e17f511c03f73d810f220f5
+  fingerprint: 5f637ac05b3477fc9e17f511c03f73d810f220f5
+  sha1: 9968c1a0d6e59e28efd443bd6f8a4e0212f6fd06
+- name: agent-pgtools
+  version: 9b3e4ea1383a11cfcbd40077e07fc5c4112b5980
+  fingerprint: 9b3e4ea1383a11cfcbd40077e07fc5c4112b5980
+  sha1: 0ec093eb068ed2d64a3eae055474f3f5031f67f3
+- name: mariadb
+  version: eb8a49ac35ac53c16d18a1e23bca6d842bec6525
+  fingerprint: eb8a49ac35ac53c16d18a1e23bca6d842bec6525
+  sha1: a8fbc6e8bda193938d5f24ec88cfdb9bdaa46ca9
+- name: nginx
+  version: d737f22203e32dbbeb98349f21806b45fa871b95
+  fingerprint: d737f22203e32dbbeb98349f21806b45fa871b95
+  sha1: 777d2b4491ff3adf86000a9ca89cfb77fd1ffde2
+- name: postgres
+  version: 7e2ea8cb3a2298f713a25177470b823a56327ce2
+  fingerprint: 7e2ea8cb3a2298f713a25177470b823a56327ce2
+  sha1: c3c54120f10c1d241568181c2d3eaf32d5908cc6
+- name: shield-agent
+  version: 0f07c4567eda4a504da559ab457f79fea637a152
+  fingerprint: 0f07c4567eda4a504da559ab457f79fea637a152
+  sha1: f822e33e96ea29703cb328e8aba03c62cd6ec2c6
+- name: shield-daemon
+  version: d3377b45658d3735a01f91197bb67604dcb634fc
+  fingerprint: d3377b45658d3735a01f91197bb67604dcb634fc
+  sha1: d2c9c142c16320c255efbfe1a45f901e32664485
+- name: smoke-tests
+  version: 4eebce24ed4db7f1787d261f96a284f777030ca7
+  fingerprint: 4eebce24ed4db7f1787d261f96a284f777030ca7
+  sha1: bb885236600b2931e66ab98b083eef5cc8adff26
+license:
+  version: 79267db2e7516e504dfe773afdfd03a5ecfaf43a
+  fingerprint: 79267db2e7516e504dfe773afdfd03a5ecfaf43a
+  sha1: 79cecf4b9642b40459bfb5d7de7f29048ba5bdfb
+commit_hash: 688eeff5
+uncommitted_changes: true
+name: shield
+version: 6.5.4
