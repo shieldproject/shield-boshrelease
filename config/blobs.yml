@@ -36,6 +36,6 @@ mariadb/mariadb-10.1.14.tar.gz:
   sha: dcf46d638cd33032117a9f0d89e8650aa1309e74
   size: 55341017
 shield/shield-server-linux-amd64.tar.gz:
-  object_id: afc9e243-d5c4-49b8-83ac-ec8dc9b06f7a
-  sha: 0f9bcce7d6df5f622a28037946662c6bf31c188a
-  size: 41845871
+  object_id: 8b62ec25-eadc-4557-8741-37c4a5b5ca08
+  sha: 63fc6c5e18d6209b3dca7676351e5befcf046e88
+  size: 45542251
