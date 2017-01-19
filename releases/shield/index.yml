@@ -54,4 +54,6 @@ builds:
     version: 6.5.1
   1595ea1d-0731-48ec-bac3-d6eb1648ce57:
     version: 6.5.2
+  f4d4fa55-2d1d-42ef-b130-43832e360dda:
+    version: 6.5.3
 format-version: '2'
