@@ -39,3 +39,43 @@ shield/shield-server-linux-amd64.tar.gz:
   object_id: 8b62ec25-eadc-4557-8741-37c4a5b5ca08
   sha: 63fc6c5e18d6209b3dca7676351e5befcf046e88
   size: 45542251
+xtrabackup/autoconf-2.65.tar.gz:
+  object_id: 0296b4d3-263f-461e-a854-f7d32ea46de5
+  sha: ae9e1ab046822007f25c88e1d8f2166e065da8c2
+  size: 1738880
+xtrabackup/automake-1.14.1.tar.gz:
+  object_id: cd765ead-14d8-4385-92ab-6c904d0028df
+  sha: 0bb1714b78d70cab9907d2013082978a28f48a46
+  size: 2240681
+xtrabackup/boost_1_59_0.tar.gz:
+  object_id: a905f96c-8681-480f-b861-17c813435f66
+  sha: 5123209db194d66d69a9cfa5af8ff473d5941d97
+  size: 83709983
+xtrabackup/libaio_0.3.110.orig.tar.gz:
+  object_id: 416dbfe7-8946-4271-98d3-8ecfeaa22828
+  sha: f8f6ed15f22e528f6f415939b07854539e3360e4
+  size: 42270
+xtrabackup/libdbd-mysql-perl_4.025.orig.tar.gz:
+  object_id: f8eff8c5-ab2a-4d3a-9c7b-c1149c44f668
+  sha: 7c148d347988785239973835f8b5a8b78677ae47
+  size: 135538
+xtrabackup/libdbi-perl_1.630.orig.tar.gz:
+  object_id: 2d4a9ab3-854e-4508-9cd3-0d867b853b30
+  sha: 8e8ca6484a3e0c7f4e268e46101faed576e072fc
+  size: 588554
+xtrabackup/libev-4.23.tar.gz:
+  object_id: 31224344-fd18-4044-b440-2d68d7bc2e2e
+  sha: 5b4a0dd7566e72ce425ea647d22d6592dfaf5b8e
+  size: 524184
+xtrabackup/libtool-2.4.2.tar.gz:
+  object_id: 365f4594-ee0b-4382-b3e3-a14eedf8355a
+  sha: 22b71a8b5ce3ad86e1094e7285981cae10e6ff88
+  size: 2632347
+xtrabackup/percona-xtrabackup-2.4.5.tar.gz:
+  object_id: ef0e87df-1402-4197-9977-357d1ee12930
+  sha: 8fbd4a7f454cdd9dec0dc76d7b3e07ec215e0dd7
+  size: 54104240
+xtrabackup/socat-1.7.2.4.tar.gz:
+  object_id: c0618db1-66c4-46f2-b258-2d66813eb04f
+  sha: c33904b83295accef2aaff8adf7eedd3310f9777
+  size: 583762
