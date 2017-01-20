@@ -1,0 +1,1 @@
+This release adds support for xtrabackup.
