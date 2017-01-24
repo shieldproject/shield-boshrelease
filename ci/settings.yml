@@ -3,7 +3,7 @@ meta:
   name:    shield
   release: S.H.I.E.L.D.
   target:  sw
-  url:     https://ci.vsphere.starkandwayne.com
+  url:     https://ci.starkandwayne.com
 
   initial_version: 5.1.0
 
