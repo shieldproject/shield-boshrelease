@@ -23,7 +23,7 @@ fi
 
 
 # Ensure that default postgres bin_dir of the postgres plugin is able to locate the bin_dir
-if [ ! -d $PACKAGE_DIR ]; then
+if [ ! -d $PACKAGE_DIR_OLD ]; then
   ln -s $PACKAGE_DIR $PACKAGE_DIR_OLD
 fi
 
