@@ -44,6 +44,31 @@ properties:
       tag: admin
 
   shield:
+    schedules:
+      daily: daily 3am
+    retention-policies:
+      short-term: 90d
+    targets:
+      local-bosh:
+        plugin: fs
+        config:
+          base_dir: /tmp/from
+    stores:
+      local-bosh:
+        plugin: fs
+        config:
+          base_dir: /tmp/to
+    jobs:
+      bosh:
+        schedule:  daily
+        retention: short-term
+        target:    local-bosh
+        store:     local-bosh
+
+    agent:
+      autoprovision: (( concat "http://shield." jobs.shield.networks.shield1.static_ips.[0] ".netip.cc" ))
+    provisioning_key: (( grab properties.shield.daemon.auth.api_keys.key1 ))
+
     daemon:
       domain: (( grab jobs.shield.networks.shield1.static_ips.[0] ))
       ssh_private_key: (( param "Please set the private key used by the shield daemon to talk to agents" ))
@@ -55,6 +80,8 @@ properties:
         password: (( grab properties.databases.roles.0.password ))
         db: (( grab properties.databases.databases.0.name ))
       auth:
+        api_keys:
+          key1: yeah-sure-you-can-provision-stuff-whatevs
         oauth:
           sessions:
             db:
@@ -64,5 +91,3 @@ properties:
               password: (( grab properties.databases.roles.0.password ))
               name: (( grab properties.databases.databases.1.name ))
 
-    agent:
-      autoprovision: (( concat "https://" properties.shield.daemon.domain ))
