@@ -1,0 +1,15 @@
+set -e -x
+
+export GOROOT=$(readlink -nf /var/vcap/packages/golang)
+export PATH=$GOROOT/bin:$PATH
+
+tar xzf mongo-tools3.2/mongo-tools-r3.2.11.tar.gz
+cd mongo-tools-r3.2.11
+mkdir bin
+. ./set_gopath.sh
+go build -o bin/mongodump -tags "ssl" mongodump/main/mongodump.go
+go build -o bin/mongorestore -tags "ssl" mongorestore/main/mongorestore.go
+
+mkdir -p ${BOSH_INSTALL_TARGET}/bin
+cp bin/mongodump   ${BOSH_INSTALL_TARGET}/bin
+cp bin/mongorestore ${BOSH_INSTALL_TARGET}/bin
