@@ -1,0 +1,103 @@
+---
+packages:
+- name: bsdtar
+  version: fe279cae5da0aa7b9cbf07238dad8afba6c8edc7
+  fingerprint: fe279cae5da0aa7b9cbf07238dad8afba6c8edc7
+  sha1: 663111538ee1a1dd4a07359e6505bc42fd93fd0c
+  dependencies: []
+- name: common
+  version: e401816a4748292163679fafcbd8f818ed8154a5
+  fingerprint: e401816a4748292163679fafcbd8f818ed8154a5
+  sha1: 0b1287640734911ce99ff809e91a496c563ce2aa
+  dependencies: []
+- name: elasticsearch-cloud-aws-plugin
+  version: a8701cdd6895f248d4d51fd918e4d71daa678b4f
+  fingerprint: a8701cdd6895f248d4d51fd918e4d71daa678b4f
+  sha1: f01aa7c96d7610516acdc68d73f69481a19298c1
+  dependencies: []
+- name: mariadb
+  version: 527563776d016f4aa93fa3e9b03f8cd65e2d825a
+  fingerprint: 527563776d016f4aa93fa3e9b03f8cd65e2d825a
+  sha1: 3d3cc2c9d0ce01e4273d901c8c032537df1004f1
+  dependencies: []
+- name: nginx
+  version: 3e69a75504769646a78bc7464722f10c73489129
+  fingerprint: 3e69a75504769646a78bc7464722f10c73489129
+  sha1: a4b06094253406d7a91f15ecf4164298251cf7f4
+  dependencies: []
+- name: plugins
+  version: e3a3cfc25cf663e969e1f017004e22776dfb7a39
+  fingerprint: e3a3cfc25cf663e969e1f017004e22776dfb7a39
+  sha1: a156d37ebc746308d5364cd10b3eddf27460ba3e
+  dependencies: []
+- name: postgres-9.4
+  version: 06a51985e0701707b27d45c7a5757171b5cefb8c
+  fingerprint: 06a51985e0701707b27d45c7a5757171b5cefb8c
+  sha1: 6c8985086261278e33cc3d5e82f23b2dc3ebfd98
+  dependencies: []
+- name: shield-mysql
+  version: ccf715e8091054ac22cdcbeb9ded4ab213adaef7
+  fingerprint: ccf715e8091054ac22cdcbeb9ded4ab213adaef7
+  sha1: 136de8d4ab44d4501fcab741cb97757edab03c68
+  dependencies: []
+- name: shield
+  version: 56e6cb0b3d965f2a292f525c585ab1e76dbd02c8
+  fingerprint: 56e6cb0b3d965f2a292f525c585ab1e76dbd02c8
+  sha1: 89ac288c1e7478f2e383385fdc8a421d533c1d50
+  dependencies: []
+- name: utils
+  version: c33cc8c7e9c3927d3b5cd9f6f0e321dfde86bd9e
+  fingerprint: c33cc8c7e9c3927d3b5cd9f6f0e321dfde86bd9e
+  sha1: 957a1c1890528cfcefe6a67767bc51b2a07cb736
+  dependencies: []
+- name: xtrabackup
+  version: 77f0c1ff970d14531e2d49a42a4268283bab33d2
+  fingerprint: 77f0c1ff970d14531e2d49a42a4268283bab33d2
+  sha1: efd40929a4436f48142b4676e65aac5bebbb829d
+  dependencies:
+  - mariadb
+jobs:
+- name: agent-mysql
+  version: 5f637ac05b3477fc9e17f511c03f73d810f220f5
+  fingerprint: 5f637ac05b3477fc9e17f511c03f73d810f220f5
+  sha1: 9968c1a0d6e59e28efd443bd6f8a4e0212f6fd06
+- name: agent-pgtools
+  version: 9b3e4ea1383a11cfcbd40077e07fc5c4112b5980
+  fingerprint: 9b3e4ea1383a11cfcbd40077e07fc5c4112b5980
+  sha1: 0ec093eb068ed2d64a3eae055474f3f5031f67f3
+- name: mariadb
+  version: eb8a49ac35ac53c16d18a1e23bca6d842bec6525
+  fingerprint: eb8a49ac35ac53c16d18a1e23bca6d842bec6525
+  sha1: a8fbc6e8bda193938d5f24ec88cfdb9bdaa46ca9
+- name: nginx
+  version: d737f22203e32dbbeb98349f21806b45fa871b95
+  fingerprint: d737f22203e32dbbeb98349f21806b45fa871b95
+  sha1: 777d2b4491ff3adf86000a9ca89cfb77fd1ffde2
+- name: postgres
+  version: 980ed4c5f9c5dfe756bffa910f8cbcd95a590c84
+  fingerprint: 980ed4c5f9c5dfe756bffa910f8cbcd95a590c84
+  sha1: ae35a6e063c9b828a12d9d791d5e4019e2018b36
+- name: shield-agent
+  version: afda975ac573e97fd5a51459a00fb6028300b362
+  fingerprint: afda975ac573e97fd5a51459a00fb6028300b362
+  sha1: 3c37ed5125bbf9c0680bbdd33e0bc8d39132d9c3
+- name: shield-daemon
+  version: d3377b45658d3735a01f91197bb67604dcb634fc
+  fingerprint: d3377b45658d3735a01f91197bb67604dcb634fc
+  sha1: d2c9c142c16320c255efbfe1a45f901e32664485
+- name: smoke-tests
+  version: 4eebce24ed4db7f1787d261f96a284f777030ca7
+  fingerprint: 4eebce24ed4db7f1787d261f96a284f777030ca7
+  sha1: bb885236600b2931e66ab98b083eef5cc8adff26
+- name: xtrabackup
+  version: fdfac58101b8ac6dd5d5bf48fa2a2e8130f1c6ce
+  fingerprint: fdfac58101b8ac6dd5d5bf48fa2a2e8130f1c6ce
+  sha1: c1a445b22bc4666509d68f13d54cffef7a4855df
+license:
+  version: 79267db2e7516e504dfe773afdfd03a5ecfaf43a
+  fingerprint: 79267db2e7516e504dfe773afdfd03a5ecfaf43a
+  sha1: 79cecf4b9642b40459bfb5d7de7f29048ba5bdfb
+commit_hash: 04bf7f24
+uncommitted_changes: true
+name: shield
+version: 6.5.6
