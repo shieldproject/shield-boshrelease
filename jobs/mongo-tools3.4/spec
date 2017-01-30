@@ -1,0 +1,9 @@
+---
+name: mongo-tools3.4
+packages:
+  - mongo-tools3.4
+
+templates:
+  ignore: ignore
+
+properties: {}
