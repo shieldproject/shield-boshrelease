@@ -13,11 +13,11 @@ jobs:
     templates:
     - name: postgres
       release: shield
+    - name: shield-agent
+      release: shield
     - name: nginx
       release: shield
     - name: shield-daemon
-      release: shield
-    - name: shield-agent
       release: shield
     instances: 1
     persistent_disk: 2048

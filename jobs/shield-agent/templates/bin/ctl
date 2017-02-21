@@ -1,58 +1,42 @@
 #!/bin/bash
-<%
-authkeys = 0
-if_p("shield.agent.autoprovision")     { |_| authkeys += 1 }
-if_p("shield.agent.daemon_public_key") { |_| authkeys += 1 }
-unless authkeys > 0
-  raise "You must specify either shield.agent.autoprovision or shield.agent.daemon_public_key (or both)"
-end
-%>
+set -eu
+<% if p('shield.agent.autoprovision') == '' and p('shield.agent.daemon_public_key') == ''
+     raise "You must specify either shield.agent.autoprovision or shield.agent.daemon_public_key (or both)"
+   end %>
 
-set -e # exit immediately if a simple command exits with a non-zero status
-set -u # report the usage of uninitialized variables
-
-# Setup env vars and folders for the webapp_ctl script
 source /var/vcap/jobs/shield-agent/helpers/ctl_setup.sh 'shield-agent'
-
-export PORT=${PORT:-5000}
-export LANG=en_US.UTF-8
+exec >>$LOG_DIR/$JOB_NAME.log 2>&1
 
 case $1 in
-
   start)
     pid_guard $PIDFILE $JOB_NAME
-    echo "Startup requested for $JOB_NAME"
 
     echo "Attempting to set up SSH public keys"
-    {
-<% if_p("shield.agent.autoprovision") do |endpoint| %>
-      set +e
-      curl -Lks "<%= endpoint %>/v1/meta/pubkey" -m 20
-      set -e
-<% end %>
-<% if_p("shield.agent.daemon_public_key") do |key| %>
-      cat <<EOF
+    AUTHKEYS=/var/vcap/jobs/shield-agent/config/authorized_keys
+    rm -f $AUTHKEYS
+    <% if_p("shield.agent.autoprovision") do |endpoint| %>curl -Lks "<%= endpoint %>/v1/meta/pubkey" -m 20 >> $AUTHKEYS || true<% end %>
+    <% if_p("shield.agent.daemon_public_key") do |key| %>cat >>$AUTHKEYS <<EOF
 <%= key %>
 EOF
 <% end %>
-    } > /var/vcap/jobs/shield-agent/config/authorized_keys
+    if [[ ! -s $AUTHKEYS ]]; then
+      echo "ERROR: No Authorized Keys were found.  Maybe the SHIELD daemon isn't up yet (for auto-provisioned keys)?"
+      exit 1
+    fi
 
-    # store pid in $PIDFILE
     echo "Starting $JOB_NAME..."
     echo $$ > $PIDFILE
-    exec chpst -u root:root shield-agent -c /var/vcap/jobs/shield-agent/config/shield-agent.conf --log-level <%= p("shield.log_level") %> \
-         >>$LOG_DIR/$JOB_NAME.log 2>&1
-
+    exec chpst -u root:root \
+           shield-agent -c /var/vcap/jobs/shield-agent/config/shield-agent.conf \
+                        --log-level <%= p("shield.log_level") %>
     ;;
 
   stop)
-    echo "Shutdown requested for $JOB_NAME"
     kill_and_wait $PIDFILE
-
     ;;
-  *)
-    echo "Usage: shield-agent_ctl {start|stop}"
 
+  *)
+    echo "Usage: ctl {start|stop}"
     ;;
 
 esac
