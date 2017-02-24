@@ -79,3 +79,7 @@ xtrabackup/socat-1.7.2.4.tar.gz:
   object_id: c0618db1-66c4-46f2-b258-2d66813eb04f
   sha: c33904b83295accef2aaff8adf7eedd3310f9777
   size: 583762
+golang/go1.7.5.linux-amd64.tar.gz:
+  object_id: dedcf0c6-b857-4c0b-a3ec-723d4edfe652
+  sha: 7c6902ce8cd3b9963082d748c50df074e4896796
+  size: 84176916
