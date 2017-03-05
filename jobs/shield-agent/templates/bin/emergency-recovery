@@ -46,7 +46,7 @@ for dir in /var/vcap/packages/*/bin; do
 done
 
 echo Restoring Data...
-/var/vcap/packages/plugins/bin/shield-pipe
+shield-pipe
 
 echo Restarting all services via monit, you may be prompted for a sudo password here
 sudo /var/vcap/bosh/bin/monit restart all
