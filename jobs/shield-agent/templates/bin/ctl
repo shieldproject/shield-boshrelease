@@ -1,6 +1,6 @@
 #!/bin/bash
 set -eu
-<% if p('shield.agent.autoprovision') == '' and p('shield.agent.daemon_public_key') == ''
+<% if ! properties.shield.agent.autoprovision and ! properties.shield.agent.daemon_public_key
      raise "You must specify either shield.agent.autoprovision or shield.agent.daemon_public_key (or both)"
    end %>
 
