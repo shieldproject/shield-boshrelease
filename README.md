@@ -32,19 +32,25 @@ Instance                                     Process State  AZ  IPs
 shield/65424ae5-80b9-42b9-a223-2f732d6085c4  running        z1  10.244.0.7
 ```
 
-To expose SHIELD via a public https endpoint, you can use https://ngrok.com
+Alternately, to expose SHIELD via a public https endpoint, you can use https://ngrok.com
 
 ```
 bosh deploy manifests/shield.yml \
   -o manifests/operators/ngrok.yml \
   -v ngrok-authtoken=${NGROK_TOKEN:?required} \
   -v ngrok-subdomain=${BOSH_DEPLOYMENT}
+open https://${BOSH_DEPLOYMENT}.ngrok.com
 ```
 
-Once that's deployed, you can access the web interface at
-[http://10.244.2.2](http://10.244.2.2).  It should look something
-like this (after logging in with the default credentials of **admin** /
-**admin**):
+Open the https URL in your browsers - for example `https://10.244.0.7` or `https://${BOSH_DEPLOYMENT}.ngrok.com` - and you'll need to login with basic auth credentials.
+
+The username is `admin`, and the randomly generated password (stored in credhub) is can be found with:
+
+```
+./bin/shield-password
+```
+
+It should look something like this:
 
 ![Web Interface Screenshot][screen1]
 
