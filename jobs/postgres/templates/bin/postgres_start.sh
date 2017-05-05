@@ -13,7 +13,7 @@ RUN_DIR=/var/vcap/sys/run/postgres
 PIDFILE=$RUN_DIR/postgres.pid
 
 HOST='0.0.0.0'
-PORT="<%= p("databases.port") %>"
+PORT="<%= p("port") %>"
 LD_LIBRARY_PATH=$PACKAGE_DIR/lib:$LD_LIBRARY_PATH
 
 if [ -d $DATA_DIR -a -f $STORE_DIR/FLAG_POSTGRES_UPGRADE ]; then
@@ -79,7 +79,7 @@ su - vcap -c "$PACKAGE_DIR/bin/pg_ctl -o \"-h $HOST -p $PORT\" \
 echo "PostgreSQL started successfully"
 
 echo "Creating roles..."
-<% p("databases.roles", []).each do |role| %>
+<% p("roles", []).each do |role| %>
   echo "Trying to create role <%= role["name"] %>..."
   set +e
   # TODO remove unused roles automatically
@@ -102,8 +102,8 @@ echo "Creating roles..."
   <% end %>
 <% end %>
 
-echo "Creating databases..."
-<% p("databases.databases", []).each do |database| %>
+echo "Creating .."
+<% p("databases", []).each do |database| %>
   echo "Trying to create database <%= database["name"] %>..."
   set +e
   su - vcap -c "$PACKAGE_DIR/bin/createdb \"<%= database["name"] %>\" -p $PORT"
