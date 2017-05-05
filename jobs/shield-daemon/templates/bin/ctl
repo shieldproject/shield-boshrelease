@@ -44,7 +44,7 @@ case $1 in
          -d "<%= shielddb_uri %>"
 
     echo "Starting $JOB_NAME"
-    export SHIELD_NAME="<%= p("name") %>"
+    export SHIELD_NAME="<%= p('name') %>"
     exec chpst -u vcap:vcap shieldd -c /var/vcap/jobs/shield-daemon/config/shieldd.conf --log-level <%= p("shield.log_level") %> \
          >>$LOG_DIR/$JOB_NAME.log 2>&1
     ;;

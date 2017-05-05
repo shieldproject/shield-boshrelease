@@ -32,6 +32,8 @@ instance_groups:
         password: ((shield-daemon-password))
         api_keys:
           key1: ((shield-daemon-api-key))
+  - name: nginx
+    release: shield
 
 variables:
 - name: postgres-password

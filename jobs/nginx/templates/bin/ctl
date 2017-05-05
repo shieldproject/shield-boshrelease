@@ -41,6 +41,6 @@ case $1 in
     ;;
 
   *)
-    echo "Usage: nginx_ctl {start|stop}" ;;
+    echo "Usage: ctl {start|stop}" ;;
 esac
 exit 0

@@ -16,6 +16,9 @@ templates:
 provides:
 - name: shield-daemon
   type: shield-daemon
+  properies:
+  - domain
+
 consumes:
 - name: shield-db
   type: sql
