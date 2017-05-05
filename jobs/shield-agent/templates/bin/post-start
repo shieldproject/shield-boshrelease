@@ -1,5 +1,5 @@
 #!/bin/bash
-<% require 'json' %>
+<% require 'json' -%>
 export PATH=${PATH}:/var/vcap/packages/shield/bin
 export PATH=${PATH}:/var/vcap/packages/utils/bin
 SHIELD_CONFIG=$(mktemp --tmpdir auto.XXXXXX)
@@ -10,7 +10,9 @@ trap "rm -rf ${SHIELD_CONFIG}" INT TERM QUIT EXIT
 # to render when provisioning_key is not specified, but the script is about
 # to try to create targets or jobs
 export SHIELD_API_TOKEN=<%= p("shield.provisioning_key") %>
-<% if p("shield.skip_ssl_verify") %>export SHIELD_SKIP_SSL_VERIFY=true<% end %>
+<% if p("shield.skip_ssl_verify") -%>
+export SHIELD_SKIP_SSL_VERIFY=true
+<% end -%>
 
 # Create a specific  config file for shield-agent stuff, to avoid race
 # conditions in case we are colocated with shield-daemon. %>
@@ -21,10 +23,8 @@ shield -c ${SHIELD_CONFIG} create-backend default <%= server %>
    if_p('ip') do |ip|
      my_ip = ip
    end
-   if my_ip.nil?
-     my_ip = spec.address
-   end
-%>
+   my_ip = spec.address if my_ip.nil?
+-%>
 provision() {
 	local name=$1; shift
 	uuid=$(shield -c ${SHIELD_CONFIG} --raw $* $name | jq -r '.uuid // empty')
