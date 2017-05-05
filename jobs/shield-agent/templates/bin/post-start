@@ -5,7 +5,7 @@ export PATH=${PATH}:/var/vcap/packages/utils/bin
 SHIELD_CONFIG=$(mktemp --tmpdir auto.XXXXXX)
 trap "rm -rf ${SHIELD_CONFIG}" INT TERM QUIT EXIT
 
-<% if_p("shield.agent.autoprovision") do |server| %>
+<% if_p("autoprovision") do |server| %>
 # The SHIELD_API_TOKEN is set here so that the post-start script will fail
 # to render when provisioning_key is not specified, but the script is about
 # to try to create targets or jobs
@@ -18,7 +18,7 @@ shield -c ${SHIELD_CONFIG} create-backend default <%= server %>
 
 <%
    my_ip = nil
-   if_p('shield.agent.ip') do |ip|
+   if_p('ip') do |ip|
      my_ip = ip
    end
    if my_ip.nil?
@@ -71,7 +71,7 @@ cat <<EOF | provision '<%= target["name"] || name %>' target
 {"name":     "<%= target["name"] || name %>",
  "plugin":   "<%= target["plugin"] %>",
  "endpoint": <%= target["config"].to_json.dump %>,
- "agent":    "<%= my_ip %>:<%= p("shield.agent.port") %>"}
+ "agent":    "<%= my_ip %>:<%= p("port") %>"}
 EOF
 <% end %>
 

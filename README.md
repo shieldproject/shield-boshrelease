@@ -85,7 +85,7 @@ It's easy.
 
 Just add the release to the deployment manifest, add the
 `shield-agent` template to the job(s) in question, and set up the
-`shield.agent.autoprovision` property to the URL of the SHIELD
+`autoprovision` property to the URL of the SHIELD
 endpoint (so that it can pull down a host key for validating
 backup/restore operation requests).
 

@@ -17,24 +17,24 @@ templates:
   helpers/ctl_utils.sh:     helpers/ctl_utils.sh
 
 properties:
-  shield.agent.ip:
+  ip:
     description: IP address that the agent can be contacted at.  Normally, this can be automatically detected, but for certain circumstances (i.e. bosh-init deployments), you must specify it.
-  shield.agent.port:
+  port:
     description: "port to run agent"
     default: 5444
-  shield.agent.daemon_public_key:
-    description: "SSH Public Key used by the shield-daemon job to permit access to this agent.  You must at least specify this property, or the shield.agent.autoprovision property."
-  shield.agent.autoprovision:
-    description: "Optional HTTP API of the SHIELD API to automatically retrieve the shield-daemon SSH Public Key from.  You must at least specify this property, or the shield.agent.daemon_public_key property."
-  shield.agent.recovery.target_plugin:
+  daemon_public_key:
+    description: "SSH Public Key used by the shield-daemon job to permit access to this agent.  You must at least specify this property, or the autoprovision property."
+  autoprovision:
+    description: "Optional HTTP API of the SHIELD API to automatically retrieve the shield-daemon SSH Public Key from.  You must at least specify this property, or the daemon_public_key property."
+  recovery.target_plugin:
     description: "Target plugin to use in emergency-recovery-mode"
-  shield.agent.recovery.target_config:
+  recovery.target_config:
     description: "A map of key-values that will be converted to JSON, representing the target plugin configration"
-  shield.agent.recovery.store_plugin:
+  recovery.store_plugin:
     description: "Store plugin to use in emergency-recovery-mode"
-  shield.agent.recovery.store_config:
+  recovery.store_config:
     description: "A map of key-values that will be converted to JSON, representing the store plugin configration"
-  shield.agent.plugin_paths:
+  plugin_paths:
     description: "Map of paths that the binary of the plugins can be found"
     example: |
       plugin_paths:
