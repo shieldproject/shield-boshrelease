@@ -24,5 +24,3 @@
             proto: http
             addr: 80
             subdomain: ((ngrok-subdomain))
-            # crt: example.crt
-            # key: example.key
