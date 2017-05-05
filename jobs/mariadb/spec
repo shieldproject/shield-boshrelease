@@ -5,7 +5,7 @@ packages:
   - mariadb
 
 templates:
-  bin/mariadb_ctl:       bin/mariadb_ctl
+  bin/ctl:       bin/ctl
   bin/mariadb_start.sh:  bin/mariadb_start.sh
   config/my.cnf:         config/my.cnf
 
