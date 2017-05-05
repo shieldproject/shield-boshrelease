@@ -22,13 +22,26 @@ instance_groups:
   - name: shield-agent
     release: shield
     properties:
-      daemon_public_key: ((shield-daemon.public_key))
+      daemon_public_key: ((shield-daemon-sshkey.public_key))
+  - name: shield-daemon
+    release: shield
+    properties:
+      ssh_private_key: ((shield-daemon-sshkey.private_key))
+      auth:
+        username: admin
+        password: ((shield-daemon-password))
+        api_keys:
+          key1: ((shield-daemon-api-key))
 
 variables:
 - name: postgres-password
   type: password
-- name: shield-daemon
+- name: shield-daemon-sshkey
   type: rsa
+- name: shield-daemon-password
+  type: password
+- name: shield-daemon-api-key
+  type: password
 
 update:
   canaries: 0

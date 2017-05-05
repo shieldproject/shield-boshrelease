@@ -15,6 +15,7 @@ provides:
   type: sql
   properties:
   - port
+  - db_scheme
   - roles
   - databases
 
@@ -24,7 +25,7 @@ properties:
     default: 5432
 
   db_scheme:
-    description: Link property to declare it is postgre://
+    description: Link property to declare it as postgres://
     default: postgres
 
   max_connections:
