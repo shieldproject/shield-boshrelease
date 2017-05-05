@@ -8,7 +8,7 @@
     sha1: e95f03eeed543fe3d020316afe1736763ec77ba5
 
 - type: replace
-  path: /instance_groups/name=shield/jobs/name=nginx/properties?/enable_ssl
+  path: /instance_groups/name=shield/jobs/name=nginx/properties?/ssl/enable
   value: false
 
 - type: replace

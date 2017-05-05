@@ -22,14 +22,14 @@ properties:
     description: "Port non-encrypted traffic should listen on. Redirects to https_port"
     default: 80
 
-  ssl_key:
-    description: "SSL private key (PEM encoded)"
-  ssl_crt:
-    description: "SSL Certificate (PEM encoded)"
-  enable_ssl:
+  ssl.key:
+    description: "TLS private key (PEM encoded)"
+  ssl.crt:
+    description: "TLS Certificate (PEM encoded)"
+  ssl.enable:
     description: Enable (and enforce) access to SHIELD over SSL/TLS.  Disabling not recommended.
     default: true
-  ssl_timeout:
+  ssl.timeout:
     description: "Timeout for reusing the previously negotiated cryptographic parameters"
     default: 7200
 

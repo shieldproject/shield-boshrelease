@@ -57,9 +57,18 @@ It should look something like this:
 Or, if you prefer, you can install the [SHIELD CLI][cli-dl] and
 access your SHIELD core directly:
 
-    shield create backend my-shield http://10.244.2.2
-    shield backends
+```
+shield create backend my-shield https://10.244.0.7
+shield backends
+```
 
+Most commands will require you to first login (as above, username `admin` and password comes from `./bin/shield-password`):
+
+```
+shield -k jobs
+```
+
+Note, the `-k` flag is required for the automatically generated self-signed certificate.
 
 Getting Started on vSphere
 --------------------------
