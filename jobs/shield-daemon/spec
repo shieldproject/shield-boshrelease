@@ -18,6 +18,8 @@ provides:
   type: shield-daemon
   properies:
   - domain
+  - port
+  - http_port
 
 consumes:
 - name: shield-db
@@ -32,10 +34,10 @@ properties:
   ssh_private_key:
     description: SSH private key to use for communicating with the shield-agent.
   port:
-    description: Port to bind for HTTPS API and Web UI requests
+    description: Incoming port to bind for HTTPS API and Web UI requests
     default: 443
   http_port:
-    description: Port to bind for HTTP API and Web UI requests
+    description: Incoming port to bind for HTTP API and Web UI requests
     default: 80
   domain:
     description: Fully-qualified domain name (or IP address) of your SHIELD installation
