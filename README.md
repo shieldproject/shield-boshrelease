@@ -16,19 +16,30 @@ backup / restore operations.
 Getting Started on BOSH-lite
 ----------------------------
 
-Before you can deploy SHIELD, you're going to need to upload this
-BOSH release to your BOSH-lite, using the CLI:
+To deploy SHIELD to any BOSH with a standard cloud-config:
 
-    bosh target https://192.168.50.4:25555
-    bosh upload release https://bosh.io/d/github.com/starkandwayne/shield-boshrelease
+```
+git clone https://github.com/starkandwayne/shield-boshrelease
+cd shield-boshrelease
+bosh deploy manifests/shield.yml
+```
 
-You can create a small, working manifest file from this git
-repository:
+The IP of the `shield` instance can be found with `bosh instances` (`10.244.0.7` in example below):
 
-    git clone https://github.com/starkandwayne/shield-boshrelease
-    cd shield-boshrelease
-    ./templates/make_manifest warden
-    bosh -n deploy
+```
+$ bosh instances
+Instance                                     Process State  AZ  IPs
+shield/65424ae5-80b9-42b9-a223-2f732d6085c4  running        z1  10.244.0.7
+```
+
+To expose SHIELD via a public https endpoint, you can use https://ngrok.com
+
+```
+bosh deploy manifests/shield.yml \
+  -o manifests/operators/ngrok.yml \
+  -v ngrok-authtoken=${NGROK_TOKEN:?required} \
+  -v ngrok-subdomain=${BOSH_DEPLOYMENT}
+```
 
 Once that's deployed, you can access the web interface at
 [http://10.244.2.2](http://10.244.2.2).  It should look something

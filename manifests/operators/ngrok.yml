@@ -1,0 +1,28 @@
+---
+- type: replace
+  path: /releases/-
+  value:
+    name: ngrok
+    version: 1.0.0
+    url: https://github.com/cloudfoundry-community/ngrok-boshrelease/releases/download/v1.0.0/ngrok-1.0.0.tgz
+    sha1: e95f03eeed543fe3d020316afe1736763ec77ba5
+
+- type: replace
+  path: /instance_groups/name=shield/jobs/name=nginx/properties?/enable_ssl
+  value: false
+
+- type: replace
+  path: /instance_groups/name=shield/jobs/-
+  value:
+    name: ngrok
+    release: ngrok
+    properties:
+      authtoken: ((ngrok-authtoken))
+      config: |
+        tunnels:
+          shield:
+            proto: http
+            addr: 80
+            subdomain: ((ngrok-subdomain))
+            # crt: example.crt
+            # key: example.key
