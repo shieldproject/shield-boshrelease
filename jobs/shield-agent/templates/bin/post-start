@@ -8,13 +8,16 @@ trap "rm -rf ${SHIELD_CONFIG}" INT TERM QUIT EXIT
 <%
   if_p("autoprovision") do |endpoint|
     if endpoint.to_s == "true"
+      api_key = link('shield-daemon').p('auth.api_keys').values.first
       endpoint = "http://#{link('shield-daemon').instances.first.address}:8080"
+    else
+      api_key = p('provisioning_key')
     end
 -%>
 # The SHIELD_API_TOKEN is set here so that the post-start script will fail
 # to render when provisioning_key is not specified, but the script is about
 # to try to create targets or jobs
-export SHIELD_API_TOKEN=<%= p("provisioning_key") %>
+export SHIELD_API_TOKEN=<%= api_key %>
 <% if p("skip_ssl_verify") -%>
 export SHIELD_SKIP_SSL_VERIFY=true
 <% end -%>

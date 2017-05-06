@@ -16,10 +16,11 @@ templates:
 provides:
 - name: shield-daemon
   type: shield-daemon
-  properies:
+  properties:
   - domain
   - port
   - http_port
+  - auth.api_keys
 
 consumes:
 - name: shield-db
