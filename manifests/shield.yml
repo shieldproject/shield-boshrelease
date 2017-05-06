@@ -19,10 +19,6 @@ instance_groups:
       - name: shieldadmin
         password: ((postgres-password))
         tag: admin
-  - name: shield-agent
-    release: shield
-    properties:
-      daemon_public_key: ((shield-daemon-sshkey.public_key))
   - name: shield-daemon
     release: shield
     properties:
@@ -31,13 +27,19 @@ instance_groups:
         username: admin
         password: ((shield-daemon-password))
         api_keys:
-          key1: ((shield-daemon-api-key))
+          autoprovision: ((shield-daemon-api-key))
   - name: nginx
     release: shield
     properties:
       ssl:
         crt: ((shield-tls.certificate))
         key: ((shield-tls.private_key))
+  - name: shield-agent
+    release: shield
+    properties:
+      autoprovision: true
+      shield:
+        provisioning_key: ((shield-daemon-api-key))
 
 variables:
 - name: postgres-password

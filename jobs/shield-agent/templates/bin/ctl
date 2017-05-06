@@ -14,7 +14,12 @@ case $1 in
     echo "Attempting to set up SSH public keys"
     AUTHKEYS=/var/vcap/jobs/shield-agent/config/authorized_keys
     rm -f $AUTHKEYS
-    <% if_p("autoprovision") do |endpoint| -%>
+    <%
+      if_p("autoprovision") do |endpoint|
+        if endpoint.to_s == "true"
+          endpoint = "http://#{link('shield-daemon').instances.first.address}:8080"
+        end
+    -%>
     curl -Lks "<%= endpoint %>/v1/meta/pubkey" -m 20 >> $AUTHKEYS || true
     <% end -%>
     <% if_p("daemon_public_key") do |key| %>

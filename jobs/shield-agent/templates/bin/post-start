@@ -5,7 +5,12 @@ export PATH=${PATH}:/var/vcap/packages/utils/bin
 SHIELD_CONFIG=$(mktemp --tmpdir auto.XXXXXX)
 trap "rm -rf ${SHIELD_CONFIG}" INT TERM QUIT EXIT
 
-<% if_p("autoprovision") do |server| %>
+<%
+  if_p("autoprovision") do |endpoint|
+    if endpoint.to_s == "true"
+      endpoint = "http://#{link('shield-daemon').instances.first.address}:8080"
+    end
+-%>
 # The SHIELD_API_TOKEN is set here so that the post-start script will fail
 # to render when provisioning_key is not specified, but the script is about
 # to try to create targets or jobs
@@ -15,8 +20,8 @@ export SHIELD_SKIP_SSL_VERIFY=true
 <% end -%>
 
 # Create a specific  config file for shield-agent stuff, to avoid race
-# conditions in case we are colocated with shield-daemon. %>
-shield -c ${SHIELD_CONFIG} create-backend default <%= server %>
+# conditions in case we are colocated with shield-daemon.
+shield -c ${SHIELD_CONFIG} create-backend default <%= endpoint %>
 
 <%
    my_ip = nil
