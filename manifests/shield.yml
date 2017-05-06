@@ -21,6 +21,8 @@ instance_groups:
         tag: admin
   - name: shield-daemon
     release: shield
+    provides:
+      shield-daemon: {shared: true}
     properties:
       ssh_private_key: ((shield-daemon-sshkey.private_key))
       auth:
