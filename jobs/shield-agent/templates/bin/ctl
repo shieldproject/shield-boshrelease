@@ -36,7 +36,7 @@ EOF
     echo $$ > $PIDFILE
     exec chpst -u root:root \
            shield-agent -c /var/vcap/jobs/shield-agent/config/shield-agent.conf \
-                        --log-level <%= p("shield.log_level") %>
+                        --log-level <%= p("log_level") %>
     ;;
 
   stop)

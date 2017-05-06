@@ -47,16 +47,16 @@ properties:
       plugin_paths:
         atmos: /var/vcap/packages/atmos-plugin/bin
 
-  shield.log_level:
+  log_level:
     description: "Log level for shield processes"
     default: "info"
-  shield.provisioning_key:
-    description: "API Key to use when provisioning jobs, or targets. Required if shield.target or shield.job have data"
-  shield.skip_ssl_verify:
+  provisioning_key:
+    description: "API Key to use when provisioning jobs, or targets. Required if target or job have data"
+  skip_ssl_verify:
     description: "Boolean to determine if SSL certs will be ignored when provisioning SHIELD data"
     default: true
 
-  shield.stores:
+  stores:
     description: |
       A list of Stores to autoprovision in SHIELD, keyed by name.
       You can optionally override the name of the store with a 'name' attribute.
@@ -69,7 +69,7 @@ properties:
                 secret_key: foo
                 bucket:     my-backups
 
-  shield.targets:
+  targets:
     description: |
       A list of Targets to autoprovision in SHIELD, keyed by name.
       You can optionally override the name of the target with a 'name' attribute.
@@ -83,7 +83,7 @@ properties:
                 pg_port: 5524
                 # etc.
 
-  shield.jobs:
+  jobs:
     description: |
       A list of Jobs to autoprovision in SHIELD, keyed by name.
       You can optionally override the name of the job with a 'name' attribute.
@@ -96,7 +96,7 @@ properties:
               retention:  longterm
               schedule:   weekly
 
-  shield.schedules:
+  schedules:
     description: |
       A list of Schedules to autoprovision in SHIELD, keyed by name.
       For example:
@@ -105,7 +105,7 @@ properties:
             Daily: daily 4am
             Weekly: weekly on monday 3am
 
-  shield.retention-policies:
+  retention-policies:
     description: |
       A list of Retention policies to autoprovision in SHIELD, keyed by name.
       For example:

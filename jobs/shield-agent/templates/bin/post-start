@@ -14,8 +14,8 @@ trap "rm -rf ${SHIELD_CONFIG}" INT TERM QUIT EXIT
 # The SHIELD_API_TOKEN is set here so that the post-start script will fail
 # to render when provisioning_key is not specified, but the script is about
 # to try to create targets or jobs
-export SHIELD_API_TOKEN=<%= p("shield.provisioning_key") %>
-<% if p("shield.skip_ssl_verify") -%>
+export SHIELD_API_TOKEN=<%= p("provisioning_key") %>
+<% if p("skip_ssl_verify") -%>
 export SHIELD_SKIP_SSL_VERIFY=true
 <% end -%>
 
@@ -57,21 +57,21 @@ job() {
  "paused":    false}
 EOF
 }
-<% p('shield.schedules', {}).each do |name, schedule| %>
+<% p('schedules', {}).each do |name, schedule| %>
 cat <<EOF | provision '<%= name %>' schedule
 {"name":"<%= name %>",
  "when":"<%= schedule %>"}
 EOF
 <% end %>
 
-<% p('shield.retention-policies', {}).each do |name, retention| %>
+<% p('retention-policies', {}).each do |name, retention| %>
 cat <<EOF | provision '<%= name %>' policy
 {"name":"<%= name %>",
  "expires":<%= retention.to_i * 86400 %>}
 EOF
 <% end %>
 
-<% p('shield.targets', {}).each do |name, target| %>
+<% p('targets', {}).each do |name, target| %>
 cat <<EOF | provision '<%= target["name"] || name %>' target
 {"name":     "<%= target["name"] || name %>",
  "plugin":   "<%= target["plugin"] %>",
@@ -80,7 +80,7 @@ cat <<EOF | provision '<%= target["name"] || name %>' target
 EOF
 <% end %>
 
-<% p('shield.stores', {}).each do |name, store| %>
+<% p('stores', {}).each do |name, store| %>
 cat <<EOF | provision '<%= store["name"] || name %>' store
 {"name":     "<%= store["name"] || name %>",
  "plugin":   "<%= store["plugin"] %>",
@@ -90,7 +90,7 @@ EOF
 
 sleep 5
 
-<% p('shield.jobs', {}).each do |name, job| %>
+<% p('jobs', {}).each do |name, job| %>
 job '<%= job["name"] || name %>' \
     '<%= job["target"] %>'    \
     '<%= job["store"] %>'     \

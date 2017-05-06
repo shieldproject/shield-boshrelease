@@ -38,8 +38,11 @@ instance_groups:
     release: shield
     properties:
       autoprovision: true
-      shield:
-        provisioning_key: ((shield-daemon-api-key))
+      provisioning_key: ((shield-daemon-api-key))
+      schedules:
+        default: daily 3am
+      retention-policies:
+        default: 30
 
 variables:
 - name: postgres-password
