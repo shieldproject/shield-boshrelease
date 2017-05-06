@@ -1,0 +1,10 @@
+---
+- type: replace
+  path: /instance_groups/name=shield/jobs/name=shield-agent/properties/stores?
+  value:
+    default:
+      plugin: azure # https://github.com/starkandwayne/shield/blob/master/plugin/azure/plugin.go
+      config:
+        storage_account: ((azure-storage-account))
+        storage_account_key: ((azure-storage-account-key))
+        storage_container: ((azure-storage-container))
