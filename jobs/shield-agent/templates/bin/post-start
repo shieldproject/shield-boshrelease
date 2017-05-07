@@ -22,7 +22,7 @@ shield -c ${SHIELD_CONFIG} create-backend default <%= server %>
      my_ip = ip
    end
    if my_ip.nil?
-     my_ip = spec.networks.send(spec.networks.methods(false).first).ip
+     my_ip = spec.address
    end
 %>
 provision() {
