@@ -31,6 +31,16 @@ properties:
   autoprovision:
     description: "Optional. Either 'true' to autoprovision via shield-daemon link; HTTP API of the SHIELD API to automatically retrieve the shield-daemon SSH Public Key from.  You must at least specify this property, or the daemon_public_key property."
 
+  provisioning_key:
+    description: "API Key to use when provisioning jobs, or targets. Required if target or job have data"
+  skip_ssl_verify:
+    description: "Boolean to determine if SSL certs will be ignored when provisioning SHIELD data"
+    default: true
+
+  log_level:
+    description: "Log level for shield processes"
+    default: "info"
+
   recovery.target_plugin:
     description: "Target plugin to use in emergency-recovery-mode"
   recovery.target_config:
@@ -45,15 +55,6 @@ properties:
     example: |
       plugin_paths:
         atmos: /var/vcap/packages/atmos-plugin/bin
-
-  log_level:
-    description: "Log level for shield processes"
-    default: "info"
-  provisioning_key:
-    description: "API Key to use when provisioning jobs, or targets. Required if target or job have data"
-  skip_ssl_verify:
-    description: "Boolean to determine if SSL certs will be ignored when provisioning SHIELD data"
-    default: true
 
   stores:
     description: |
