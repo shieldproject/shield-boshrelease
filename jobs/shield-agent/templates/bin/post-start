@@ -60,36 +60,36 @@ job() {
  "paused":    false}
 EOF
 }
-<% p('schedules', {}).each do |name, schedule| %>
+<% p('schedules', {}).each do |name, schedule| -%>
 cat <<EOF | provision '<%= name %>' schedule
 {"name":"<%= name %>",
  "when":"<%= schedule %>"}
 EOF
-<% end %>
+<% end -%>
 
-<% p('retention-policies', {}).each do |name, retention| %>
+<% p('retention-policies', {}).each do |name, retention| -%>
 cat <<EOF | provision '<%= name %>' policy
 {"name":"<%= name %>",
  "expires":<%= retention.to_i * 86400 %>}
 EOF
-<% end %>
+<% end -%>
 
-<% p('targets', {}).each do |name, target| %>
+<% p('targets', {}).each do |name, target| -%>
 cat <<EOF | provision '<%= target["name"] || name %>' target
 {"name":     "<%= target["name"] || name %>",
  "plugin":   "<%= target["plugin"] %>",
  "endpoint": <%= target["config"].to_json.dump %>,
  "agent":    "<%= my_ip %>:<%= p("port") %>"}
 EOF
-<% end %>
+<% end -%>
 
-<% p('stores', {}).each do |name, store| %>
+<% p('stores', {}).each do |name, store| -%>
 cat <<EOF | provision '<%= store["name"] || name %>' store
 {"name":     "<%= store["name"] || name %>",
  "plugin":   "<%= store["plugin"] %>",
  "endpoint": <%= store["config"].to_json.dump %>}
 EOF
-<% end %>
+<% end -%>
 
 sleep 5
 
@@ -99,8 +99,8 @@ job '<%= job["name"] || name %>' \
     '<%= job["store"] %>'     \
     '<%= job["retention"] %>' \
     '<%= job["schedule"] %>'
-<% end %>
+<% end -%>
 
 sleep 5
 echo "all done"
-<% end %>
+<% end -%>
