@@ -9,7 +9,6 @@ templates:
   bin/monit_debugger:   bin/monit_debugger
   config/shieldd.conf:  config/shieldd.conf
   shared/id_rsa:        shared/id_rsa
-  data/properties.sh:   data/properties.sh
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
 

@@ -12,7 +12,6 @@ templates:
   bin/post-start:           bin/post-start
   bin/emergency-recovery:   bin/emergency-recovery
   config/shield-agent.conf: config/shield-agent.conf
-  data/properties.sh:       data/properties.sh
   helpers/ctl_setup.sh:     helpers/ctl_setup.sh
   helpers/ctl_utils.sh:     helpers/ctl_utils.sh
 
