@@ -13,8 +13,8 @@ instance_groups:
     release: shield
     properties:
       databases:
-      - {name: shielddb,   tag: shield,   citext: true}
-      - {name: sessionsdb, tag: sessions, citext: true}
+      - {name: db1, tag: mydb1,   citext: true}
+      - {name: db2, tag: mydb2, citext: true}
       roles:
       - name: shieldadmin
         password: ((postgres-password))
@@ -30,7 +30,7 @@ instance_groups:
     consumes:
       shield-daemon: {deployment: shield, from: daemon}
     properties:
-      databases: [shielddb, sessionsdb]
+      databases: [db1, db2]
 
 variables:
 - name: postgres-password
