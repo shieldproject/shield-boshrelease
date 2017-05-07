@@ -1,0 +1,26 @@
+#!/bin/bash
+set -eu
+source /var/vcap/jobs/shield-agent/helpers/ctl_setup.sh 'shield-target-postgres'
+exec >>$LOG_DIR/$JOB_NAME.log 2>&1
+
+case $1 in
+  start)
+    pid_guard $PIDFILE $JOB_NAME
+
+    echo "Starting $JOB_NAME..."
+    echo $$ > $PIDFILE
+
+    # do nothing forever; just run post-start
+    tail -f /dev/null
+    ;;
+
+  stop)
+    kill_and_wait $PIDFILE
+    ;;
+
+  *)
+    echo "Usage: ctl {start|stop}"
+    ;;
+
+esac
+exit 0

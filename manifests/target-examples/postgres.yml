@@ -1,0 +1,53 @@
+name: shield-target-postgres
+
+instance_groups:
+- name: shield-postgres
+  azs: [z1]
+  instances: 1
+  vm_type: default
+  stemcell: default
+  persistent_disk_type: default
+  networks: [{name: default}]
+  jobs:
+  - name: postgres
+    release: shield
+    properties:
+      databases:
+      - {name: shielddb,   tag: shield,   citext: true}
+      - {name: sessionsdb, tag: sessions, citext: true}
+      roles:
+      - name: shieldadmin
+        password: ((postgres-password))
+        tag: admin
+  - name: shield-agent
+    release: shield
+    consumes:
+      shield-daemon: {deployment: shield, from: daemon}
+    properties:
+      autoprovision: true
+  - name: shield-target-postgres
+    release: shield
+    consumes:
+      shield-daemon: {deployment: shield, from: daemon}
+    properties:
+      databases: [shielddb, sessionsdb]
+
+variables:
+- name: postgres-password
+  type: password
+
+update:
+  canaries: 0
+  max_in_flight: 1
+  serial: true
+  canary_watch_time: 1000-120000
+  update_watch_time: 1000-120000
+
+stemcells:
+- alias: default
+  os: ubuntu-trusty
+  version: 3363.latest
+
+releases:
+- name: shield
+  version: latest
