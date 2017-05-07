@@ -71,8 +71,8 @@ update:
   canaries: 0
   max_in_flight: 1
   serial: true
-  canary_watch_time: 1000-60000
-  update_watch_time: 1000-60000
+  canary_watch_time: 1000-120000
+  update_watch_time: 1000-120000
 
 stemcells:
 - alias: default
