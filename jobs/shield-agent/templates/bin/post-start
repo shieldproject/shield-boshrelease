@@ -83,6 +83,8 @@ cat <<EOF | provision '<%= store["name"] || name %>' store
 EOF
 <% end %>
 
+sleep 5
+
 <% p('shield.jobs', {}).each do |name, job| %>
 job '<%= job["name"] || name %>' \
     '<%= job["target"] %>'    \
