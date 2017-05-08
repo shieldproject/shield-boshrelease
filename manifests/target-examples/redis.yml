@@ -42,9 +42,8 @@ stemcells:
 
 releases:
 - name: redis
-  version: latest
-  # version: "12"
-  # url: https://bosh.io/d/github.com/cloudfoundry-community/redis-boshrelease?v=12
-  # sha1: 324910eaf68e8803ad2317d5a2f5f6a06edc0a40
+  version: 13.0.0
+  url: https://github.com/cloudfoundry-community/redis-boshrelease/releases/download/v13.0.0/redis-13.0.0.tgz
+  sha1: 7cc104e398c7c7dc74841343e1a6b689927f7d99
 - name: shield
   version: latest
