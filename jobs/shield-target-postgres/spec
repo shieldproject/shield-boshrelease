@@ -17,8 +17,6 @@ properties:
   databases:
     description: Local databases to backup
     example: [dbname1, dbname2]
-  job.name_prefix:
-    description: Configure SHIELD target & job with this name prefix; defaults to deployment name
   job.store:
     description: Configure SHIELD job with this store name
     default: default

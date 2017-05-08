@@ -57,8 +57,7 @@ EOF
 
 <%
   p("databases").each do |database|
-    prefix = p("job.name_prefix", spec.deployment)
-    name = "#{prefix}-postgres-#{database}"
+    name = "#{spec.deployment}/#{spec.name}/#{database}"
 -%>
 cat <<EOF | provision '<%= name %>' target
 { "name":     "<%= name %>",
