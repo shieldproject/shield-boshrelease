@@ -61,55 +61,50 @@ properties:
       A list of Stores to autoprovision in SHIELD, keyed by name.
       You can optionally override the name of the store with a 'name' attribute.
       For example:
-        shield:
-          stores:
-            amazon:
-              plugin: s3
-              config:
-                secret_key: foo
-                bucket:     my-backups
+        stores:
+          amazon:
+            plugin: s3
+            config:
+              secret_key: foo
+              bucket:     my-backups
 
   targets:
     description: |
       A list of Targets to autoprovision in SHIELD, keyed by name.
       You can optionally override the name of the target with a 'name' attribute.
       For example:
-        shield:
-          targets:
-            localdb:
-              plugin: postgres
-              config:
-                pg_host: 10.0.0.6
-                pg_port: 5524
-                # etc.
+        targets:
+          localdb:
+            plugin: postgres
+            config:
+              pg_host: 10.0.0.6
+              pg_port: 5524
+              # etc.
 
   jobs:
     description: |
       A list of Jobs to autoprovision in SHIELD, keyed by name.
       You can optionally override the name of the job with a 'name' attribute.
       For example:
-        shield:
-          jobs:
-            my-backups:
-              target:     localdb
-              store:      amazon
-              retention:  longterm
-              schedule:   weekly
+        jobs:
+          my-backups:
+            target:     localdb
+            store:      amazon
+            retention:  longterm
+            schedule:   weekly
 
   schedules:
     description: |
       A list of Schedules to autoprovision in SHIELD, keyed by name.
       For example:
-        shield:
-          schedules:
-            Daily: daily 4am
-            Weekly: weekly on monday 3am
+        schedules:
+          Daily: daily 4am
+          Weekly: weekly on monday 3am
 
   retention-policies:
     description: |
       A list of Retention policies to autoprovision in SHIELD, keyed by name.
       For example:
-        shield:
-          retention-policies:
-            Short-term:  90d
-            Long-term:  180d
+        retention-policies:
+          Short-term:  90d
+          Long-term:  180d
