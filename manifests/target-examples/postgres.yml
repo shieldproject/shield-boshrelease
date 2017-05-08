@@ -25,12 +25,38 @@ instance_groups:
       shield-daemon: {deployment: shield, from: daemon}
     properties:
       autoprovision: true
-  - name: shield-target-postgres
-    release: shield
-    consumes:
-      shield-daemon: {deployment: shield, from: daemon}
-    properties:
-      databases: [db1, db2]
+      targets:
+        db1:
+          name: shield-target-postgres/shield-postgres/db1
+          plugin: postgres
+          config:
+            pg_host: 127.0.0.1
+            pg_port: 5432
+            pg_user: vcap
+            pg_password: local-access-via-vcap-user
+            pg_database:  db1
+            pg_bindir:  /var/vcap/packages/postgres/bin
+        db2:
+          name: shield-target-postgres/shield-postgres/db2
+          plugin: postgres
+          config:
+            pg_host: 127.0.0.1
+            pg_port: 5432
+            pg_user: vcap
+            pg_password: local-access-via-vcap-user
+            pg_database:  db2
+            pg_bindir:  /var/vcap/packages/postgres/bin
+      jobs:
+        db1:
+          retention: default
+          schedule: default
+          store: default
+          target: shield-target-postgres/shield-postgres/db1
+        db2:
+          retention: default
+          schedule: default
+          store: default
+          target: shield-target-postgres/shield-postgres/db2
 
 variables:
 - name: postgres-password

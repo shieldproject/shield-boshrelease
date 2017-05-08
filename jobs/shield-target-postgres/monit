@@ -1,5 +1,0 @@
-check process shield-target-postgres
-  with pidfile /var/vcap/sys/run/shield-target-postgres/shield-target-postgres.pid
-  start program "/var/vcap/jobs/shield-target-postgres/bin/monit_debugger ctl '/var/vcap/jobs/shield-target-postgres/bin/ctl start'"
-  stop program "/var/vcap/jobs/shield-target-postgres/bin/monit_debugger ctl '/var/vcap/jobs/shield-target-postgres/bin/ctl stop'"
-  group vcap
