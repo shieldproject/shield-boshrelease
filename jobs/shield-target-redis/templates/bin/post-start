@@ -72,6 +72,8 @@ cat <<EOF | provision '<%= name %>' target
 }
 EOF
 
+sleep 5
+
 job '<%= name %>'                      \
     '<%= name %>'                      \
     '<%= p("job.store") %>'            \
