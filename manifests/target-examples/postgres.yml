@@ -31,7 +31,7 @@ instance_groups:
           plugin: postgres
           config:
             pg_host: 127.0.0.1
-            pg_port: 5432
+            pg_port: "5432"
             pg_user: vcap
             pg_password: local-access-via-vcap-user
             pg_database:  db1
@@ -41,7 +41,7 @@ instance_groups:
           plugin: postgres
           config:
             pg_host: 127.0.0.1
-            pg_port: 5432
+            pg_port: "5432"
             pg_user: vcap
             pg_password: local-access-via-vcap-user
             pg_database:  db2
