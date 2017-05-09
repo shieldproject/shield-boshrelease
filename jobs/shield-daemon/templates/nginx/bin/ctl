@@ -1,0 +1,31 @@
+#!/bin/bash
+
+RUN_DIR=/var/vcap/sys/run/shield-daemon
+LOG_DIR=/var/vcap/sys/log/shield-daemon
+JOB_DIR=/var/vcap/jobs/shield-daemon
+CONF_DIR=$JOB_DIR/shield-daemon/config
+PIDFILE=$RUN_DIR/nginx.pid
+
+case $1 in
+
+  start)
+    mkdir -p $RUN_DIR $LOG_DIR $CERTS_DIR
+
+    echo $$ > $PIDFILE
+
+    exec /var/vcap/packages/nginx/sbin/nginx \
+      -c $JOB_DIR/nginx/config/nginx.conf \
+      >>$LOG_DIR/nginx.log 2>&1
+    ;;
+
+  stop)
+    PID=$(head -1 $PIDFILE)
+    kill $PID
+    while [ -e /proc/$PID ]; do sleep 0.1; done
+    rm -f $PIDFILE
+    ;;
+
+  *)
+    echo "Usage: ctl {start|stop}" ;;
+esac
+exit 0

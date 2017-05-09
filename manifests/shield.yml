@@ -30,9 +30,6 @@ instance_groups:
         password: ((shield-daemon-password))
         api_keys:
           autoprovision: ((shield-daemon-api-key))
-  - name: nginx
-    release: shield
-    properties:
       ssl:
         crt: ((shield-tls.certificate))
         key: ((shield-tls.private_key))

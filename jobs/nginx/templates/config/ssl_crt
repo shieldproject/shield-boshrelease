@@ -1,3 +1,0 @@
-<% if_p('ssl_crt') do |cert| -%>
-<%= cert %>
-<% end -%>

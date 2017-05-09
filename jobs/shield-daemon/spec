@@ -1,8 +1,9 @@
 ---
 name: shield-daemon
 packages:
-  - shield
-  - utils
+- shield
+- utils
+- nginx
 
 templates:
   bin/ctl:              bin/ctl
@@ -12,13 +13,18 @@ templates:
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
 
+  nginx/bin/ctl:           bin/nginx_ctl
+  nginx/config/nginx.conf: nginx/config/nginx.conf
+  nginx/config/mime.types: nginx/config/mime.types
+  nginx/config/ssl_key:    nginx/config/ssl_key
+  nginx/config/ssl_crt:    nginx/config/ssl_crt
+
 provides:
 - name: shield-daemon
   type: shield-daemon
   properties:
   - domain
   - port
-  - http_port
   - auth.api_keys
 
 consumes:
@@ -31,16 +37,24 @@ properties:
   name:
     description: The name of your SHIELD installation (to display to `shield status' calls).
     default: "(none)"
-  ssh_private_key:
-    description: SSH private key to use for communicating with the shield-agent.
+
   port:
     description: Incoming port to bind for HTTPS API and Web UI requests
     default: 443
-  http_port:
-    description: Incoming port to bind for HTTP API and Web UI requests
-    default: 80
   domain:
     description: Fully-qualified domain name (or IP address) of your SHIELD installation
+
+  ssl.key:
+    description: "TLS private key (PEM encoded)"
+  ssl.crt:
+    description: "TLS Certificate (PEM encoded)"
+  ssl.timeout:
+    description: "Timeout for reusing the previously negotiated cryptographic parameters"
+    default: 7200
+
+
+  ssh_private_key:
+    description: SSH private key to use for communicating with the shield-agent.
 
   database.type:
     description: Type of database backend to use ('postgres' or 'mysql').
@@ -95,3 +109,13 @@ properties:
   shield.log_level:
     description: Log level for shield processes
     default: "info"
+
+  nginx.worker_processes:
+    description: "Number of nginx workers"
+    default: 2
+  nginx.worker_connections:
+    description: "Number of nginx connections per worker"
+    default: 8192
+  nginx.keepalive_timeout:
+    description: "Timeout for keep-alive connections"
+    default: "75 20"
