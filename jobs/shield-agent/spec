@@ -18,6 +18,7 @@ templates:
 consumes:
 - name: shield-daemon
   type: shield-daemon
+  optional: true
 
 properties:
   ip:
