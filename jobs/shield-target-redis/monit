@@ -1,5 +1,0 @@
-check process shield-target-redis
-  with pidfile /var/vcap/sys/run/shield-target-redis/shield-target-redis.pid
-  start program "/var/vcap/jobs/shield-target-redis/bin/monit_debugger ctl '/var/vcap/jobs/shield-target-redis/bin/ctl start'"
-  stop program "/var/vcap/jobs/shield-target-redis/bin/monit_debugger ctl '/var/vcap/jobs/shield-target-redis/bin/ctl stop'"
-  group vcap

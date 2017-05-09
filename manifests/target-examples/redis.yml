@@ -19,11 +19,18 @@ instance_groups:
       shield-daemon: {deployment: shield, from: daemon}
     properties:
       autoprovision: true
-  - name: shield-target-redis
-    release: shield
-    consumes:
-      shield-daemon: {deployment: shield, from: daemon}
-      redis: {from: redis}
+      targets:
+        redis:
+          name: shield-target-redis/shield-redis
+          plugin: fs
+          config:
+            base_dir: /var/vcap/store/redis
+      jobs:
+        redis:
+          retention: default
+          schedule: default
+          store: default
+          target: shield-target-redis/shield-redis
 variables:
 - name: redis-password
   type: password
