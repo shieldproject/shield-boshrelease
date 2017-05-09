@@ -1,0 +1,66 @@
+#!/bin/bash
+
+header() {
+	echo
+	echo "###############################################"
+	echo
+	echo $*
+	echo
+}
+
+#!/bin/bash
+
+set -e
+
+manifest_dir=$(pwd)/manifest
+
+export BOSH_ENVIRONMENT=${BOSH_ENVIRONMENT:?required}
+export BOSH_CA_CERT=${BOSH_CA_CERT:?required}
+export BOSH_CLIENT=${BOSH_CLIENT:?required}
+export BOSH_CLIENT_SECRET=${BOSH_CLIENT_SECRET:?required}
+export BOSH_DEPLOYMENT=${BOSH_DEPLOYMENT:?required}
+
+if [[ "${delete_deployment_first:-false}" != "false" ]]; then
+  bosh2 -n delete-deployment
+fi
+
+cd ${REPO_ROOT}
+bosh2 create-release
+bosh2 upload-release --rebase
+
+release_name=$(bosh2 int config/final.yml --path /final_name)
+
+mkdir -p tmp
+
+cat > tmp/deployment.yml <<YAML
+---
+- type: replace
+  path: /name
+  value: ${BOSH_DEPLOYMENT:?required}
+YAML
+
+cat > tmp/vars.yml <<YAML
+--- {}
+YAML
+
+op_patch_files_flags=""
+for op_patch_file in ${op_patch_files//,/ } ; do
+   op_patch_files_flags="${op_patch_files_flags} -o $op_patch_file"
+done
+
+set -x
+bosh2 int ${base_manifest:?required} \
+  -o           manifests/op-dev.yml  \
+  -o           tmp/deployment.yml    \
+  -o           tmp/versions.yml      \
+  ${op_patch_files_flags}            \
+  --vars-store tmp/creds.yml \
+  --vars-file  tmp/vars.yml  \
+  --var-errs \
+    > $manifest_dir/manifest.yml
+
+bosh2 -n deploy $manifest_dir/manifest.yml
+
+echo
+echo "SUCCESS"
+exit 0
