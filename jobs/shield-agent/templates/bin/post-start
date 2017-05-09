@@ -9,7 +9,8 @@ trap "rm -rf ${SHIELD_CONFIG}" INT TERM QUIT EXIT
   if_p("autoprovision") do |endpoint|
     if endpoint.to_s == "true"
       api_key = link('shield-daemon').p('auth.api_keys').values.first
-      endpoint = "http://#{link('shield-daemon').instances.first.address}:8080"
+      domain = p("domain", link('shield-daemon').instances.first.address)
+      endpoint = "https://#{domain}"
     else
       api_key = p('provisioning_key')
     end
