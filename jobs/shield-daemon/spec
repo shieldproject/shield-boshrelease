@@ -32,6 +32,7 @@ consumes:
   type: sql
 - name: sessions-db
   type: sql
+  optional: true
 
 properties:
   name:
