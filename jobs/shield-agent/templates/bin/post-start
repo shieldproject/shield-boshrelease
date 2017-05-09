@@ -14,7 +14,7 @@ export SHIELD_API_TOKEN=<%= p("shield.provisioning_key") %>
 
 # Create a specific  config file for shield-agent stuff, to avoid race
 # conditions in case we are colocated with shield-daemon. %>
-shield -c ${SHIELD_CONFIG} create backend default <%= server %>
+shield -c ${SHIELD_CONFIG} create-backend default <%= server %>
 
 <%
    my_ip = nil
@@ -22,26 +22,26 @@ shield -c ${SHIELD_CONFIG} create backend default <%= server %>
      my_ip = ip
    end
    if my_ip.nil?
-     my_ip = spec.networks.send(spec.networks.methods(false).first).ip
+     my_ip = spec.address
    end
 %>
 provision() {
 	local name=$1; shift
-	uuid=$(shield -c ${SHIELD_CONFIG} --raw show $* $name | jq -r '.uuid // empty')
+	uuid=$(shield -c ${SHIELD_CONFIG} --raw $* $name | jq -r '.uuid // empty')
 	if [[ -z ${uuid} ]]; then
 		echo "Creating a new $* named '$name'"
-		tee >(shield -c ${SHIELD_CONFIG} --raw create $*)
+		tee >(shield -c ${SHIELD_CONFIG} --raw create-$*)
 	else
 		echo "Editing existing $* named '$name'"
-		tee >(shield -c ${SHIELD_CONFIG} --raw edit $* ${uuid})
+		tee >(shield -c ${SHIELD_CONFIG} --raw edit-$* ${uuid})
 	fi
 }
 job() {
   local name=$1
-  local targ=$(shield -c ${SHIELD_CONFIG} --raw show target   $2 | jq -r '.uuid // empty')
-  local stor=$(shield -c ${SHIELD_CONFIG} --raw show store    $3 | jq -r '.uuid // empty')
-  local retn=$(shield -c ${SHIELD_CONFIG} --raw show policy   $4 | jq -r '.uuid // empty')
-  local sche=$(shield -c ${SHIELD_CONFIG} --raw show schedule $5 | jq -r '.uuid // empty')
+  local targ=$(shield -c ${SHIELD_CONFIG} --raw target   $2 | jq -r '.uuid // empty')
+  local stor=$(shield -c ${SHIELD_CONFIG} --raw store    $3 | jq -r '.uuid // empty')
+  local retn=$(shield -c ${SHIELD_CONFIG} --raw policy   $4 | jq -r '.uuid // empty')
+  local sche=$(shield -c ${SHIELD_CONFIG} --raw schedule $5 | jq -r '.uuid // empty')
 
   cat <<EOF | provision $name job
 {"name":      "${name}",
@@ -82,6 +82,8 @@ cat <<EOF | provision '<%= store["name"] || name %>' store
  "endpoint": <%= store["config"].to_json.dump %>}
 EOF
 <% end %>
+
+sleep 5
 
 <% p('shield.jobs', {}).each do |name, job| %>
 job '<%= job["name"] || name %>' \
