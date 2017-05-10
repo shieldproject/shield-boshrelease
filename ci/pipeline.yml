@@ -40,7 +40,7 @@ meta:
   bosh-lite-cloud-config:
     target:     (( param "Please specify the BOSH target URI for the bosh-lite to run test deployments against" ))
     cacert:     (( param "Please specify the BOSH Director Root CA cert" ))
-    deployment: (( param "Please specify the name of the BOSH deployment" ))
+    deployment: shield-testflight-links
     username:   admin
     password:   (( param "Please specify the BOSH Director admin password" ))
 
@@ -118,8 +118,9 @@ jobs:
             BOSH_CA_CERT:         (( grab meta.bosh-lite-cloud-config.cacert ))
             BOSH_CLIENT:          (( grab meta.bosh-lite-cloud-config.username ))
             BOSH_CLIENT_SECRET:   (( grab meta.bosh-lite-cloud-config.password ))
-            BOSH_LITE_DEPLOYMENT: (( grab meta.bosh-lite-cloud-config.deployment ))
+            BOSH_DEPLOYMENT:      (( grab meta.bosh-lite-cloud-config.deployment ))
             TEST_ERRAND:          (( grab meta.test-errand || ~ ))
+            base_manifest:        manifests/shield.yml
       # on_failure:
       #   put: notify
       #   params:

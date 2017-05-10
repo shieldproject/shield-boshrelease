@@ -12,22 +12,24 @@ header() {
 
 set -e
 
-manifest_dir=$(pwd)/manifest
-
 export BOSH_ENVIRONMENT=${BOSH_ENVIRONMENT:?required}
 export BOSH_CA_CERT=${BOSH_CA_CERT:?required}
 export BOSH_CLIENT=${BOSH_CLIENT:?required}
 export BOSH_CLIENT_SECRET=${BOSH_CLIENT_SECRET:?required}
 export BOSH_DEPLOYMENT=${BOSH_DEPLOYMENT:?required}
 
-if [[ "${delete_deployment_first:-false}" != "false" ]]; then
-  bosh2 -n delete-deployment
-fi
-
 cd ${REPO_ROOT}
+header "Pulling in any git submodules..."
+git submodule update --init --recursive --force
+
+header "Cleaning up from any previous deployments..."
+bosh2 -n delete-deployment
+
+header "Creating candidate BOSH release..."
 bosh2 create-release
 bosh2 upload-release --rebase
 
+header "Deploying to ${BOSH_ENVIRONMENT}..."
 release_name=$(bosh2 int config/final.yml --path /final_name)
 
 mkdir -p tmp
@@ -36,7 +38,7 @@ cat > tmp/deployment.yml <<YAML
 ---
 - type: replace
   path: /name
-  value: ${BOSH_DEPLOYMENT:?required}
+  value: ${BOSH_DEPLOYMENT}
 YAML
 
 cat > tmp/vars.yml <<YAML
@@ -57,9 +59,9 @@ bosh2 int ${base_manifest:?required} \
   --vars-store tmp/creds.yml \
   --vars-file  tmp/vars.yml  \
   --var-errs \
-    > $manifest_dir/manifest.yml
+    > tmp/manifest.yml
 
-bosh2 -n deploy $manifest_dir/manifest.yml
+bosh2 -n deploy tmp/manifest.yml
 
 echo
 echo "SUCCESS"
