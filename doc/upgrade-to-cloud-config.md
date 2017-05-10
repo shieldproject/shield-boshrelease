@@ -90,6 +90,7 @@ bosh2 deploy manifests/shield.yml \
   -o manifests/operators/migration-warden.yml \
   -o tmp/operations/deployment-name.yml \
   -o tmp/operations/auth.yml \
+  -v postgres-password=admin -v shield-daemon-password=admin
 ```
 
 If not using Credhub, add `--vars-store tmp/creds.yml`:
@@ -100,5 +101,6 @@ bosh2 deploy manifests/shield.yml \
   -o manifests/operators/migration-warden.yml \
   -o tmp/operators/deployment-name.yml \
   -o tmp/operators/auth.yml \
-  --vars-store tmp/creds.yml
+  --vars-store tmp/creds.yml \
+  -v postgres-password=admin -v shield-daemon-password=admin
 ```
