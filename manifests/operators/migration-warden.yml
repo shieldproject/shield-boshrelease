@@ -2,3 +2,9 @@
 - type: replace
   path: /instance_groups/name=shield/networks/name=default/static_ips?
   value: 10.244.204.2
+
+- type: replace
+  path: /instance_groups/name=shield/migrated_from?/-
+  value:
+    name: shield
+    az: z1
