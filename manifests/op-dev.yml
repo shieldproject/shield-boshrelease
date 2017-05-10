@@ -1,0 +1,6 @@
+---
+- type: replace
+  path: /releases/name=shield
+  value:
+    name: shield
+    version: latest
