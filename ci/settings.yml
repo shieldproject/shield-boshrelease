@@ -96,9 +96,13 @@ jobs:
         icon_url: (( grab meta.slack.icon ))
         text:     (( grab meta.slack.blob_failure ))
 
+- name: testflight
+  serial_groups: [bosh]
+
 - name: testflight-6.x
   public: true
   serial: true
+  serial_groups: [bosh]
   plan:
   - do:
     - aggregate:
@@ -135,7 +139,7 @@ jobs:
         - { get: git-6.x,     trigger: true,  passed: [testflight-6.x] }
         - { get: version-6.x, trigger: true, params: {pre: rc} }
     - put: version-6.x
-      params: {file: version/number}
+      params: {file: version-6.x/number}
     on_failure:
       put: notify
       params:
@@ -149,7 +153,7 @@ jobs:
   plan:
   - do:
     - { get: version-6.x, trigger: false, params: {bump: minor} }
-    - { put: version-6.x,                 params: {file: version/number} }
+    - { put: version-6.x,                 params: {file: version-6.x/number} }
     on_failure:
       put: notify
       params:
