@@ -63,6 +63,9 @@ variables:
     common_name: shield
     extended_key_usage:
     - client_auth
+    - server_auth
+    alternative_names:
+    - 127.0.0.1
 
 update:
   canaries: 0
