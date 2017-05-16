@@ -67,7 +67,7 @@ Next, add the following to the same `tmp/operations/auth.yml` file:
 ## Cloud Config
 
 ```
-bosh2 update-cloud-config manifests/migration-cloud-config.yml
+bosh2 update-cloud-config manifests/cloud-config/migration-bosh-lite-cloud-config.yml
 ```
 
 ## Latest release
