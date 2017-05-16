@@ -52,8 +52,8 @@ done
 
 set -x
 bosh2 int ${base_manifest:?required} \
-  -o           manifests/op-dev.yml  \
-  -o           tmp/deployment.yml    \
+  -o manifests/operators/dev.yml  \
+  -o tmp/deployment.yml    \
   ${op_patch_files_flags}            \
   --vars-store tmp/creds.yml \
   --vars-file  tmp/vars.yml  \
