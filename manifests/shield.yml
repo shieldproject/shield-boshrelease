@@ -66,6 +66,7 @@ variables:
     - server_auth
     alternative_names:
     - 127.0.0.1
+    - "*.shield.default.shield.bosh"
 
 update:
   canaries: 0
