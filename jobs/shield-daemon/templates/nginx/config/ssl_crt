@@ -1,1 +1,8 @@
-<%= p('ssl.crt') %>
+<%
+x = p("ssl.crt")
+
+if !x.match('CERTIFICATE')
+  x = x.gsub(/^(.{40}).*/, '\1...')
+  raise "ssl.crt '#{x}' does not look like a TLS certificate"
+end
+-%><%= p('ssl.crt') -%>
