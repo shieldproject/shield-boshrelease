@@ -8,3 +8,7 @@
   value:
     name: shield
     az: z1
+
+- type: replace
+  path: /variables/name=shield-tls/options/alternative_names/-
+  value: 10.244.204.2

@@ -64,7 +64,25 @@ Next, add the following to the same `tmp/operations/auth.yml` file:
     -----END RSA PRIVATE KEY-----
 ```
 
+## Legacy passwords
+
+Whilst the new manifests can automatically generate passwords and certificates, it may be desirable when upgrading to retain the legacy values:
+
+* postgres password
+* shield daemon/web password
+
+Create a file `tmp/legacy-passwords.yml`:
+
+```
+postgres-password: admin
+shield-daemon-password: admin
+```
+
 ## Cloud Config
+
+These manifests were designed to work with the `cloud-config.yml` from https://github.com/cloudfoundry/bosh-deployment
+
+For this upgrade from v6.8.0 bosh-lite templates, we need to keep `shield/0` running at `10.244.204.2`, so we need a bosh-lite cloud-config that uses `10.244.204.0/24` range:
 
 ```
 bosh2 update-cloud-config manifests/cloud-config/migration-bosh-lite-cloud-config.yml
@@ -90,7 +108,7 @@ bosh2 deploy manifests/shield.yml \
   -o manifests/operators/migration-warden.yml \
   -o tmp/operations/deployment-name.yml \
   -o tmp/operations/auth.yml \
-  -v postgres-password=admin -v shield-daemon-password=admin
+  -l tmp/legacy-passwords.yml
 ```
 
 If not using Credhub, add `--vars-store tmp/creds.yml`:
@@ -102,5 +120,5 @@ bosh2 deploy manifests/shield.yml \
   -o tmp/operators/deployment-name.yml \
   -o tmp/operators/auth.yml \
   --vars-store tmp/creds.yml \
-  -v postgres-password=admin -v shield-daemon-password=admin
+  -l tmp/legacy-passwords.yml
 ```
