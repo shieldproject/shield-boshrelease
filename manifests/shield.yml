@@ -22,7 +22,7 @@ instance_groups:
   - name: shield-daemon
     release: shield
     provides:
-      shield-daemon: {shared: true, as: daemon}
+      shield-daemon: {shared: true, as: shield-daemon}
     properties:
       ssh_private_key: ((shield-daemon-sshkey.private_key))
       auth:
@@ -36,7 +36,7 @@ instance_groups:
   - name: shield-agent
     release: shield
     consumes:
-      shield-daemon: {from: daemon}
+      shield-daemon: {from: shield-daemon}
     properties:
       autoprovision: true
       schedules: {default: daily 3am}

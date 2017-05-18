@@ -22,7 +22,7 @@ instance_groups:
   - name: shield-agent
     release: shield
     consumes:
-      shield-daemon: {deployment: shield, from: daemon}
+      shield-daemon: {deployment: shield, from: shield-daemon}
     properties:
       autoprovision: true
       targets:
