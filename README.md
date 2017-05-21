@@ -21,6 +21,8 @@ To deploy SHIELD to any BOSH with a standard cloud-config:
 ```
 git clone https://github.com/starkandwayne/shield-boshrelease
 cd shield-boshrelease
+export BOSH_ENVIRONMENT=<name>
+export BOSH_DEPLOYMENT=shield
 bosh deploy manifests/shield.yml
 ```
 
