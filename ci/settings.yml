@@ -50,7 +50,7 @@ jobs:
     - { get: shield, trigger: true, params: { include_source_tarball: true }}
   - task: update-shield
     config:
-      image: docker:///starkandwayne/concourse
+      rootfs_uri: docker:///starkandwayne/concourse
       platform: linux
       inputs:
       - name: git
@@ -110,7 +110,7 @@ jobs:
     - task: testflight
       config:
         platform: linux
-        image: docker:///starkandwayne/concourse
+        rootfs_uri: docker:///starkandwayne/concourse
         inputs:
           - { name: git-6.x, path: git }
         run:
@@ -174,7 +174,7 @@ jobs:
     - name: release
       task: release
       config:
-        image: docker:///starkandwayne/concourse
+        rootfs_uri: docker:///starkandwayne/concourse
         platform: linux
         inputs:
           - { name: version-6.x, path: version }
