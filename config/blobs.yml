@@ -32,9 +32,9 @@ mariadb/mariadb-10.1.14.tar.gz:
   sha: dcf46d638cd33032117a9f0d89e8650aa1309e74
   size: 55341017
 shield/shield-server-linux-amd64.tar.gz:
-  object_id: a50fde80-8bc8-484d-b8ac-8a6be8d8d369
-  sha: 61c3962471d6bbd20e457aa15f39d6aa3a7909ce
-  size: 39021381
+  object_id: 29cb0531-e82f-4930-84e5-3919b488ee5e
+  sha: c246b7b19293ffdd2b08d586bf4f58656e0e5b9d
+  size: 42384393
 xtrabackup/autoconf-2.65.tar.gz:
   object_id: 0296b4d3-263f-461e-a854-f7d32ea46de5
   sha: ae9e1ab046822007f25c88e1d8f2166e065da8c2
