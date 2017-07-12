@@ -107,11 +107,14 @@ jobs:
     plan:
     - do:
       - aggregate:
-        - { get: git, resource: git-links, trigger: true }
+        - { get: git, trigger: true }
       - task: testflight
         config:
           platform: linux
-          image: docker:///starkandwayne/concourse
+          image_resource:
+            type: docker-image
+            source:
+              repository: (( grab meta.image ))
           inputs:
             - { name: git }
           run:
@@ -261,13 +264,6 @@ resources:
     source:
       uri:         (( grab meta.github.uri ))
       branch:      (( grab meta.github.branch ))
-      private_key: (( grab meta.github.private_key ))
-
-  - name: git-links
-    type: git
-    source:
-      uri:         (( grab meta.github.uri ))
-      branch:      links-and-cloud-config
       private_key: (( grab meta.github.private_key ))
 
   - name: version
