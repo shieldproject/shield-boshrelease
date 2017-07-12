@@ -1,12 +1,4 @@
 #!/bin/bash
-#
-# ci/scripts/create-release-and-deploy
-#
-# Script for generating Github release / tag assets
-# and managing release notes for a BOSH Release pipeline
-#
-# author:  James Hunt <james@niftylogic.com>
-# created: 2016-03-30
 
 header() {
 	echo
@@ -16,43 +8,59 @@ header() {
 	echo
 }
 
-header "Setting up ~/.bosh_config..."
-cat > ~/.bosh_config << EOF
----
-aliases:
-  target:
-    bosh-lite: ${BOSH_LITE_TARGET}
-auth:
-  ${BOSH_LITE_TARGET}:
-    username: ${BOSH_LITE_USERNAME}
-    password: ${BOSH_LITE_PASSWORD}
-EOF
+#!/bin/bash
 
 set -e
+
+export BOSH_ENVIRONMENT=${BOSH_ENVIRONMENT:?required}
+export BOSH_CA_CERT=${BOSH_CA_CERT:?required}
+export BOSH_CLIENT=${BOSH_CLIENT:?required}
+export BOSH_CLIENT_SECRET=${BOSH_CLIENT_SECRET:?required}
+export BOSH_DEPLOYMENT=${BOSH_DEPLOYMENT:?required}
+
 cd ${REPO_ROOT}
 header "Pulling in any git submodules..."
 git submodule update --init --recursive --force
 
 header "Cleaning up from any previous deployments..."
-bosh target ${BOSH_LITE_TARGET}
-bosh -n delete deployment ${BOSH_LITE_DEPLOYMENT} --force || echo "continuing on..."
+bosh2 -n delete-deployment
 
 header "Creating candidate BOSH release..."
-bosh -n create release
-bosh -n upload release --rebase || echo "Continuing..."
+bosh2 create-release
+bosh2 upload-release --rebase
 
-header "Deploying to BOSH-lite..."
-./templates/make_manifest warden
-bosh -n deploy
+header "Deploying to ${BOSH_ENVIRONMENT}..."
+release_name=$(bosh2 int config/final.yml --path /final_name)
 
-if [[ -n ${TEST_ERRAND} ]]; then
-	header "Running '${TEST_ERRAND}' validation errand"
-	bosh -n run errand ${TEST_ERRAND}
-fi
+mkdir -p tmp
 
-header "Cleaning up..."
-bosh -n delete deployment ${BOSH_LITE_DEPLOYMENT} --force || echo "continuing on..."
-bosh -n cleanup || echo "continuing on..."
+cat > tmp/deployment.yml <<YAML
+---
+- type: replace
+  path: /name
+  value: ${BOSH_DEPLOYMENT}
+YAML
+
+cat > tmp/vars.yml <<YAML
+--- {}
+YAML
+
+op_patch_files_flags=""
+for op_patch_file in ${op_patch_files//,/ } ; do
+   op_patch_files_flags="${op_patch_files_flags} -o $op_patch_file"
+done
+
+set -x
+bosh2 int ${base_manifest:?required} \
+  -o manifests/operators/dev.yml  \
+  -o tmp/deployment.yml    \
+  ${op_patch_files_flags}            \
+  --vars-store tmp/creds.yml \
+  --vars-file  tmp/vars.yml  \
+  --var-errs \
+    > tmp/manifest.yml
+
+bosh2 -n deploy tmp/manifest.yml
 
 echo
 echo "SUCCESS"

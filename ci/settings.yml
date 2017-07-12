@@ -109,7 +109,7 @@ jobs:
 - name: testflight-6.x
   public: true
   serial: true
-  serial_groups: [bosh]
+  serial_groups: [bosh-lite]
   plan:
   - do:
     - aggregate:
