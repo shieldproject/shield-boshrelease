@@ -117,7 +117,10 @@ jobs:
     - task: testflight
       config:
         platform: linux
-        rootfs_uri: docker:///starkandwayne/concourse
+        image_resource:
+          type: docker-image
+          source:
+            repository: (( grab meta.image ))
         inputs:
           - { name: git-6.x, path: git }
         run:
