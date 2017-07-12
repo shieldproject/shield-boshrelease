@@ -69,6 +69,7 @@ jobs:
   - name: testflight
     public: true
     serial: true
+    serial_groups: [bosh-lite-cloud-config]
     plan:
     - do:
       - aggregate:
