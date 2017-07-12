@@ -83,7 +83,7 @@ jobs:
           inputs:
             - { name: git }
           run:
-            path: ./git/ci/scripts/testflight-cloud-config
+            path: ./git/ci/scripts/testflight
             args: []
           params:
             REPO_ROOT:            git
