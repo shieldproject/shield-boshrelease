@@ -1,0 +1,7 @@
+- type: replace
+  path: /instance_groups/name=shield/networks/name=default/static_ips?
+  value: ((static-ip))
+
+- type: replace
+  path: /variables/name=shield-tls/options/alternative_names/-
+  value: ((static-ip))

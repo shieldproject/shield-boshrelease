@@ -39,6 +39,13 @@ meta:
     username:   admin
     password:   admin
 
+  bosh-lite-cloud-config:
+    target:     (( param "Please specify the BOSH target URI for the bosh-lite to run test deployments against" ))
+    cacert:     (( param "Please specify the BOSH Director Root CA cert" ))
+    deployment: shield-testflight-links
+    username:   admin
+    password:   (( param "Please specify the BOSH Director admin password" ))
+
   slack:
     webhook:       (( param "Please specify your Slack Incoming Webhook Integration URL" ))
     success_moji:  ":airplane_departure:"
@@ -53,6 +60,7 @@ groups:
   - name: (( grab meta.pipeline ))
     jobs:
       - testflight
+      - testflight-links
       - rc
       - shipit
       - major
@@ -92,6 +100,39 @@ jobs:
           username: (( grab meta.slack.username ))
           icon_url: (( grab meta.slack.icon ))
           text:    '(( concat meta.slack.fail_url " " meta.pipeline ": test job failed" ))'
+
+  - name: testflight-links
+    public: true
+    serial: true
+    plan:
+    - do:
+      - aggregate:
+        - { get: git, resource: git-links, trigger: true }
+      - task: testflight
+        config:
+          platform: linux
+          image: docker:///starkandwayne/concourse
+          inputs:
+            - { name: git }
+          run:
+            path: ./git/ci/scripts/testflight-cloud-config
+            args: []
+          params:
+            REPO_ROOT:            git
+            BOSH_ENVIRONMENT:     (( grab meta.bosh-lite-cloud-config.target ))
+            BOSH_CA_CERT:         (( grab meta.bosh-lite-cloud-config.cacert ))
+            BOSH_CLIENT:          (( grab meta.bosh-lite-cloud-config.username ))
+            BOSH_CLIENT_SECRET:   (( grab meta.bosh-lite-cloud-config.password ))
+            BOSH_DEPLOYMENT:      (( grab meta.bosh-lite-cloud-config.deployment ))
+            TEST_ERRAND:          (( grab meta.test-errand || ~ ))
+            base_manifest:        manifests/shield.yml
+      # on_failure:
+      #   put: notify
+      #   params:
+      #     channel:  (( grab meta.slack.channel ))
+      #     username: (( grab meta.slack.username ))
+      #     icon_url: (( grab meta.slack.icon ))
+      #     text:    '(( concat meta.slack.fail_url " " meta.pipeline ": testflight-links job failed" ))'
 
   - name: rc
     public: true
@@ -220,6 +261,13 @@ resources:
     source:
       uri:         (( grab meta.github.uri ))
       branch:      (( grab meta.github.branch ))
+      private_key: (( grab meta.github.private_key ))
+
+  - name: git-links
+    type: git
+    source:
+      uri:         (( grab meta.github.uri ))
+      branch:      links-and-cloud-config
       private_key: (( grab meta.github.private_key ))
 
   - name: version

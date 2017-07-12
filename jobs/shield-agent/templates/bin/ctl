@@ -1,7 +1,7 @@
 #!/bin/bash
 set -eu
-<% if ! properties.shield.agent.autoprovision and ! properties.shield.agent.daemon_public_key
-     raise "You must specify either shield.agent.autoprovision or shield.agent.daemon_public_key (or both)"
+<% if ! properties.autoprovision and ! properties.daemon_public_key
+     raise "You must specify either autoprovision or daemon_public_key (or both)"
    end %>
 
 source /var/vcap/jobs/shield-agent/helpers/ctl_setup.sh 'shield-agent'
@@ -14,11 +14,20 @@ case $1 in
     echo "Attempting to set up SSH public keys"
     AUTHKEYS=/var/vcap/jobs/shield-agent/config/authorized_keys
     rm -f $AUTHKEYS
-    <% if_p("shield.agent.autoprovision") do |endpoint| %>curl -Lks "<%= endpoint %>/v1/meta/pubkey" -m 20 >> $AUTHKEYS || true<% end %>
-    <% if_p("shield.agent.daemon_public_key") do |key| %>cat >>$AUTHKEYS <<EOF
+    <%
+      if_p("autoprovision") do |endpoint|
+        if endpoint.to_s == "true"
+          domain = p("domain", link('shield-daemon').instances.first.address)
+          endpoint = "https://#{domain}"
+        end
+    -%>
+    curl -Lks "<%= endpoint %>/v1/meta/pubkey" -m 20 >> $AUTHKEYS || true
+    <% end -%>
+    <% if_p("daemon_public_key") do |key| %>
+    cat >>$AUTHKEYS <<EOF
 <%= key %>
 EOF
-<% end %>
+    <% end -%>
     if [[ ! -s $AUTHKEYS ]]; then
       echo "ERROR: No Authorized Keys were found.  Maybe the SHIELD daemon isn't up yet (for auto-provisioned keys)?"
       exit 1
@@ -28,7 +37,7 @@ EOF
     echo $$ > $PIDFILE
     exec chpst -u root:root \
            shield-agent -c /var/vcap/jobs/shield-agent/config/shield-agent.conf \
-                        --log-level <%= p("shield.log_level") %>
+                        --log-level <%= p("log_level") %>
     ;;
 
   stop)

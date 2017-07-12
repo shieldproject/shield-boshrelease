@@ -1,0 +1,56 @@
+name: shield-target-redis
+
+instance_groups:
+- name: shield-redis
+  azs: [z1]
+  instances: 2
+  vm_type: default
+  stemcell: default
+  persistent_disk_type: default
+  networks: [{name: default}]
+  jobs:
+  - name: redis
+    release: redis
+    properties:
+      password: ((redis-password))
+  - name: shield-agent
+    release: shield
+    consumes:
+      shield-daemon: {deployment: shield, from: shield-daemon}
+    properties:
+      autoprovision: true
+      targets:
+        redis:
+          name: shield-target-redis/shield-redis
+          plugin: fs
+          config:
+            base_dir: /var/vcap/store/redis
+      jobs:
+        redis:
+          retention: default
+          schedule: default
+          store: default
+          target: shield-target-redis/shield-redis
+variables:
+- name: redis-password
+  type: password
+
+update:
+  canaries: 0
+  max_in_flight: 1
+  serial: true
+  canary_watch_time: 1000-120000
+  update_watch_time: 1000-120000
+
+stemcells:
+- alias: default
+  os: ubuntu-trusty
+  version: 3363.latest
+
+releases:
+- name: redis
+  version: 13.0.0
+  url: https://github.com/cloudfoundry-community/redis-boshrelease/releases/download/v13.0.0/redis-13.0.0.tgz
+  sha1: 7cc104e398c7c7dc74841343e1a6b689927f7d99
+- name: shield
+  version: latest

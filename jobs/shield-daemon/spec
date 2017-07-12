@@ -1,76 +1,106 @@
 ---
 name: shield-daemon
 packages:
-  - shield
-  - utils
+- shield
+- utils
+- nginx
 
 templates:
   bin/ctl:              bin/ctl
   bin/monit_debugger:   bin/monit_debugger
   config/shieldd.conf:  config/shieldd.conf
   shared/id_rsa:        shared/id_rsa
-  data/properties.sh:   data/properties.sh
   helpers/ctl_setup.sh: helpers/ctl_setup.sh
   helpers/ctl_utils.sh: helpers/ctl_utils.sh
 
+  nginx/bin/ctl:           bin/nginx_ctl
+  nginx/config/nginx.conf: nginx/config/nginx.conf
+  nginx/config/mime.types: nginx/config/mime.types
+  nginx/config/ssl_key:    nginx/config/ssl_key
+  nginx/config/ssl_crt:    nginx/config/ssl_crt
+
+provides:
+- name: shield-daemon
+  type: shield-daemon
+  properties:
+  - domain
+  - port
+  - auth.api_keys
+
+consumes:
+- name: shield-db
+  type: sql
+- name: sessions-db
+  type: sql
+  optional: true
+
 properties:
-  shield.daemon.name:
+  name:
     description: The name of your SHIELD installation (to display to `shield status' calls).
     default: "(none)"
-  shield.daemon.ssh_private_key:
-    description: SSH private key to use for communicating with the shield-agent.
-  shield.daemon.port:
-    description: Port to bind for HTTPS API and Web UI requests
+
+  port:
+    description: Incoming port to bind for HTTPS API and Web UI requests
     default: 443
-  shield.daemon.http_port:
-    description: Port to bind for HTTP API and Web UI requests
-    default: 80
-  shield.daemon.domain:
+  domain:
     description: Fully-qualified domain name (or IP address) of your SHIELD installation
 
-  shield.daemon.database.type:
+  ssl.key:
+    description: "TLS private key (PEM encoded)"
+  ssl.crt:
+    description: "TLS Certificate (PEM encoded)"
+  ssl.timeout:
+    description: "Timeout for reusing the previously negotiated cryptographic parameters"
+    default: 7200
+
+
+  ssh_private_key:
+    description: SSH private key to use for communicating with the shield-agent.
+
+  database.type:
     description: Type of database backend to use ('postgres' or 'mysql').
-  shield.daemon.database.host:
+  database.host:
     description: Hostname or IP address of the backend database server.
-  shield.daemon.database.port:
+  database.port:
     description: TCP port that the database server is listening on.
-  shield.daemon.database.username:
+  database.username:
     description: Username to use for accessing the database.
-  shield.daemon.database.password:
+  database.password:
     description: Password to use for accessing the database.
-  shield.daemon.database.db:
+  database.db:
     description: Name of the SHIELD database
 
-  shield.daemon.auth.oauth.provider:
+  auth.oauth.provider:
     description: "OAuth2 provider to use with SHIELD (supported values: 'github' and 'cloudfoundry')"
-  shield.daemon.auth.oauth.key:
+  auth.oauth.key:
     description: Auth Key/Client ID to use with the OAuth2 provider
-  shield.daemon.auth.oauth.secret:
+  auth.oauth.secret:
     description: Auth Secret/Client Secret to use with the OAuth2 provider
-  shield.daemon.auth.oauth.authorization.orgs:
+  auth.oauth.authorization.orgs:
     description: List of organizations that users must be members of to access SHIELD. This MUST* be specified or no one will be able to access SHIELD.
-  shield.daemon.auth.oauth.sessions.db.host:
+
+  auth.oauth.sessions.db.host:
     description: Hostname or IP address of the database server.
-  shield.daemon.auth.oauth.sessions.db.port:
+  auth.oauth.sessions.db.port:
     description: TCP port that the database server is listening on.
-  shield.daemon.auth.oauth.sessions.db.username:
+  auth.oauth.sessions.db.username:
     description: Username to use for accessing the session database.
-  shield.daemon.auth.oauth.sessions.db.password:
+  auth.oauth.sessions.db.password:
     description: Password to use for accessing the session database.
-  shield.daemon.auth.oauth.sessions.db.name:
+  auth.oauth.sessions.db.name:
     description: Name of the database to use for storing session data.
-  shield.daemon.auth.oauth.sessions.max_age:
+
+  auth.oauth.sessions.max_age:
     description: Maximum age for an authenticated session (in seconds).
     default: 2592000
 
-  shield.daemon.auth.basic_user:
+  auth.username:
     description: Username to use with basic auth for SHIELD (disabled if oauth is enabled)
     default: "admin"
-  shield.daemon.auth.basic_password:
+  auth.password:
     description: Password to use with basic auth for SHIELD (disabled if oauth is enabled)
-    default: "admin"
 
-  shield.daemon.auth.api_keys:
+  auth.api_keys:
     description: Map of API keys to grant script-level access to SHIELD (keys are names of keys, values are keys themselves)
     example: |
       api_keys:
@@ -80,3 +110,13 @@ properties:
   shield.log_level:
     description: Log level for shield processes
     default: "info"
+
+  nginx.worker_processes:
+    description: "Number of nginx workers"
+    default: 2
+  nginx.worker_connections:
+    description: "Number of nginx connections per worker"
+    default: 8192
+  nginx.keepalive_timeout:
+    description: "Timeout for keep-alive connections"
+    default: "75 20"

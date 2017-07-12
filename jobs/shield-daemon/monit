@@ -3,3 +3,9 @@ check process shield-daemon
   start program "/var/vcap/jobs/shield-daemon/bin/monit_debugger shield-daemon_ctl '/var/vcap/jobs/shield-daemon/bin/ctl start'"
   stop program "/var/vcap/jobs/shield-daemon/bin/monit_debugger shield-daemon_ctl '/var/vcap/jobs/shield-daemon/bin/ctl stop'"
   group vcap
+
+check process nginx
+  with pidfile /var/vcap/sys/run/shield-daemon/nginx.pid
+  start program "/var/vcap/jobs/shield-daemon/bin/nginx_ctl start"
+  stop program "/var/vcap/jobs/shield-daemon/bin/nginx_ctl stop"
+  group vcap

@@ -1,30 +1,39 @@
 #!/bin/bash
-<% require 'json' %>
+<% require 'json' -%>
 export PATH=${PATH}:/var/vcap/packages/shield/bin
 export PATH=${PATH}:/var/vcap/packages/utils/bin
 SHIELD_CONFIG=$(mktemp --tmpdir auto.XXXXXX)
 trap "rm -rf ${SHIELD_CONFIG}" INT TERM QUIT EXIT
 
-<% if_p("shield.agent.autoprovision") do |server| %>
+<%
+  if_p("autoprovision") do |endpoint|
+    if endpoint.to_s == "true"
+      api_key = link('shield-daemon').p('auth.api_keys').values.first
+      domain = p("domain", link('shield-daemon').instances.first.address)
+      endpoint = "https://#{domain}"
+    else
+      api_key = p('provisioning_key')
+    end
+-%>
 # The SHIELD_API_TOKEN is set here so that the post-start script will fail
 # to render when provisioning_key is not specified, but the script is about
 # to try to create targets or jobs
-export SHIELD_API_TOKEN=<%= p("shield.provisioning_key") %>
-<% if p("shield.skip_ssl_verify") %>export SHIELD_SKIP_SSL_VERIFY=true<% end %>
+export SHIELD_API_TOKEN=<%= api_key %>
+<% if p("skip_ssl_verify") -%>
+export SHIELD_SKIP_SSL_VERIFY=true
+<% end -%>
 
 # Create a specific  config file for shield-agent stuff, to avoid race
-# conditions in case we are colocated with shield-daemon. %>
-shield -c ${SHIELD_CONFIG} create-backend default <%= server %>
+# conditions in case we are colocated with shield-daemon.
+shield -c ${SHIELD_CONFIG} create-backend default <%= endpoint %>
 
 <%
    my_ip = nil
-   if_p('shield.agent.ip') do |ip|
+   if_p('ip') do |ip|
      my_ip = ip
    end
-   if my_ip.nil?
-     my_ip = spec.address
-   end
-%>
+   my_ip = spec.address if my_ip.nil?
+-%>
 provision() {
 	local name=$1; shift
 	uuid=$(shield -c ${SHIELD_CONFIG} --raw $* $name | jq -r '.uuid // empty')
@@ -52,47 +61,47 @@ job() {
  "paused":    false}
 EOF
 }
-<% p('shield.schedules', {}).each do |name, schedule| %>
+<% p('schedules', {}).each do |name, schedule| -%>
 cat <<EOF | provision '<%= name %>' schedule
 {"name":"<%= name %>",
  "when":"<%= schedule %>"}
 EOF
-<% end %>
+<% end -%>
 
-<% p('shield.retention-policies', {}).each do |name, retention| %>
+<% p('retention-policies', {}).each do |name, retention| -%>
 cat <<EOF | provision '<%= name %>' policy
 {"name":"<%= name %>",
  "expires":<%= retention.to_i * 86400 %>}
 EOF
-<% end %>
+<% end -%>
 
-<% p('shield.targets', {}).each do |name, target| %>
+<% p('targets', {}).each do |name, target| -%>
 cat <<EOF | provision '<%= target["name"] || name %>' target
 {"name":     "<%= target["name"] || name %>",
  "plugin":   "<%= target["plugin"] %>",
  "endpoint": <%= target["config"].to_json.dump %>,
- "agent":    "<%= my_ip %>:<%= p("shield.agent.port") %>"}
+ "agent":    "<%= my_ip %>:<%= p("port") %>"}
 EOF
-<% end %>
+<% end -%>
 
-<% p('shield.stores', {}).each do |name, store| %>
+<% p('stores', {}).each do |name, store| -%>
 cat <<EOF | provision '<%= store["name"] || name %>' store
 {"name":     "<%= store["name"] || name %>",
  "plugin":   "<%= store["plugin"] %>",
  "endpoint": <%= store["config"].to_json.dump %>}
 EOF
-<% end %>
+<% end -%>
 
 sleep 5
 
-<% p('shield.jobs', {}).each do |name, job| %>
+<% p('jobs', {}).each do |name, job| %>
 job '<%= job["name"] || name %>' \
     '<%= job["target"] %>'    \
     '<%= job["store"] %>'     \
     '<%= job["retention"] %>' \
     '<%= job["schedule"] %>'
-<% end %>
+<% end -%>
 
 sleep 5
 echo "all done"
-<% end %>
+<% end -%>

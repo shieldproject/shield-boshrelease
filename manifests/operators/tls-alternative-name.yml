@@ -1,0 +1,4 @@
+---
+- type: replace
+  path: /variables/name=shield-tls/options/alternative_names/-
+  value: ((tls-alternative-name))

@@ -5,26 +5,40 @@ packages:
   - postgres-9.4
 
 templates:
-  bin/postgres_ctl:         bin/postgres_ctl
+  bin/ctl:         bin/ctl
   bin/postgres_start.sh:    bin/postgres_start.sh
   config/postgresql.conf:   config/postgresql.conf
   config/pg_hba.conf:       config/pg_hba.conf
 
-properties:
-  databases.port:
-    description: Port to listen on
+provides:
+- name: db
+  type: sql
+  properties:
+  - port
+  - db_scheme
+  - roles
+  - databases
 
-  databases.max_connections:
+properties:
+  port:
+    description: Port to listen on
+    default: 5432
+
+  db_scheme:
+    description: Link property to declare it as postgres://
+    default: postgres
+
+  max_connections:
     description: "Maximum number of database connections"
 
-  databases.log_line_prefix:
+  log_line_prefix:
     description: "The postgres `printf` style string that is output at the beginning of each log line"
     default: "%m: "
-  databases.log_level:
+  log_level:
     description: PostgreSQL log level, one of DEBUG{1..5}, LOG, NOTICE, WARNING, ERROR, FATAL or PANIC.
     default: ERROR
 
-  databases.roles:
+  roles:
     description: |
       A list of database users (roles) to create.
       Each entry in the list must be a map containing at least the 'name' and 'password' keys.
@@ -35,7 +49,7 @@ properties:
             - name:     shieldadmin
               password: its-a-secret
 
-  databases.databases:
+  databases:
     description: |
       A list of databases and associated properties to create.
       Each entry in the list must have a 'name' key defined.

@@ -1,16 +1,16 @@
 #!/bin/bash
 
 export SHIELD_OP='restore'
-<% if_p("shield.agent.recovery.target_config") do |target_config| %>
+<% if_p("recovery.target_config") do |target_config| %>
 export SHIELD_TARGET_ENDPOINT=<%= target_config.to_json.dump %>
 <% end %>
-<% if_p("shield.agent.recovery.store_config") do |store_config| %>
+<% if_p("recovery.store_config") do |store_config| %>
 export SHIELD_STORE_ENDPOINT=<%= store_config.to_json.dump %>
 <% end %>
-<% if_p("shield.agent.recovery.store_plugin") do |store_plugin| %>
+<% if_p("recovery.store_plugin") do |store_plugin| %>
 export SHIELD_STORE_PLUGIN=/var/vcap/packages/plugins/bin/<%= store_plugin %>
 <% end %>
-<% if_p("shield.agent.recovery.target_plugin") do |target_plugin| %>
+<% if_p("recovery.target_plugin") do |target_plugin| %>
 export SHIELD_TARGET_PLUGIN=/var/vcap/packages/plugins/bin/<%= target_plugin %>
 <% end %>
 export SHIELD_RESTORE_KEY=$1

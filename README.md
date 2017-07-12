@@ -16,33 +16,61 @@ backup / restore operations.
 Getting Started on BOSH-lite
 ----------------------------
 
-Before you can deploy SHIELD, you're going to need to upload this
-BOSH release to your BOSH-lite, using the CLI:
+To deploy SHIELD to any BOSH with a standard cloud-config:
 
-    bosh target https://192.168.50.4:25555
-    bosh upload release https://bosh.io/d/github.com/starkandwayne/shield-boshrelease
+```
+git clone https://github.com/starkandwayne/shield-boshrelease
+cd shield-boshrelease
+export BOSH_ENVIRONMENT=<name>
+export BOSH_DEPLOYMENT=shield
+bosh deploy manifests/shield.yml
+```
 
-You can create a small, working manifest file from this git
-repository:
+The IP of the `shield` instance can be found with `bosh instances` (`10.244.0.7` in example below):
 
-    git clone https://github.com/starkandwayne/shield-boshrelease
-    cd shield-boshrelease
-    ./templates/make_manifest warden
-    bosh -n deploy
+```
+$ bosh instances
+Instance                                     Process State  AZ  IPs
+shield/65424ae5-80b9-42b9-a223-2f732d6085c4  running        z1  10.244.0.7
+```
 
-Once that's deployed, you can access the web interface at
-[http://10.244.2.2](http://10.244.2.2).  It should look something
-like this (after logging in with the default credentials of **admin** /
-**admin**):
+Alternately, to expose SHIELD via a public https endpoint, you can use https://ngrok.com
+
+```
+bosh deploy manifests/shield.yml \
+  -o manifests/operators/ngrok.yml \
+  -v ngrok-authtoken=${NGROK_TOKEN:?required} \
+  -v ngrok-subdomain=${BOSH_DEPLOYMENT}
+open https://${BOSH_DEPLOYMENT}.ngrok.com
+```
+
+Open the https URL in your browsers - for example `https://10.244.0.7` or `https://${BOSH_DEPLOYMENT}.ngrok.com` - and you'll need to login with basic auth credentials.
+
+The username is `admin`, and the randomly generated password (stored in credhub) is can be found with:
+
+```
+./bin/shield-password
+```
+
+It should look something like this:
 
 ![Web Interface Screenshot][screen1]
 
 Or, if you prefer, you can install the [SHIELD CLI][cli-dl] and
 access your SHIELD core directly:
 
-    shield create backend my-shield http://10.244.2.2
-    shield backends
+```
+shield create backend my-shield https://10.244.0.7
+shield backends
+```
 
+Most commands will require you to first login (as above, username `admin` and password comes from `./bin/shield-password`):
+
+```
+shield -k jobs
+```
+
+Note, the `-k` flag is required for the automatically generated self-signed certificate.
 
 Getting Started on vSphere
 --------------------------
@@ -85,7 +113,7 @@ It's easy.
 
 Just add the release to the deployment manifest, add the
 `shield-agent` template to the job(s) in question, and set up the
-`shield.agent.autoprovision` property to the URL of the SHIELD
+`autoprovision` property to the URL of the SHIELD
 endpoint (so that it can pull down a host key for validating
 backup/restore operation requests).
 

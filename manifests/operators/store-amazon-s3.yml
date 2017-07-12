@@ -1,0 +1,12 @@
+---
+- type: replace
+  path: /instance_groups/name=shield/jobs/name=shield-agent/properties/stores?
+  value:
+    default:
+      plugin: s3 # https://github.com/starkandwayne/shield/blob/master/plugin/s3/plugin.go
+      config:
+        access_key_id: ((s3-access-key))
+        secret_access_key: ((s3-secret-key))
+        skip_ssl_validation: false
+        bucket: ((s3-bucket))
+        prefix: ((s3-bucket-store-prefix))

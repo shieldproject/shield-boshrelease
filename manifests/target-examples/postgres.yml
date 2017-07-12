@@ -1,0 +1,79 @@
+name: shield-target-postgres
+
+instance_groups:
+- name: shield-postgres
+  azs: [z1]
+  instances: 1
+  vm_type: default
+  stemcell: default
+  persistent_disk_type: default
+  networks: [{name: default}]
+  jobs:
+  - name: postgres
+    release: shield
+    properties:
+      databases:
+      - {name: db1, tag: mydb1,   citext: true}
+      - {name: db2, tag: mydb2, citext: true}
+      roles:
+      - name: shieldadmin
+        password: ((postgres-password))
+        tag: admin
+  - name: shield-agent
+    release: shield
+    consumes:
+      shield-daemon: {deployment: shield, from: shield-daemon}
+    properties:
+      autoprovision: true
+      targets:
+        db1:
+          name: shield-target-postgres/shield-postgres/db1
+          plugin: postgres
+          config:
+            pg_host: 127.0.0.1
+            pg_port: "5432"
+            pg_user: vcap
+            pg_password: local-access-via-vcap-user
+            pg_database:  db1
+            pg_bindir:  /var/vcap/packages/postgres/bin
+        db2:
+          name: shield-target-postgres/shield-postgres/db2
+          plugin: postgres
+          config:
+            pg_host: 127.0.0.1
+            pg_port: "5432"
+            pg_user: vcap
+            pg_password: local-access-via-vcap-user
+            pg_database:  db2
+            pg_bindir:  /var/vcap/packages/postgres/bin
+      jobs:
+        db1:
+          retention: default
+          schedule: default
+          store: default
+          target: shield-target-postgres/shield-postgres/db1
+        db2:
+          retention: default
+          schedule: default
+          store: default
+          target: shield-target-postgres/shield-postgres/db2
+
+variables:
+- name: postgres-password
+  type: password
+
+update:
+  canaries: 0
+  max_in_flight: 1
+  serial: true
+  canary_watch_time: 1000-120000
+  update_watch_time: 1000-120000
+
+stemcells:
+- alias: default
+  os: ubuntu-trusty
+  version: 3363.latest
+
+releases:
+- name: shield
+  version: latest

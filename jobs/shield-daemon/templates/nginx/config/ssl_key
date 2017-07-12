@@ -1,0 +1,8 @@
+<%
+x = p("ssl.key")
+
+if !x.match('PRIVATE KEY')
+  x = x.gsub(/^(.{40}).*/, '\1...')
+  raise "ssl.key '#{x}' does not look like a TLS private key"
+end
+-%><%= p('ssl.key') -%>

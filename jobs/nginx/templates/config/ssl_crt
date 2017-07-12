@@ -1,1 +1,0 @@
-<% if_p('nginx.ssl_crt') do |cert| %><%= cert %><% end %>
