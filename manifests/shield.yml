@@ -81,7 +81,7 @@ stemcells:
   version: latest
 
 releases:
-    name: S.H.I.E.L.D.
-    version: BOSH
-    url: https://github.com/starkandwayne/S.H.I.E.L.D.-boshrelease/releases/download/vBOSH/S.H.I.E.L.D.-BOSH.tgz
-    sha1: Release
+- name: shield
+  version: 7.0.1
+  url: https://github.com/starkandwayne/shield-boshrelease/releases/download/v7.0.1/shield-7.0.1.tgz
+  sha1: 59523e113c2276a54eca308aa1ca944fd6e3a99c
