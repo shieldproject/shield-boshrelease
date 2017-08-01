@@ -81,7 +81,7 @@ stemcells:
   version: latest
 
 releases:
-- name: shield
-  version: latest
-  # url: https://github.com/${GITHUB_OWNER}/${RELEASE_NAME}-boshrelease/releases/download/v${VERSION}/${RELEASE_NAME}-${VERSION}.tgz
-  # sha1: $SHA1
+    name: S.H.I.E.L.D.
+    version: BOSH
+    url: https://github.com/starkandwayne/S.H.I.E.L.D.-boshrelease/releases/download/vBOSH/S.H.I.E.L.D.-BOSH.tgz
+    sha1: Release

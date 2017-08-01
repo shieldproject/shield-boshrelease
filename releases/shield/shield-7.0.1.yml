@@ -1,0 +1,114 @@
+name: shield
+version: 7.0.1
+commit_hash: 17a8a96
+uncommitted_changes: false
+jobs:
+- name: agent-mysql
+  version: 7ab111aa1097d971df585c0d6b3ca4e72bf05b5d
+  fingerprint: 7ab111aa1097d971df585c0d6b3ca4e72bf05b5d
+  sha1: c1376cf2a0f05090a2c80324216dca38685885f7
+- name: agent-pgtools
+  version: d7e7dd75c138d3159c1dd0f35ae9717b3a7ad1d9
+  fingerprint: d7e7dd75c138d3159c1dd0f35ae9717b3a7ad1d9
+  sha1: 5abc7350ea0c1a125f1866fddbab46cae1b70aa4
+- name: mariadb
+  version: 4420edd1f36418033ea319c62538cfe1d712a12f
+  fingerprint: 4420edd1f36418033ea319c62538cfe1d712a12f
+  sha1: 9d67c6ad69cdd0e2c3a70bf0fb99a0de9c84939f
+- name: mongo-tools3.2
+  version: 994a8ddb6b67368421c34f6f5ac327a8f168df5c
+  fingerprint: 994a8ddb6b67368421c34f6f5ac327a8f168df5c
+  sha1: 145ce6934a084ad9978429c0c6beee9c4db12806
+- name: mongo-tools3.4
+  version: 4688f3ad4fb52487f610f2db475b9eaadafb8189
+  fingerprint: 4688f3ad4fb52487f610f2db475b9eaadafb8189
+  sha1: 4b882fd165d74b925e0f9750a0fc78aa39572a91
+- name: postgres
+  version: d830a3b90a0742807d4ca7c175600b5d591de2f5
+  fingerprint: d830a3b90a0742807d4ca7c175600b5d591de2f5
+  sha1: b46638d53a22350c47158c2aecb39de36da227db
+- name: shield-agent
+  version: 6d31f7ac8ef1dce8618a788bc5156a0fb6afa96b
+  fingerprint: 6d31f7ac8ef1dce8618a788bc5156a0fb6afa96b
+  sha1: 49f8a1631eb5aff424f27b896b7f90b95c9ce862
+- name: shield-daemon
+  version: d72b5b7acbc96bd98ac00a339adc1cc6716ca505
+  fingerprint: d72b5b7acbc96bd98ac00a339adc1cc6716ca505
+  sha1: 48ff76ead6e6735fa87c265a63ca3c6065925ed8
+- name: xtrabackup
+  version: 99467c5118a04f49d2780ae209064e1025070f79
+  fingerprint: 99467c5118a04f49d2780ae209064e1025070f79
+  sha1: 0ed7e078dd0f8249610bbd9742b8969b1e483e8d
+packages:
+- name: bsdtar
+  version: 5f1aa45fcf04b3ccbad216616b6a68249f4e8e35
+  fingerprint: 5f1aa45fcf04b3ccbad216616b6a68249f4e8e35
+  sha1: 9f18cc4c866e8e9e4365c5c51997a8306a1d8ece
+  dependencies: []
+- name: common
+  version: e401816a4748292163679fafcbd8f818ed8154a5
+  fingerprint: e401816a4748292163679fafcbd8f818ed8154a5
+  sha1: 0b1287640734911ce99ff809e91a496c563ce2aa
+  dependencies: []
+- name: golang
+  version: 8c893cf7adb7ad12194b6ab6568f03d8995accad
+  fingerprint: 8c893cf7adb7ad12194b6ab6568f03d8995accad
+  sha1: e3c5da401666f028fea166de07959f4cc9729332
+  dependencies: []
+- name: mariadb
+  version: 527563776d016f4aa93fa3e9b03f8cd65e2d825a
+  fingerprint: 527563776d016f4aa93fa3e9b03f8cd65e2d825a
+  sha1: 3d3cc2c9d0ce01e4273d901c8c032537df1004f1
+  dependencies: []
+- name: mongo-tools3.2
+  version: b96758ba32ecf263c1ebb929a6ad83c90f8cc00e
+  fingerprint: b96758ba32ecf263c1ebb929a6ad83c90f8cc00e
+  sha1: b9b5d4619acca264040169289c8031fefd5641a0
+  dependencies:
+  - golang
+- name: mongo-tools3.4
+  version: 296a002553c7fa92ae411a354bfec901ac6c809a
+  fingerprint: 296a002553c7fa92ae411a354bfec901ac6c809a
+  sha1: 5193596e9c9af3b69dd50cca4082aeb90220ce82
+  dependencies:
+  - golang
+- name: nginx
+  version: 3e69a75504769646a78bc7464722f10c73489129
+  fingerprint: 3e69a75504769646a78bc7464722f10c73489129
+  sha1: a4b06094253406d7a91f15ecf4164298251cf7f4
+  dependencies: []
+- name: plugins
+  version: cc3b94870da0f39d1026bd39c7b67255f8301e9a
+  fingerprint: cc3b94870da0f39d1026bd39c7b67255f8301e9a
+  sha1: 8178740559d2966edcf07f496775d6dbd252d42e
+  dependencies: []
+- name: postgres-9.4
+  version: 6bd9c24fa5c93ac7adbe448e9c1d3431d4c345b8
+  fingerprint: 6bd9c24fa5c93ac7adbe448e9c1d3431d4c345b8
+  sha1: f5d84e27daa44ce4707a8e2f45ae22338eec5a7a
+  dependencies: []
+- name: shield
+  version: 09fc27cd2afd9d43ed77f0bd5e89cdba36875891
+  fingerprint: 09fc27cd2afd9d43ed77f0bd5e89cdba36875891
+  sha1: 12eed14cff09f06d16503d6c79e104909c40977f
+  dependencies: []
+- name: shield-mysql
+  version: ccf715e8091054ac22cdcbeb9ded4ab213adaef7
+  fingerprint: ccf715e8091054ac22cdcbeb9ded4ab213adaef7
+  sha1: 136de8d4ab44d4501fcab741cb97757edab03c68
+  dependencies: []
+- name: utils
+  version: 66ca3e6c236837854d49102f4cf55896cea248f4
+  fingerprint: 66ca3e6c236837854d49102f4cf55896cea248f4
+  sha1: d3c52c7c3b10b26f08cbbcea53ec0dd0fbccdc57
+  dependencies: []
+- name: xtrabackup
+  version: eea3b3858686c987b2c97aab315330e8d7a6919b
+  fingerprint: eea3b3858686c987b2c97aab315330e8d7a6919b
+  sha1: 1c8a4c8879ba20b62ed05799f975fcfc9f61fad9
+  dependencies:
+  - mariadb
+license:
+  version: 79267db2e7516e504dfe773afdfd03a5ecfaf43a
+  fingerprint: 79267db2e7516e504dfe773afdfd03a5ecfaf43a
+  sha1: 79cecf4b9642b40459bfb5d7de7f29048ba5bdfb
