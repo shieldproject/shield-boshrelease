@@ -83,3 +83,5 @@ stemcells:
 releases:
 - name: shield
   version: latest
+  # url: https://github.com/${GITHUB_OWNER}/${RELEASE_NAME}-boshrelease/releases/download/v${VERSION}/${RELEASE_NAME}-${VERSION}.tgz
+  # sha1: $SHA1

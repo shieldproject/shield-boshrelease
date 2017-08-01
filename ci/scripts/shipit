@@ -5,15 +5,25 @@
 # Script for generating Github release / tag assets
 # and managing release notes for a BOSH Release pipeline
 #
-# author:  James Hunt <james@niftylogic.com>
+# author:  James Hunt <james@niftylogic.com>, Dr Nic Williams <drnicwilliams@gmail.com>
 # created: 2016-03-30
 
 set -eu
 
-if [[ -z ${VERSION_FROM} ]]; then
-  echo >&2 "VERSION_FROM environment variable not set, or empty.  Did you misconfigure Concourse?"
-  exit 2
-fi
+header() {
+	echo
+	echo "###############################################"
+	echo
+	echo $*
+	echo
+}
+
+: ${REPO_ROOT:?required}
+: ${RELEASE_ROOT:?required}
+: ${REPO_OUT:?required}
+: ${BRANCH:?required}
+: ${GITHUB_OWNER:?required}
+: ${VERSION_FROM:?required}
 if [[ ! -f ${VERSION_FROM} ]]; then
   echo >&2 "Version file (${VERSION_FROM}) not found.  Did you misconfigure Concourse?"
   exit 2
@@ -29,41 +39,70 @@ if [[ ! -f ${REPO_ROOT}/ci/release_notes.md ]]; then
   exit 1
 fi
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
 ###############################################################
 
-cat > ~/.bosh_config << EOF
----
-aliases:
-  target:
-    bosh-lite: ${BOSH_LITE_TARGET}
-auth:
-  ${BOSH_LITE_TARGET}:
-    username: ${BOSH_LITE_USERNAME}
-    password: ${BOSH_LITE_PASSWORD}
-EOF
-cat > ${REPO_ROOT}/config/private.yml << EOF
+header "Setting up bosh2 config..."
+export BOSH_ENVIRONMENT=${BOSH_ENVIRONMENT:?required}
+export BOSH_CA_CERT=${BOSH_CA_CERT:?required}
+export BOSH_CLIENT=${BOSH_CLIENT:?required}
+export BOSH_CLIENT_SECRET=${BOSH_CLIENT_SECRET:?required}
+
+
+header "Importing image into release..."
+cp image/image-id     ${REPO_ROOT}/src/image-cache/
+cp image/repository   ${REPO_ROOT}/src/image-cache/
+cp image/tag          ${REPO_ROOT}/src/image-cache/
+gzip -c image/image > ${REPO_ROOT}/src/image-cache/image.tgz
+
+(
+cd ${REPO_ROOT}
+RELEASE_NAME=$(bosh2 int config/final.yml --path /final_name)
+
+cat > config/private.yml << EOF
 ---
 blobstore:
-  s3:
-    access_key_id: ${AWS_ACCESS_KEY}
-    secret_access_key: ${AWS_SECRET_KEY}
+  provider: s3
+  options:
+    access_key_id: ${AWS_ACCESS_KEY:?required}
+    secret_access_key: ${AWS_SECRET_KEY:?required}
 EOF
-bosh target ${BOSH_LITE_TARGET}
-(cd ${REPO_ROOT}
- bosh -n create release --final --with-tarball --version "${VERSION}")
+
+header "Pulling in any git submodules..."
+git submodule update --init --recursive --force
+
+header "Create final release..."
+bosh2 -n create-release --final --version "${VERSION}"
+bosh2 -n create-release releases/$RELEASE_NAME/$RELEASE_NAME-$VERSION.yml \
+              --tarball releases/$RELEASE_NAME/$RELEASE_NAME-$VERSION.tgz
+)
+RELEASE_TGZ=$REPO_ROOT/releases/$RELEASE_NAME/$RELEASE_NAME-$VERSION.tgz
+export SHA1=$(sha1sum $RELEASE_TGZ | head -n1 | awk '{print $1}')
+echo "SHA1=$SHA1"
 
 mkdir -p ${RELEASE_ROOT}/artifacts
 echo "v${VERSION}"                         > ${RELEASE_ROOT}/tag
-echo "${RELEASE_NAME} v${VERSION}"         > ${RELEASE_ROOT}/name
-mv ${REPO_ROOT}/ci/release_notes.md          ${RELEASE_ROOT}/notes.md
+echo "v${VERSION}"                         > ${RELEASE_ROOT}/name
 cp ${REPO_ROOT}/releases/*/*-${VERSION}.tgz  ${RELEASE_ROOT}/artifacts
+mv ${REPO_ROOT}/ci/release_notes.md          ${RELEASE_ROOT}/notes.md
+cat >> ${RELEASE_ROOT}/notes.md <<EOF
 
+### Deployment
+\`\`\`yaml
+releases:
+- name: $RELEASE_NAME
+  version: $VERSION
+  url: https://github.com/${GITHUB_OWNER}/${RELEASE_NAME}-boshrelease/releases/download/v${VERSION}/${RELEASE_NAME}-${VERSION}.tgz
+  sha1: $SHA1
+\`\`\`
+EOF
 cat > ${RELEASE_ROOT}/notification <<EOF
 <!here> New ${RELEASE_NAME} v${VERSION} released!
 EOF
 
 
-# GIT!
+header "Update git repo with final release..."
 if [[ -z $(git config --global user.email) ]]; then
   git config --global user.email "ci@starkandwayne.com"
 fi
@@ -72,6 +111,7 @@ if [[ -z $(git config --global user.name) ]]; then
 fi
 
 (cd ${REPO_ROOT}
+ $DIR/update-manifest $GITHUB_OWNER $RELEASE_NAME $VERSION $SHA1
  git merge --no-edit ${BRANCH}
  git add -A
  git status
