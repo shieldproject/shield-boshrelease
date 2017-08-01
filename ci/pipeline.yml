@@ -181,11 +181,7 @@ jobs:
             RELEASE_ROOT: gh
             REPO_OUT:     pushme
             BRANCH:       (( grab meta.github.branch ))
-
-            BOSH_LITE_TARGET:     (( grab meta.bosh-lite.target ))
-            BOSH_LITE_USERNAME:   (( grab meta.bosh-lite.username ))
-            BOSH_LITE_PASSWORD:   (( grab meta.bosh-lite.password ))
-            BOSH_LITE_DEPLOYMENT: (( grab meta.bosh-lite.deployment ))
+            GITHUB_OWNER: (( grab meta.github.owner ))
 
             AWS_ACCESS_KEY:       (( grab meta.aws.access_key ))
             AWS_SECRET_KEY:       (( grab meta.aws.secret_key ))

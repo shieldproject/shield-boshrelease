@@ -43,19 +43,6 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 ###############################################################
 
-header "Setting up bosh2 config..."
-export BOSH_ENVIRONMENT=${BOSH_ENVIRONMENT:?required}
-export BOSH_CA_CERT=${BOSH_CA_CERT:?required}
-export BOSH_CLIENT=${BOSH_CLIENT:?required}
-export BOSH_CLIENT_SECRET=${BOSH_CLIENT_SECRET:?required}
-
-
-header "Importing image into release..."
-cp image/image-id     ${REPO_ROOT}/src/image-cache/
-cp image/repository   ${REPO_ROOT}/src/image-cache/
-cp image/tag          ${REPO_ROOT}/src/image-cache/
-gzip -c image/image > ${REPO_ROOT}/src/image-cache/image.tgz
-
 (
 cd ${REPO_ROOT}
 RELEASE_NAME=$(bosh2 int config/final.yml --path /final_name)
