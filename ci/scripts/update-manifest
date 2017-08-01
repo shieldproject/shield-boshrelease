@@ -13,8 +13,8 @@ manifest_len=$(wc -l $manifest_path | awk '{print $1}')
 manifest_head=$(head -n `expr $manifest_len - 4` $manifest_path)
 cat > $manifest_path <<YAML
 ${manifest_head}
-    name: $RELEASE_NAME
-    version: $VERSION
-    url: https://github.com/${GITHUB_OWNER}/${RELEASE_NAME}-boshrelease/releases/download/v${VERSION}/${RELEASE_NAME}-${VERSION}.tgz
-    sha1: $SHA1
+- name: $RELEASE_NAME
+  version: $VERSION
+  url: https://github.com/${GITHUB_OWNER}/${RELEASE_NAME}-boshrelease/releases/download/v${VERSION}/${RELEASE_NAME}-${VERSION}.tgz
+  sha1: $SHA1
 YAML
