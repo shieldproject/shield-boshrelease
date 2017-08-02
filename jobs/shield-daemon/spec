@@ -107,7 +107,7 @@ properties:
         my_script: AwB6iMPhTHiE7V2ngLNv
         autoprovision: KTocoRDwtasU22kiA3Go
 
-  shield.log_level:
+  log_level:
     description: Log level for shield processes
     default: "info"
 
