@@ -38,7 +38,7 @@ link_job_file() {
 redirect_output() {
   SCRIPT=$1
   mkdir -p /var/vcap/sys/log/monit
-  exec >> /var/vcap/sys/log/monit/$SCRIPT.log 2>&1
+  exec 1>> /var/vcap/sys/log/monit/$SCRIPT.log 2>&1
 }
 
 pid_guard() {
@@ -53,7 +53,7 @@ pid_guard() {
       exit 1
     fi
 
-    echo "Removing stale pidfile $pidfile..."
+    echo "Removing stale pidfile..."
     rm $pidfile
   fi
 }
