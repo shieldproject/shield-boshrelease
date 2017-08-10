@@ -107,6 +107,7 @@ jobs:
     public: true
     serial_groups: [bosh-lite-cloud-config]
     plan:
+    - do:
       - { get: git }
       - { get: git-pull-requests, trigger: true, version: every }
       - put: git-pull-requests
@@ -144,6 +145,33 @@ jobs:
           params:
             path: git-pull-requests
             status: failure
+      - task: pr-success-message
+        config:
+          platform: linux
+          image_resource:
+            type: docker-image
+            source:
+              repository: (( grab meta.image ))
+          inputs:
+            - { name: git-pull-requests }
+          outputs:
+            - { name: message }
+          run:
+            path: sh
+            args:
+            - -ce
+            - |
+              cd git-pull-requests
+              pr_url=$(git config --get pullrequest.url)
+              cd -
+              echo "<${pr_url}|Pull request passed testflight> Merge when ready: ${pr_url}" > message/body
+      on_success:
+        put: notify
+        params:
+          channel:  (( grab meta.slack.channel ))
+          username: (( grab meta.slack.username ))
+          icon_url: (( grab meta.slack.icon ))
+          text_file: message/body
 
   - name: rc
     public: true
