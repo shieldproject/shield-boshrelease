@@ -109,7 +109,6 @@ jobs:
     serial: true
     plan:
     - do:
-      - { get: git }
       - { get: git-pull-requests, trigger: true, version: every }
       - put: git-pull-requests
         params:
