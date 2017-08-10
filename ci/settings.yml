@@ -13,7 +13,6 @@ meta:
 
   bosh-lite-cloud-config:
     target: https://10.58.111.49:25555
-    deployment: shield-testflight-links
     username: (( vault "secret/bosh-lites/lite49/users/admin:username" ))
     password: (( vault "secret/bosh-lites/lite49/users/admin:password" ))
     cacert:   (( vault "secret/bosh-lites/lite49/certs:rootCA.pem" ))
