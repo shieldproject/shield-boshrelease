@@ -1,19 +1,9 @@
 set -e -x
 
-pgversion="postgresql-9.4.5"
-archive="$pgversion.tar.gz"
-
-if [[ -f postgres/$archive ]] ; then
-  echo "Archive found"
-else
-  echo "Archive not found"
-  exit 1
-fi
-
 echo "Extracting archive..."
-tar xzf postgres/$archive
+tar xzf postgres/postgresql-*.tar.gz
 
-cd $pgversion
+cd postgresql-*/
 
 if [[ `uname -a` =~ "x86_64" || `uname -a` =~ "ppc64le" ]] ; then
   ./configure --prefix=${BOSH_INSTALL_TARGET}

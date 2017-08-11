@@ -3,8 +3,8 @@ set -e -x
 export GOROOT=$(readlink -nf /var/vcap/packages/golang)
 export PATH=$GOROOT/bin:$PATH
 
-tar xzf mongo-tools/mongo-tools-r3.4.1.tar.gz
-cd mongo-tools-r3.4.1
+tar xzf mongo-tools/mongo-tools-*.tar.gz
+cd mongo-tools-*/
 mkdir bin
 . ./set_gopath.sh
 go build -o bin/mongodump -tags "ssl" mongodump/main/mongodump.go
