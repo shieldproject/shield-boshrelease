@@ -1,0 +1,30 @@
+---
+- type: replace
+  path: /instance_groups/name=shield/jobs/-
+  value:
+    name: agent-mysql
+    release: shield
+
+- type: replace
+  path: /instance_groups/name=shield/jobs/-
+  value:
+    name: agent-pgtools
+    release: shield
+
+- type: replace
+  path: /instance_groups/name=shield/jobs/-
+  value:
+    name: mongo-tools3.2
+    release: shield
+
+- type: replace
+  path: /instance_groups/name=shield/jobs/-
+  value:
+    name: mongo-tools3.4
+    release: shield
+
+- type: replace
+  path: /instance_groups/name=shield/jobs/-
+  value:
+    name: xtrabackup
+    release: shield
