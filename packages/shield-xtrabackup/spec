@@ -1,5 +1,5 @@
 ---
-name: xtrabackup
+name: shield-xtrabackup
 
 dependencies:
   - mariadb

@@ -96,6 +96,7 @@ jobs:
             BOSH_DEPLOYMENT:      (( grab meta.bosh-lite-cloud-config.deployment ))
             TEST_ERRAND:          (( grab meta.test-errand || ~ ))
             base_manifest:        manifests/shield.yml
+            # op_patch_files:       manifests/operators/all-helper-packages.yml
       on_failure:
         put: notify
         params:
@@ -135,6 +136,7 @@ jobs:
             BOSH_DEPLOYMENT:      (( grab meta.bosh-lite-cloud-config.deployment-pr ))
             TEST_ERRAND:          (( grab meta.test-errand || ~ ))
             base_manifest:        manifests/shield.yml
+            op_patch_files:       manifests/operators/all-helper-packages.yml
         on_success:
           put: git-pull-requests
           params:

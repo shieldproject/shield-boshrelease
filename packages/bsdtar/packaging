@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 set -e -x
 
-VERSION=3.1.2
-
-tar xfzv tar/libarchive-$VERSION.tar.gz
-cd libarchive-$VERSION
+tar xfzv tar/libarchive-*.tar.gz
+cd libarchive-*/
 ./configure --prefix $BOSH_INSTALL_TARGET
 make
 make install

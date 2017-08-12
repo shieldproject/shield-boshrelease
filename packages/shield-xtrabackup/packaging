@@ -2,103 +2,102 @@
 set -e
 set -x
 
-XTRABACKUP_VERSION=2.4.5
 PREFIX=${BOSH_INSTALL_TARGET}
 
 export PATH=$PATH:${BOSH_INSTALL_TARGET}/bin:/var/vcap/packages/mariadb/bin
 
 # socat
-tar xzf xtrabackup/socat-1.7.2.4.tar.gz
+tar xzf xtrabackup/socat-*.tar.gz
 (
   set -e
-  cd socat-1.7.2.4
+  cd socat-*/
   ./configure --prefix=$PREFIX
   make
   make install prefix=$PREFIX
 )
 
 # DBI-perl
-tar xzf xtrabackup/libdbi-perl_1.630.orig.tar.gz
+tar xzf xtrabackup/libdbi-perl_*.orig.tar.gz
 (
   set -e
-  cd DBI-1.630
+  cd DBI-*/
   perl Makefile.PL PREFIX=$PREFIX
   make
   make install prefix=$PREFIX
 )
 
 # DBD-mysql-perl
-tar xzf xtrabackup/libdbd-mysql-perl_4.025.orig.tar.gz
+tar xzf xtrabackup/libdbd-mysql-perl_*.orig.tar.gz
 (
   set -e
-  cd DBD-mysql-4.025
-  perl -I${BOSH_INSTALL_TARGET}/lib/perl/5.18.2/ Makefile.PL PREFIX=$PREFIX
+  cd DBD-mysql-*/
+  perl -I ${BOSH_INSTALL_TARGET}/lib/perl/5.*/ Makefile.PL PREFIX=$PREFIX
   make
   make install prefix=$PREFIX
 )
 
 # autoconf
-tar xzf xtrabackup/autoconf-2.65.tar.gz
+tar xzf xtrabackup/autoconf-*.tar.gz
 (
   set -e
-  cd autoconf-2.65
+  cd autoconf-*/
   autoconf_dir=$PREFIX/share/autoconf ./configure --prefix=$PREFIX
   make
   make install prefix=$PREFIX
 )
 
 # automake
-tar xzf xtrabackup/automake-1.14.1.tar.gz
+tar xzf xtrabackup/automake-*.tar.gz
 (
   set -e
-  cd automake-1.14.1
+  cd automake-*/
   ./configure --prefix=$PREFIX
   make
   make install prefix=$PREFIX
 )
 
 # libtool
-tar xzf xtrabackup/libtool-2.4.2.tar.gz
+tar xzf xtrabackup/libtool-*.tar.gz
 (
   set -e
-  cd libtool-2.4.2
+  cd libtool-*/
   ./configure --prefix=$PREFIX
   make
   make install prefix=$PREFIX
 )
 
 # libaio
-tar xzf xtrabackup/libaio_0.3.110.orig.tar.gz
+tar xzf xtrabackup/libaio_*.orig.tar.gz
 (
   set -e
-  cd libaio-0.3.110
+  cd libaio-*/
   make install
 )
 
 # libev
-tar xzf xtrabackup/libev-4.23.tar.gz
+tar xzf xtrabackup/libev-*.tar.gz
 (
   set -e
-  cd libev-4.23
+  cd libev-*/
   ./configure --prefix=$PREFIX
   make
   make install prefix=$PREFIX
 )
 
 # boost
-tar zxf  xtrabackup/boost_1_59_0.tar.gz
+tar zxf  xtrabackup/boost_*.tar.gz
 (
   set -e
-  cd boost_1_59_0
+  cd boost_*/
   mv boost $PREFIX
 )
 
 # xtrabackup
 
-tar xzf xtrabackup/percona-xtrabackup-${XTRABACKUP_VERSION}.tar.gz
+tar xzf xtrabackup/percona-xtrabackup-*.tar.gz
 (
   set -e
-  cd percona-xtrabackup-${XTRABACKUP_VERSION}
+  cd percona-xtrabackup-*/
 
   cmake \
       -DBUILD_CONFIG=xtrabackup_release \

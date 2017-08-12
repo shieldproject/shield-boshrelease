@@ -1,19 +1,10 @@
 set -e -x
 
-mariadbversion="mariadb-10.1.14"
-archive=$mariadbversion.tar.gz
-
-if [[ -f mariadb/$archive ]] ; then
-  echo "Archive found"
-else
-  echo "Archive not found"
-  exit 1
-fi
-
 echo "Extracting archive..."
-tar xzf mariadb/$archive
+tar xzf mariadb/mariadb-*.tar.gz
 
-cd $mariadbversion
+cd mariadb-*/
+
 cmake -DCMAKE_INSTALL_PREFIX:PATH=${BOSH_INSTALL_TARGET}
 make
 make install
