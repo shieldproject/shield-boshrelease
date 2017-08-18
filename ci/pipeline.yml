@@ -35,12 +35,6 @@ meta:
 
   bosh-lite:
     target:     (( param "Please specify the BOSH target URI for the bosh-lite to run test deployments against" ))
-    deployment: (( param "Please specify the name of the local bosh-lite (warden) deployment" ))
-    username:   admin
-    password:   admin
-
-  bosh-lite-cloud-config:
-    target:     (( param "Please specify the BOSH target URI for the bosh-lite to run test deployments against" ))
     cacert:     (( param "Please specify the BOSH Director Root CA cert" ))
     deployment:    shield-testflight
     deployment-pr: shield-testflight-pr
@@ -89,11 +83,11 @@ jobs:
             args: []
           params:
             REPO_ROOT:            git
-            BOSH_ENVIRONMENT:     (( grab meta.bosh-lite-cloud-config.target ))
-            BOSH_CA_CERT:         (( grab meta.bosh-lite-cloud-config.cacert ))
-            BOSH_CLIENT:          (( grab meta.bosh-lite-cloud-config.username ))
-            BOSH_CLIENT_SECRET:   (( grab meta.bosh-lite-cloud-config.password ))
-            BOSH_DEPLOYMENT:      (( grab meta.bosh-lite-cloud-config.deployment ))
+            BOSH_ENVIRONMENT:     (( grab meta.bosh-lite.target ))
+            BOSH_CA_CERT:         (( grab meta.bosh-lite.cacert ))
+            BOSH_CLIENT:          (( grab meta.bosh-lite.username ))
+            BOSH_CLIENT_SECRET:   (( grab meta.bosh-lite.password ))
+            BOSH_DEPLOYMENT:      (( grab meta.bosh-lite.deployment ))
             TEST_ERRAND:          (( grab meta.test-errand || ~ ))
             base_manifest:        manifests/shield.yml
             # op_patch_files:       manifests/operators/all-helper-packages.yml
@@ -129,11 +123,11 @@ jobs:
             args: []
           params:
             REPO_ROOT:            git-pull-requests
-            BOSH_ENVIRONMENT:     (( grab meta.bosh-lite-cloud-config.target ))
-            BOSH_CA_CERT:         (( grab meta.bosh-lite-cloud-config.cacert ))
-            BOSH_CLIENT:          (( grab meta.bosh-lite-cloud-config.username ))
-            BOSH_CLIENT_SECRET:   (( grab meta.bosh-lite-cloud-config.password ))
-            BOSH_DEPLOYMENT:      (( grab meta.bosh-lite-cloud-config.deployment-pr ))
+            BOSH_ENVIRONMENT:     (( grab meta.bosh-lite.target ))
+            BOSH_CA_CERT:         (( grab meta.bosh-lite.cacert ))
+            BOSH_CLIENT:          (( grab meta.bosh-lite.username ))
+            BOSH_CLIENT_SECRET:   (( grab meta.bosh-lite.password ))
+            BOSH_DEPLOYMENT:      (( grab meta.bosh-lite.deployment-pr ))
             TEST_ERRAND:          (( grab meta.test-errand || ~ ))
             base_manifest:        manifests/shield.yml
             op_patch_files:       manifests/operators/all-helper-packages.yml

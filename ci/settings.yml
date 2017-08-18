@@ -7,11 +7,13 @@ meta:
 
   initial_version: 5.1.0
 
-  bosh-lite:
+  bosh-lite-6x:
     target: https://10.58.111.44:25555
     deployment: shield-warden
+    username:   admin
+    password:   admin
 
-  bosh-lite-cloud-config:
+  bosh-lite:
     target: https://10.58.111.49:25555
     username: (( vault "secret/bosh-lites/lite49/users/admin:username" ))
     password: (( vault "secret/bosh-lites/lite49/users/admin:password" ))
@@ -129,10 +131,10 @@ jobs:
           args: []
         params:
           REPO_ROOT:            git
-          BOSH_LITE_TARGET:     (( grab meta.bosh-lite.target ))
-          BOSH_LITE_USERNAME:   (( grab meta.bosh-lite.username ))
-          BOSH_LITE_PASSWORD:   (( grab meta.bosh-lite.password ))
-          BOSH_LITE_DEPLOYMENT: (( grab meta.bosh-lite.deployment ))
+          BOSH_LITE_TARGET:     (( grab meta.bosh-lite-6x.target ))
+          BOSH_LITE_USERNAME:   (( grab meta.bosh-lite-6x.username ))
+          BOSH_LITE_PASSWORD:   (( grab meta.bosh-lite-6x.password ))
+          BOSH_LITE_DEPLOYMENT: (( grab meta.bosh-lite-6x.deployment ))
           TEST_ERRAND:          (( grab meta.test-errand || ~ ))
     on_failure:
       put: notify
@@ -204,10 +206,10 @@ jobs:
           REPO_OUT:     pushme
           BRANCH:       (( grab meta.github.branch-6x ))
 
-          BOSH_LITE_TARGET:     (( grab meta.bosh-lite.target ))
-          BOSH_LITE_USERNAME:   (( grab meta.bosh-lite.username ))
-          BOSH_LITE_PASSWORD:   (( grab meta.bosh-lite.password ))
-          BOSH_LITE_DEPLOYMENT: (( grab meta.bosh-lite.deployment ))
+          BOSH_LITE_TARGET:     (( grab meta.bosh-lite-6x.target ))
+          BOSH_LITE_USERNAME:   (( grab meta.bosh-lite-6x.username ))
+          BOSH_LITE_PASSWORD:   (( grab meta.bosh-lite-6x.password ))
+          BOSH_LITE_DEPLOYMENT: (( grab meta.bosh-lite-6x.deployment ))
 
           AWS_ACCESS_KEY:       (( grab meta.aws.access_key ))
           AWS_SECRET_KEY:       (( grab meta.aws.secret_key ))
