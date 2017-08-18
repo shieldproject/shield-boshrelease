@@ -8,7 +8,7 @@ SERVER=$PACKAGE_DIR/support-files/mysql.server
 RUN_DIR=/var/vcap/sys/run/mariadb
 PIDFILE=$RUN_DIR/mariadb.pid
 
-PORT=<%= p('databases.port') %>
+PORT=<%= p('port') %>
 
 if [ ! -d $STORE_DIR ]; then
   echo "ERROR: storage directory doesn't exist"
@@ -31,7 +31,7 @@ su - vcap -c "$SERVER start --datadir=$DATA_DIR --basedir=$PACKAGE_DIR --pid-fil
 su - vcap -c "echo \"DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');\" | $PACKAGE_DIR/bin/mysql --port $PORT -u root"
 
 echo "Creating roles..."
-<% p("databases.roles", []).each do |role| %>
+<% p("roles", []).each do |role| %>
   echo "Trying to create role <%= role["name"] %>..."
   set +e
   su - vcap -c "echo \"GRANT ALL PRIVILEGES ON *.* TO '<%= role["name"] %>'@'%' IDENTIFIED BY '<%= role["password"] %>'; FLUSH PRIVILEGES;\" | $PACKAGE_DIR/bin/mysql --port $PORT -u root"
@@ -39,7 +39,7 @@ echo "Creating roles..."
 <% end %>
 
 echo "Creating databases..."
-<% p("databases.databases", []).each do |database| %>
+<% p("databases", []).each do |database| %>
   echo "Trying to create database <%= database["name"] %>..."
   set +e
   su - vcap -c "$PACKAGE_DIR/bin/mysqladmin --port $PORT -u root create <%= database["name"] %>"

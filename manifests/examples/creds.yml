@@ -11,7 +11,7 @@
 #       They are excellent for setting up SHIELD for evaluation
 #       purposes, but don't run them in production.
 
-postgress-password: dbpass
+db-password: dbpass
 shield-daemon-sshkey:
   private_key: |
     -----BEGIN RSA PRIVATE KEY-----

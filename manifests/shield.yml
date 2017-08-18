@@ -17,7 +17,7 @@ instance_groups:
       - {name: sessionsdb, tag: sessions, citext: true}
       roles:
       - name: shieldadmin
-        password: ((postgres-password))
+        password: ((db-password))
         tag: admin
   - name: shield-daemon
     release: shield
@@ -43,7 +43,7 @@ instance_groups:
       retention-policies: {default: 30}
 
 variables:
-- name: postgres-password
+- name: db-password
   type: password
 - name: shield-daemon-sshkey
   type: rsa

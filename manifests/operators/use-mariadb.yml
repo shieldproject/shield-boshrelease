@@ -1,0 +1,17 @@
+---
+- type: remove
+  path: /instance_groups/name=shield/jobs/name=postgres
+
+- type: replace
+  path: /instance_groups/name=shield/jobs/-
+  value:
+    name: mariadb
+    release: shield
+    properties:
+      databases:
+      - {name: shielddb,   tag: shield,   citext: true}
+      - {name: sessionsdb, tag: sessions, citext: true}
+      roles:
+      - name: shieldadmin
+        password: ((db-password))
+        tag: admin
