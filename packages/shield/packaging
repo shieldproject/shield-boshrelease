@@ -1,8 +1,8 @@
 #!/bin/bash
 set -ex
 
-tar -xzvf shield/shield-server-linux-amd64.tar.gz
-cd shield-server-linux-amd64
+tar -xzvf shield/shield-server-linux-amd64*.tar.gz
+cd shield-server-linux-amd64*/
 mkdir -p ${BOSH_INSTALL_TARGET}/bin
 cp agent/shield-agent   ${BOSH_INSTALL_TARGET}/bin
 cp cli/shield           ${BOSH_INSTALL_TARGET}/bin

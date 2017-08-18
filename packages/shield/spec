@@ -2,4 +2,4 @@
 name: shield
 dependencies: []
 files:
-- shield/shield-server-linux-amd64.tar.gz
+- shield/shield-server-linux-amd64*.tar.gz
