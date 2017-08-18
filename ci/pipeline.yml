@@ -17,8 +17,14 @@ meta:
   target:   (( param "Please identify the name of the target Concourse CI" ))
   url:      (( param "Please specify the full url of the target Concourse CI" ))
   pipeline: (( concat meta.name "-boshrelease" ))
+  manifest:
+    path:   (( concat "manifests/" meta.name ".yml" ))
+    vars:   "--- {}"
+    operator_file_paths: "" # comma separated list relative to repo root
 
-  image:    starkandwayne/concourse
+  image:
+    name: starkandwayne/concourse
+    tag: latest
 
   aws:
     bucket:     (( concat meta.pipeline "-pipeline" ))
@@ -36,10 +42,10 @@ meta:
   bosh-lite:
     target:     (( param "Please specify the BOSH target URI for the bosh-lite to run test deployments against" ))
     cacert:     (( param "Please specify the BOSH Director Root CA cert" ))
-    deployment:    shield-testflight
-    deployment-pr: shield-testflight-pr
     username:   admin
     password:   (( param "Please specify the BOSH Director admin password" ))
+    deployment:    (( concat meta.name "-testflight" ))
+    deployment-pr: (( concat meta.name "-testflight-pr" ))
 
   slack:
     webhook:       (( param "Please specify your Slack Incoming Webhook Integration URL" ))
@@ -75,7 +81,8 @@ jobs:
           image_resource:
             type: docker-image
             source:
-              repository: (( grab meta.image ))
+              repository: (( grab meta.image.name ))
+              tag:        (( grab meta.image.tag ))
           inputs:
             - { name: git }
           run:
@@ -88,9 +95,10 @@ jobs:
             BOSH_CLIENT:          (( grab meta.bosh-lite.username ))
             BOSH_CLIENT_SECRET:   (( grab meta.bosh-lite.password ))
             BOSH_DEPLOYMENT:      (( grab meta.bosh-lite.deployment ))
-            TEST_ERRAND:          (( grab meta.test-errand || ~ ))
-            base_manifest:        manifests/shield.yml
-            # op_patch_files:       manifests/operators/all-helper-packages.yml
+            TEST_ERRANDS:         (( grab meta.test-errands || ~ ))
+            MANIFEST_PATH:        (( grab meta.manifest.path ))
+            MANIFEST_VARS:        (( grab meta.manifest.vars ))
+            MANIFEST_OP_PATHS:    (( grab meta.manifest.operator_file_paths ))
       on_failure:
         put: notify
         params:
@@ -115,7 +123,8 @@ jobs:
           image_resource:
             type: docker-image
             source:
-              repository: (( grab meta.image ))
+              repository: (( grab meta.image.name ))
+              tag:        (( grab meta.image.tag ))
           inputs:
             - { name: git-pull-requests }
           run:
@@ -128,9 +137,10 @@ jobs:
             BOSH_CLIENT:          (( grab meta.bosh-lite.username ))
             BOSH_CLIENT_SECRET:   (( grab meta.bosh-lite.password ))
             BOSH_DEPLOYMENT:      (( grab meta.bosh-lite.deployment-pr ))
-            TEST_ERRAND:          (( grab meta.test-errand || ~ ))
-            base_manifest:        manifests/shield.yml
-            op_patch_files:       manifests/operators/all-helper-packages.yml
+            TEST_ERRANDS:         (( grab meta.test-errands || ~ ))
+            MANIFEST_PATH:        (( grab meta.manifest.path ))
+            MANIFEST_VARS:        (( grab meta.manifest.vars ))
+            MANIFEST_OP_PATHS:    (( grab meta.manifest.operator_file_paths ))
         on_success:
           put: git-pull-requests
           params:
@@ -147,7 +157,8 @@ jobs:
           image_resource:
             type: docker-image
             source:
-              repository: (( grab meta.image ))
+              repository: (( grab meta.image.name ))
+              tag:        (( grab meta.image.tag ))
           inputs:
             - { name: git-pull-requests }
           outputs:
@@ -230,7 +241,8 @@ jobs:
           image_resource:
             type: docker-image
             source:
-              repository: (( grab meta.image ))
+              repository: (( grab meta.image.name ))
+              tag:        (( grab meta.image.tag ))
           inputs:
             - name: version
             - name: git
@@ -247,6 +259,7 @@ jobs:
             REPO_OUT:     pushme
             BRANCH:       (( grab meta.github.branch ))
             GITHUB_OWNER: (( grab meta.github.owner ))
+            MANIFEST_PATH: (( concat "manifests/" meta.name ".yml" ))
 
             AWS_ACCESS_KEY:       (( grab meta.aws.access_key ))
             AWS_SECRET_KEY:       (( grab meta.aws.secret_key ))

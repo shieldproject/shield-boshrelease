@@ -5,7 +5,7 @@
 # Script for generating Github release / tag assets
 # and managing release notes for a BOSH Release pipeline
 #
-# author:  James Hunt <james@niftylogic.com>, Dr Nic Williams <drnicwilliams@gmail.com>
+# author:  James Hunt <james@niftylogic.com>
 # created: 2016-03-30
 
 set -eu
@@ -24,6 +24,7 @@ header() {
 : ${BRANCH:?required}
 : ${GITHUB_OWNER:?required}
 : ${VERSION_FROM:?required}
+: ${MANIFEST_PATH:?required}
 if [[ ! -f ${VERSION_FROM} ]]; then
   echo >&2 "Version file (${VERSION_FROM}) not found.  Did you misconfigure Concourse?"
   exit 2
@@ -43,7 +44,6 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 ###############################################################
 
-(
 cd ${REPO_ROOT}
 RELEASE_NAME=$(bosh2 int config/final.yml --path /final_name)
 
@@ -63,7 +63,8 @@ header "Create final release..."
 bosh2 -n create-release --final --version "${VERSION}"
 bosh2 -n create-release releases/$RELEASE_NAME/$RELEASE_NAME-$VERSION.yml \
               --tarball releases/$RELEASE_NAME/$RELEASE_NAME-$VERSION.tgz
-)
+cd -
+
 RELEASE_TGZ=$REPO_ROOT/releases/$RELEASE_NAME/$RELEASE_NAME-$VERSION.tgz
 export SHA1=$(sha1sum $RELEASE_TGZ | head -n1 | awk '{print $1}')
 echo "SHA1=$SHA1"
@@ -71,7 +72,7 @@ echo "SHA1=$SHA1"
 mkdir -p ${RELEASE_ROOT}/artifacts
 echo "v${VERSION}"                         > ${RELEASE_ROOT}/tag
 echo "v${VERSION}"                         > ${RELEASE_ROOT}/name
-cp ${REPO_ROOT}/releases/*/*-${VERSION}.tgz  ${RELEASE_ROOT}/artifacts
+mv ${REPO_ROOT}/releases/*/*-${VERSION}.tgz  ${RELEASE_ROOT}/artifacts
 mv ${REPO_ROOT}/ci/release_notes.md          ${RELEASE_ROOT}/notes.md
 cat >> ${RELEASE_ROOT}/notes.md <<EOF
 
@@ -98,7 +99,7 @@ if [[ -z $(git config --global user.name) ]]; then
 fi
 
 (cd ${REPO_ROOT}
- $DIR/update-manifest $GITHUB_OWNER $RELEASE_NAME $VERSION $SHA1
+ $DIR/update-manifest $GITHUB_OWNER $RELEASE_NAME $VERSION $SHA1 $MANIFEST_PATH
  git merge --no-edit ${BRANCH}
  git add -A
  git status
