@@ -1,3 +1,2 @@
 
-# shield
-Bumped https://github.com/starkandwayne/shield to v0.10.9
+* shield-server blob now includes version number
