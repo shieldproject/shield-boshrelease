@@ -44,6 +44,12 @@ properties:
     default: 443
   domain:
     description: Fully-qualified domain name (or IP address) of your SHIELD installation
+  workers:
+    description: Max number of concurrent tasks in running state.
+    default: 5
+  max_timeout:
+    description: Duration in hours after which a running task is timed out.
+    default: 12
 
   ssl.key:
     description: "TLS private key (PEM encoded)"
