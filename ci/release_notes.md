@@ -1,3 +1,4 @@
+* `shield-daemon` job `shield-db` link is now optional (thanks @karampok)
 * `shield-daemon` job has two new properties that can be overridden if you need to tweak these settings (thanks https://github.com/starkandwayne/shield-boshrelease/pull/90 from @karampok)
 
     ```
