@@ -30,6 +30,7 @@ provides:
 consumes:
 - name: shield-db
   type: sql
+  optional: true
 - name: sessions-db
   type: sql
   optional: true
