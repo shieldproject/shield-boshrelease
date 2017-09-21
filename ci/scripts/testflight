@@ -118,7 +118,7 @@ cat >> tmp/deployment.yml <<YAML
 
 - type: replace
   path: /instance_groups/name=${ig_name}/networks
-  value: [{name: ${vm_type}}]
+  value: [{name: ${network}}]
 YAML
 done
 
@@ -148,6 +148,13 @@ if [[ -n ${TEST_ERRANDS} ]]; then
 	done
 else
 	echo "No test errands specified, skipping."
+fi
+
+if [[ -z ${SKIP_DELETE_DEPLOYMENT:-} ]]; then
+	header "Cleaning up after successful deployment..."
+	bosh2 -n delete-deployment
+else
+	header "Skipping cleanup of successful deployment."
 fi
 
 echo
