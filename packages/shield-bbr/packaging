@@ -5,7 +5,7 @@ VERSION=1.1.0
 
 tar xvf bbr/bbr-${VERSION}.tar
 
-cd bbr-${VERSION}/releases
+cd bbr/releases
 
 mkdir -p ${BOSH_INSTALL_TARGET}/bin
 cp bbr ${BOSH_INSTALL_TARGET}/bin
