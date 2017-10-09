@@ -1,0 +1,9 @@
+---
+name: agent-bbr
+packages:
+  - bbr
+
+templates:
+  ignore: ignore
+
+properties: {}

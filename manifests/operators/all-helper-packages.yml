@@ -28,3 +28,9 @@
   value:
     name: xtrabackup
     release: shield
+    
+- type: replace
+  path: /instance_groups/name=shield/jobs/-
+  value:
+    name: agent-bbr
+    release: shield

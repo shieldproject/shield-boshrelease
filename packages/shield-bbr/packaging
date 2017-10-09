@@ -1,0 +1,11 @@
+# abort script on any command that exits with a non zero value
+set -e
+
+VERSION=1.1.0
+
+tar xvf bbr/bbr-${VERSION}.tar
+
+cd bbr-${VERSION}/releases
+
+mkdir -p ${BOSH_INSTALL_TARGET}/bin
+cp bbr ${BOSH_INSTALL_TARGET}/bin
