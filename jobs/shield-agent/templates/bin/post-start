@@ -4,6 +4,19 @@ export PATH=${PATH}:/var/vcap/packages/shield/bin
 export PATH=${PATH}:/var/vcap/packages/utils/bin
 SHIELD_CONFIG=$(mktemp --tmpdir auto.XXXXXX)
 trap "rm -rf ${SHIELD_CONFIG}" INT TERM QUIT EXIT
+<%
+def format_name(name, err_ctx)
+   var = name.gsub("<deployment_name>", spec.deployment)
+   var = var.gsub("<instance_index>", spec.index.to_s)
+   var = var.gsub("<ip>", spec.ip)
+   var = var.gsub("<instance_name>", spec.name)
+   var = var.gsub("<instance_zone>", spec.az)
+   if var.match(/<(\S+)>/)
+       raise "Unknown pattern #{var.match(/<(\S+)>/)} for #{err_ctx} #{name}"
+   end
+   return var
+end
+%>
 
 <%
   if_p("autoprovision") do |endpoint|
@@ -62,22 +75,22 @@ job() {
 EOF
 }
 <% p('schedules', {}).each do |name, schedule| -%>
-cat <<EOF | provision '<%= name %>' schedule
-{"name":"<%= name %>",
+cat <<EOF | provision '<%= format_name(name,  "schedule name") %>' schedule
+{"name":"<%= format_name(name , 'schedule name') %>",
  "when":"<%= schedule %>"}
 EOF
 <% end -%>
 
 <% p('retention-policies', {}).each do |name, retention| -%>
-cat <<EOF | provision '<%= name %>' policy
-{"name":"<%= name %>",
+cat <<EOF | provision '<%= format_name(name, "provision name") %>' policy
+{"name":"<%= format_name(name, 'provision name') %>",
  "expires":<%= retention.to_i * 86400 %>}
 EOF
 <% end -%>
 
 <% p('targets', {}).each do |name, target| -%>
-cat <<EOF | provision '<%= target["name"] || name %>' target
-{"name":     "<%= target["name"] || name %>",
+cat <<EOF | provision '<%= format_name(target["name"] || name , "target name") %>' target
+{"name":     "<%= format_name(target["name"] || name, 'target name') %>",
  "plugin":   "<%= target["plugin"] %>",
  "endpoint": <%= target["config"].to_json.dump %>,
  "agent":    "<%= my_ip %>:<%= p("port") %>"}
@@ -85,8 +98,8 @@ EOF
 <% end -%>
 
 <% p('stores', {}).each do |name, store| -%>
-cat <<EOF | provision '<%= store["name"] || name %>' store
-{"name":     "<%= store["name"] || name %>",
+cat <<EOF | provision '<%= format_name(store["name"] || name , "store name") %>' store
+{"name":     "<%= format_name(store["name"] || name , 'store name') %>",
  "plugin":   "<%= store["plugin"] %>",
  "endpoint": <%= store["config"].to_json.dump %>}
 EOF
@@ -95,11 +108,11 @@ EOF
 sleep 5
 
 <% p('jobs', {}).each do |name, job| %>
-job '<%= job["name"] || name %>' \
-    '<%= job["target"] %>'    \
-    '<%= job["store"] %>'     \
-    '<%= job["retention"] %>' \
-    '<%= job["schedule"] %>'
+job '<%= format_name(job["name"] || name, "job name") %>' \
+    '<%= format_name(job["target"], "target name of job definition") %>'    \
+    '<%= format_name(job["store"], "store name of job definition") %>'     \
+    '<%= format_name(job["retention"], "retention name of job definition") %>' \
+    '<%= format_name(job["schedule"], "schedule name of job definition") %>'
 <% end -%>
 
 sleep 5
