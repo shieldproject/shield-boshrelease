@@ -82,8 +82,8 @@ EOF
 <% end -%>
 
 <% p('retention-policies', {}).each do |name, retention| -%>
-cat <<EOF | provision '<%= format_name(name, "provision name") %>' policy
-{"name":"<%= format_name(name, 'provision name') %>",
+cat <<EOF | provision '<%= format_name(name, "policy name") %>' policy
+{"name":"<%= format_name(name, 'policy name') %>",
  "expires":<%= retention.to_i * 86400 %>}
 EOF
 <% end -%>
