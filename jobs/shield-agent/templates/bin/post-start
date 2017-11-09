@@ -5,16 +5,13 @@ export PATH=${PATH}:/var/vcap/packages/utils/bin
 SHIELD_CONFIG=$(mktemp --tmpdir auto.XXXXXX)
 trap "rm -rf ${SHIELD_CONFIG}" INT TERM QUIT EXIT
 <%
-def format_name(name, err_ctx)
-   var = name.gsub("<deployment_name>", spec.deployment)
-   var = var.gsub("<instance_index>", spec.index.to_s)
-   var = var.gsub("<ip>", spec.ip)
-   var = var.gsub("<instance_name>", spec.name)
-   var = var.gsub("<instance_zone>", spec.az)
-   if var.match(/<(\S+)>/)
-       raise "Unknown pattern #{var.match(/<(\S+)>/)} for #{err_ctx} #{name}"
-   end
-   return var
+def format_name(name)
+   result = name.gsub("(deployment)", spec.deployment)
+   result.gsub!("(index)", spec.index.to_s)
+   result.gsub!("(ip)", spec.ip)
+   result.gsub!("(name)", spec.name)
+   result.gsub!("(az)", spec.az)
+   return result
 end
 %>
 
@@ -75,22 +72,22 @@ job() {
 EOF
 }
 <% p('schedules', {}).each do |name, schedule| -%>
-cat <<EOF | provision '<%= format_name(name,  "schedule name") %>' schedule
-{"name":"<%= format_name(name , 'schedule name') %>",
+cat <<EOF | provision '<%= format_name(name) %>' schedule
+{"name":"<%= format_name(name) %>",
  "when":"<%= schedule %>"}
 EOF
 <% end -%>
 
 <% p('retention-policies', {}).each do |name, retention| -%>
-cat <<EOF | provision '<%= format_name(name, "policy name") %>' policy
-{"name":"<%= format_name(name, 'policy name') %>",
+cat <<EOF | provision '<%= format_name(name) %>' policy
+{"name":"<%= format_name(name) %>",
  "expires":<%= retention.to_i * 86400 %>}
 EOF
 <% end -%>
 
 <% p('targets', {}).each do |name, target| -%>
-cat <<EOF | provision '<%= format_name(target["name"] || name , "target name") %>' target
-{"name":     "<%= format_name(target["name"] || name, 'target name') %>",
+cat <<EOF | provision '<%= format_name(target["name"] || name) %>' target
+{"name":     "<%= format_name(target["name"] || name) %>",
  "plugin":   "<%= target["plugin"] %>",
  "endpoint": <%= target["config"].to_json.dump %>,
  "agent":    "<%= my_ip %>:<%= p("port") %>"}
@@ -98,8 +95,8 @@ EOF
 <% end -%>
 
 <% p('stores', {}).each do |name, store| -%>
-cat <<EOF | provision '<%= format_name(store["name"] || name , "store name") %>' store
-{"name":     "<%= format_name(store["name"] || name , 'store name') %>",
+cat <<EOF | provision '<%= format_name(store["name"] || name) %>' store
+{"name":     "<%= format_name(store["name"] || name) %>",
  "plugin":   "<%= store["plugin"] %>",
  "endpoint": <%= store["config"].to_json.dump %>}
 EOF
@@ -108,11 +105,11 @@ EOF
 sleep 5
 
 <% p('jobs', {}).each do |name, job| %>
-job '<%= format_name(job["name"] || name, "job name") %>' \
-    '<%= format_name(job["target"], "target name of job definition") %>'    \
-    '<%= format_name(job["store"], "store name of job definition") %>'     \
-    '<%= format_name(job["retention"], "retention name of job definition") %>' \
-    '<%= format_name(job["schedule"], "schedule name of job definition") %>'
+job '<%= format_name(job["name"] || name) %>' \
+    '<%= format_name(job["target"]) %>'    \
+    '<%= format_name(job["store"]) %>'     \
+    '<%= format_name(job["retention"]) %>' \
+    '<%= format_name(job["schedule"]) %>'
 <% end -%>
 
 sleep 5
