@@ -1,5 +1,5 @@
 ---
-name: shield-daemon
+name: core
 packages:
 - shield
 - utils
@@ -20,20 +20,12 @@ templates:
   nginx/config/ssl_crt:    nginx/config/ssl_crt
 
 provides:
-- name: shield-daemon
-  type: shield-daemon
+- name: shield
+  type: shield
   properties:
   - domain
   - port
   - auth.api_keys
-
-consumes:
-- name: shield-db
-  type: sql
-  optional: true
-- name: sessions-db
-  type: sql
-  optional: true
 
 properties:
   name:
@@ -45,6 +37,7 @@ properties:
     default: 443
   domain:
     description: Fully-qualified domain name (or IP address) of your SHIELD installation
+
   workers:
     description: Max number of concurrent tasks in running state.
     default: 5
@@ -59,7 +52,6 @@ properties:
   ssl.timeout:
     description: "Timeout for reusing the previously negotiated cryptographic parameters"
     default: 7200
-
 
   ssh_private_key:
     description: SSH private key to use for communicating with the shield-agent.

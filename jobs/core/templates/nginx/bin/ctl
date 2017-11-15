@@ -1,9 +1,9 @@
 #!/bin/bash
 
-RUN_DIR=/var/vcap/sys/run/shield-daemon
-LOG_DIR=/var/vcap/sys/log/shield-daemon
-JOB_DIR=/var/vcap/jobs/shield-daemon
-CONF_DIR=$JOB_DIR/shield-daemon/config
+RUN_DIR=/var/vcap/sys/run/core
+LOG_DIR=/var/vcap/sys/log/core
+JOB_DIR=/var/vcap/jobs/core
+CONF_DIR=$JOB_DIR/core/config
 PIDFILE=$RUN_DIR/nginx.pid
 
 case $1 in

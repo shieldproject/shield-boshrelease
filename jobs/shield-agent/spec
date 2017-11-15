@@ -16,8 +16,8 @@ templates:
   helpers/ctl_utils.sh:     helpers/ctl_utils.sh
 
 consumes:
-- name: shield-daemon
-  type: shield-daemon
+- name: core
+  type: core
   optional: true
 
 properties:
@@ -28,9 +28,9 @@ properties:
     default: 5444
 
   daemon_public_key:
-    description: "SSH Public Key used by the shield-daemon job to permit access to this agent.  You must at least specify this property, or the autoprovision property."
+    description: "SSH Public Key used by the core job to permit access to this agent.  You must at least specify this property, or the autoprovision property."
   autoprovision:
-    description: "Optional. Either 'true' to autoprovision via shield-daemon link; HTTP API of the SHIELD API to automatically retrieve the shield-daemon SSH Public Key from.  You must at least specify this property, or the daemon_public_key property."
+    description: "Optional. Either 'true' to autoprovision via core link; HTTP API of the SHIELD API to automatically retrieve the shield-daemon SSH Public Key from.  You must at least specify this property, or the daemon_public_key property."
 
   provisioning_key:
     description: "API Key to use when provisioning jobs, or targets. Required if target or job have data"
