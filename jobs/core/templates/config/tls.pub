@@ -1,0 +1,7 @@
+<%
+x = p("tls.certificate")
+if !x.match('CERTIFICATE')
+  x = x.gsub(/^(.{40}).*/, '\1...')
+  raise "tls.certificate '#{x}' does not look like a TLS certificate"
+end
+%><%= p('tls.certificate') %>

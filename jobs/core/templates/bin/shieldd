@@ -1,0 +1,39 @@
+#!/bin/bash
+set -eu
+
+RUN_DIR=/var/vcap/sys/run/core
+LOG_DIR=/var/vcap/sys/log/core
+JOB_DIR=/var/vcap/jobs/core
+DAT_DIR=/var/vcap/store/shield
+PIDFILE=$RUN_DIR/shieldd.pid
+exec 2>&1 >>$LOG_DIR/shieldd.log
+
+case $1 in
+  start)
+    mkdir -p $RUN_DIR $LOG_DIR $DAT_DIR
+    chown vcap:vcap $DAT_DIR
+
+    echo "$(date) running any schema migrations"
+    shield-schema -d $STORE_DIR/
+
+    echo "$(date) starting up shieldd"
+    export SHIELD_NAME="<%= p('name') %>"
+    echo $$ > $PIDFILE
+    exec chpst -u vcap:vcap \
+      /var/vcap/packages/shield/shieldd \
+        -c $JOB_DIR/config/shieldd.conf
+    ;;
+
+  stop)
+    PID=$(head -1 $PIDFILE)
+    kill $PID
+    while [ -e /proc/$PID ]; do sleep 0.1; done
+    rm -f $PIDFILE
+    ;;
+
+  *)
+    echo "Usage: shieldd {start|stop}"
+    exit 1
+    ;;
+esac
+exit 0

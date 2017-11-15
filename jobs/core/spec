@@ -1,121 +1,90 @@
 ---
 name: core
 packages:
-- shield
-- utils
-- nginx
+  - shield
+  - utils
+  - nginx
 
 templates:
-  bin/ctl:              bin/ctl
-  bin/monit_debugger:   bin/monit_debugger
+  # shieldd core
+  bin/shieldd:          bin/shieldd
   config/shieldd.conf:  config/shieldd.conf
-  shared/id_rsa:        shared/id_rsa
-  helpers/ctl_setup.sh: helpers/ctl_setup.sh
-  helpers/ctl_utils.sh: helpers/ctl_utils.sh
+  config/agent.key:     config/agent.key
 
-  nginx/bin/ctl:           bin/nginx_ctl
-  nginx/config/nginx.conf: nginx/config/nginx.conf
-  nginx/config/mime.types: nginx/config/mime.types
-  nginx/config/ssl_key:    nginx/config/ssl_key
-  nginx/config/ssl_crt:    nginx/config/ssl_crt
+  # nginx reverse proxy
+  bin/nginx:            bin/nginx
+  config/nginx.conf:    config/nginx.conf
+  config/tls.pub:       config/tls.pub
+  config/tls.key:       config/tls.key
 
 provides:
-- name: shield
-  type: shield
-  properties:
-  - domain
-  - port
-  - auth.api_keys
+  - name: shield
+    type: shield
+    properties: [domain, port]
 
 properties:
-  name:
-    description: The name of your SHIELD installation (to display to `shield status' calls).
-    default: "(none)"
-
   port:
-    description: Incoming port to bind for HTTPS API and Web UI requests
+    description: Incoming port to bind for HTTPS API and Web UI
     default: 443
   domain:
     description: Fully-qualified domain name (or IP address) of your SHIELD installation
 
-  workers:
-    description: Max number of concurrent tasks in running state.
+  core.name:
+    description: The name of your SHIELD installation (to display to `shield status' calls).
+    default: "(none)"
+  core.env:
+    description: A short tag describing this environment (i.e. 'prod', 'staging', etc.).
+    default: sandbox
+  core.color:
+    description: What color should the SHIELD Web UI render the environment tag in.
+    default: yellow
+  core.motd:
+    description: A (perhaps long-form) message of the day, to display on login forms.
+
+  failsafe.username:
+    description: A fallback username for initially accessiong your SHIELD instance.
+    default: admin
+  failsafe.password:
+    description: A password for the failsafe user.
+    default: shield
+
+  core.workers:
+    description: Maximum allowable number of running, concurrent tasks.
     default: 5
-  max_timeout:
-    description: Duration in hours after which a running task is timed out.
+  core.task-timeout:
+    description: How long after start of execution (in hours) before timing out a running task.
     default: 12
+  core.session-timeout:
+    description: How long should sessions be valid for (in hours).
+    default: 8
+  core.fast-loop:
+    description: How frequently (in seconds) should SHIELD check for and execute scheduled jobs.
+    default: 5
+  core.slow-loop:
+    description: How frequently (in seconds) should SHIELD perform janitorial tasks.
+    default: 
 
-  ssl.key:
-    description: "TLS private key (PEM encoded)"
-  ssl.crt:
-    description: "TLS Certificate (PEM encoded)"
-  ssl.timeout:
-    description: "Timeout for reusing the previously negotiated cryptographic parameters"
-    default: 7200
+  tls.key:
+    description: "TLS private key (PEM encoded), used for the HTTPS API and Web UI"
+  tls.certificate:
+    description: "TLS Certificate (PEM encoded), used for the HTTPS API and Web UI"
+  tls.reuse-after:
+    description: "How long (in hours) before rotating cryptographic parameters"
+    default: 2
 
-  ssh_private_key:
-    description: SSH private key to use for communicating with the shield-agent.
+  agent.key:
+    description: RSA private key used for securing communications between SHIELD Agents and the SHIELD Core.
 
-  database.type:
-    description: Type of database backend to use ('postgres' or 'mysql').
-  database.host:
-    description: Hostname or IP address of the backend database server.
-  database.port:
-    description: TCP port that the database server is listening on.
-  database.username:
-    description: Username to use for accessing the database.
-  database.password:
-    description: Password to use for accessing the database.
-  database.db:
-    description: Name of the SHIELD database
-
-  auth.oauth.provider:
-    description: "OAuth2 provider to use with SHIELD (supported values: 'github' and 'cloudfoundry')"
-  auth.oauth.key:
-    description: Auth Key/Client ID to use with the OAuth2 provider
-  auth.oauth.secret:
-    description: Auth Secret/Client Secret to use with the OAuth2 provider
-  auth.oauth.authorization.orgs:
-    description: List of organizations that users must be members of to access SHIELD. This MUST* be specified or no one will be able to access SHIELD.
-
-  auth.oauth.sessions.db.host:
-    description: Hostname or IP address of the database server.
-  auth.oauth.sessions.db.port:
-    description: TCP port that the database server is listening on.
-  auth.oauth.sessions.db.username:
-    description: Username to use for accessing the session database.
-  auth.oauth.sessions.db.password:
-    description: Password to use for accessing the session database.
-  auth.oauth.sessions.db.name:
-    description: Name of the database to use for storing session data.
-
-  auth.oauth.sessions.max_age:
-    description: Maximum age for an authenticated session (in seconds).
-    default: 2592000
-
-  auth.username:
-    description: Username to use with basic auth for SHIELD (disabled if oauth is enabled)
-    default: "admin"
-  auth.password:
-    description: Password to use with basic auth for SHIELD (disabled if oauth is enabled)
-
-  auth.api_keys:
-    description: Map of API keys to grant script-level access to SHIELD (keys are names of keys, values are keys themselves)
-    example: |
-      api_keys:
-        my_script: AwB6iMPhTHiE7V2ngLNv
-        autoprovision: KTocoRDwtasU22kiA3Go
-
-  log_level:
-    description: Log level for shield processes
+  log-level:
+    description: Log level for the SHIELD Core.  One of 'error', 'warning', or 'info'.
     default: "info"
 
-  nginx.worker_processes:
+  nginx.workers:
     description: "Number of nginx workers"
     default: 2
-  nginx.worker_connections:
+  nginx.connections:
     description: "Number of nginx connections per worker"
     default: 8192
-  nginx.keepalive_timeout:
+  nginx.keepalive:
     description: "Timeout for keep-alive connections"
     default: "75 20"

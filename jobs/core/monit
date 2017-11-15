@@ -1,11 +1,11 @@
-check process core
-  with pidfile /var/vcap/sys/run/core/core.pid
-  start program "/var/vcap/jobs/core/bin/monit_debugger core_ctl '/var/vcap/jobs/core/bin/ctl start'"
-  stop program "/var/vcap/jobs/core/bin/monit_debugger core_ctl '/var/vcap/jobs/core/bin/ctl stop'"
+check process shieldd
+  with pidfile   /var/vcap/sys/run/core/shieldd.pid
+  start program "/var/vcap/jobs/core/bin/shieldd start"
+  stop program  "/var/vcap/jobs/core/bin/shieldd stop"
   group vcap
 
 check process nginx
-  with pidfile /var/vcap/sys/run/core/nginx.pid
-  start program "/var/vcap/jobs/core/bin/nginx_ctl start"
-  stop program "/var/vcap/jobs/core/bin/nginx_ctl stop"
+  with pidfile   /var/vcap/sys/run/core/nginx.pid
+  start program "/var/vcap/jobs/core/bin/nginx start"
+  stop program  "/var/vcap/jobs/core/bin/nginx stop"
   group vcap
