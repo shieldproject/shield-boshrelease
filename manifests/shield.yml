@@ -8,17 +8,6 @@ instance_groups:
   stemcell: default
   persistent_disk_type: default
   networks: [{name: default}]
-  jobs:
-  - name: postgres
-    release: shield
-    properties:
-      databases:
-      - {name: shielddb,   tag: shield,   citext: true}
-      - {name: sessionsdb, tag: sessions, citext: true}
-      roles:
-      - name: shieldadmin
-        password: ((db-password))
-        tag: admin
   - name: shield-daemon
     release: shield
     provides:
@@ -43,8 +32,6 @@ instance_groups:
       retention-policies: {default: 30}
 
 variables:
-- name: db-password
-  type: password
 - name: shield-daemon-sshkey
   type: rsa
 - name: shield-daemon-password
