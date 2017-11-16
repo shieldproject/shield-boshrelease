@@ -48,6 +48,14 @@ properties:
   recovery.store_config:
     description: "A map of key-values that will be converted to JSON, representing the store plugin configration"
 
+  env.path:
+    description: A list of paths to append to $PATH, so that plugins can find tools and utilities when they run.
+  env.libs:
+    description: A list of paths to append to $LD_LIBRARY_PATH, so that plugins can use tools and utilities when they run.
+  env.auto:
+    description: Augment the plugin environment with the appropriate bin/, sbin/, and lib/ directories from all BOSH packages named 'shield-addon-*'
+    default: true
+
   plugin_paths:
     description: "Map of paths that the binary of the plugins can be found"
     example: |

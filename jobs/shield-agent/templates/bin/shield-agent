@@ -48,6 +48,39 @@ case $1 in
       exit 1
     fi
 
+    <% if p('env.auto') %>
+    # env.auto
+    for pkg in /var/vcap/packages/shield-addon-*; do
+      if [[ -d $pkg/bin ]]; then
+        PATH="$PATH:$pkg/bin"
+      fi
+      if [[ -d $pkg/sbin ]]; then
+        PATH="$PATH:$pkg/sbin"
+      fi
+      if [[ -d $pkg/lib ]]; then
+        if [[ -z "$LD_LIBRARY_PATH" ]]; then
+          LD_LIBRARY_PATH="$pkg/lib"
+        else
+          LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$pkg/lib"
+        fi
+      fi
+    done
+    <% end %>
+
+    <% if p('env.path', []).size > 0 %>
+    # env.paths
+    PATH="$PATH:<%= p('env.path').join(':') %>"
+    <% end %>
+
+    <% if p('env.libs', []).size > 0 %>
+    # env.libs
+    if [[ -z "$LD_LIBRARY_PATH" ]]; then
+      LD_LIBRARY_PATH="<%= p('env.libs').join(':') %>"
+    else
+      LD_LIBRARY_PATH="$LD_LIBRARY_PATH:<%= p('env.libs').join(':') %>"
+    fi
+    <% end %>
+
     echo $$ > $PIDFILE
     exec chpst /var/vcap/packages/shield/bin/shield-agent \
       -c $JOB_DIR/config/shield-agent.conf
