@@ -4,9 +4,3 @@
   value:
     name: agent-mysql
     release: shield
-
-- type: replace
-  path: /instance_groups/name=shield/jobs/-
-  value:
-    name: xtrabackup
-    release: shield
