@@ -33,4 +33,4 @@ properties:
     description: Whether or not the WebDAV is protected by HTTP Basic Authentication.
     default: true
   webdav.auth.users:
-    description: A list of {username: ..., password: ...} objects used to define the HTTP Basic Authentication credentials that will be permitted to access the WebDAV service.
+    description: "A list of {username: ..., password: ...} objects used to define the HTTP Basic Authentication credentials that will be permitted to access the WebDAV service."
