@@ -1,0 +1,68 @@
+#!/bin/bash
+set -eu
+<%
+   if ! properties.autoprovision and ! properties.agent.public
+     raise "You must specify either autoprovision or agent.public (or both)"
+   end
+%>
+
+RUN_DIR=/var/vcap/sys/run/shield
+LOG_DIR=/var/vcap/sys/log/shield
+JOB_DIR=/var/vcap/jobs/shield-agent
+PIDFILE=$RUN_DIR/agent.pid
+exec 2>&1 >>$LOG_DIR/agent.log
+
+SHIELD_AUTO_PROVISION=<%
+  if_p("autoprovision") do |endpoint|
+    if endpoint.to_s == "true"
+      %>https://<%= p("domain", link('core').instances.first.address) %><%
+    else
+      %><%= endpoint %>
+    end
+  done
+%>
+
+case $1 in
+  start)
+    mkdir -p $RUN_DIR $LOG_DIR
+
+    echo "$(date) starting up shield-agent"
+    echo "$(date) setting up agent <-> core keys"
+    AUTHKEYS=$JOB_DIR/config/authorized_keys
+    rm -f $AUTHKEYS
+
+    # try to get a key from the SHIELD core
+    test -n "${SHIELD_AUTO_PROVISION}" && \
+      curl -Lks "$SHIELD_AUTO_PROVISION/v1/meta/pubkey" -m 20 \
+        >> $AUTHKEYS || true
+
+    # use the one from the configuration
+    if [[ -s $JOB_DIR/config/agent.key ]]; then
+      ssh-keygen -yf $JOB_DIR/config/agent.key >>$AUTHKEYS
+    fi
+
+    if [[ ! -s $AUTHKEYS ]]; then
+      echo "$(date) unable to provision agent <-> core keys."
+      test -n "${SHIELD_AUTO_PROVISION}" && \
+        echo "$(date) maybe the SHIELD Core at ${SHIELD_AUTO_PROVISION} is not up yet?"
+      exit 1
+    fi
+
+    echo $$ > $PIDFILE
+    exec chpst /var/vcap/packages/shield/shield-agent \
+      -c $JOB_DIR/config/shield-agent.conf
+    ;;
+
+  stop)
+    PID=$(head -1 $PIDFILE)
+    kill $PID
+    while [ -e /proc/$PID ]; do sleep 0.1; done
+    rm -f $PIDFILE
+    ;;
+
+  *)
+    echo "Usage: shield-agent {start|stop}"
+    exit 1
+    ;;
+esac
+exit 0

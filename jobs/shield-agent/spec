@@ -7,18 +7,18 @@ packages:
   - utils
 
 templates:
-  bin/ctl:                  bin/ctl
-  bin/monit_debugger:       bin/monit_debugger
+  bin/shield-agent:         bin/shield-agent
   bin/post-start:           bin/post-start
   bin/emergency-recovery:   bin/emergency-recovery
-  config/shield-agent.conf: config/shield-agent.conf
-  helpers/ctl_setup.sh:     helpers/ctl_setup.sh
-  helpers/ctl_utils.sh:     helpers/ctl_utils.sh
+
+  config/agent.conf:        config/agent.conf
+  config/agent.key:         config/agent.key
+  config/import.yml:        config/import.yml
 
 consumes:
-- name: core
-  type: core
-  optional: true
+  - name: core
+    type: core
+    optional: true
 
 properties:
   ip:
@@ -27,16 +27,14 @@ properties:
     description: "port to run agent"
     default: 5444
 
-  daemon_public_key:
-    description: "SSH Public Key used by the core job to permit access to this agent.  You must at least specify this property, or the autoprovision property."
+  agent.key:
+    description: RSA private key used for securing communications between SHIELD Agents and the SHIELD Core.
+
+  import:
+    description: A complete `buckler import' YAML file, for importing and auto-provisioning tenants, users, cloud storage, data systems, etc.
+
   autoprovision:
     description: "Optional. Either 'true' to autoprovision via core link; HTTP API of the SHIELD API to automatically retrieve the shield-daemon SSH Public Key from.  You must at least specify this property, or the daemon_public_key property."
-
-  provisioning_key:
-    description: "API Key to use when provisioning jobs, or targets. Required if target or job have data"
-  skip_ssl_verify:
-    description: "Boolean to determine if SSL certs will be ignored when provisioning SHIELD data"
-    default: true
 
   log_level:
     description: "Log level for shield processes"
@@ -56,56 +54,3 @@ properties:
     example: |
       plugin_paths:
         atmos: /var/vcap/packages/atmos-plugin/bin
-
-  stores:
-    description: |
-      A list of Stores to autoprovision in SHIELD, keyed by name.
-      You can optionally override the name of the store with a 'name' attribute.
-      For example:
-        stores:
-          amazon:
-            plugin: s3
-            config:
-              secret_key: foo
-              bucket:     my-backups
-
-  targets:
-    description: |
-      A list of Targets to autoprovision in SHIELD, keyed by name.
-      You can optionally override the name of the target with a 'name' attribute.
-      For example:
-        targets:
-          localdb:
-            plugin: postgres
-            config:
-              pg_host: 10.0.0.6
-              pg_port: 5524
-              # etc.
-
-  jobs:
-    description: |
-      A list of Jobs to autoprovision in SHIELD, keyed by name.
-      You can optionally override the name of the job with a 'name' attribute.
-      For example:
-        jobs:
-          my-backups:
-            target:     localdb
-            store:      amazon
-            retention:  longterm
-            schedule:   weekly
-
-  schedules:
-    description: |
-      A list of Schedules to autoprovision in SHIELD, keyed by name.
-      For example:
-        schedules:
-          Daily: daily 4am
-          Weekly: weekly on monday 3am
-
-  retention-policies:
-    description: |
-      A list of Retention policies to autoprovision in SHIELD, keyed by name.
-      For example:
-        retention-policies:
-          Short-term:  90d
-          Long-term:  180d

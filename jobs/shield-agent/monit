@@ -1,5 +1,5 @@
 check process shield-agent
-  with pidfile /var/vcap/sys/run/shield-agent/shield-agent.pid
-  start program "/var/vcap/jobs/shield-agent/bin/monit_debugger ctl '/var/vcap/jobs/shield-agent/bin/ctl start'"
-  stop program "/var/vcap/jobs/shield-agent/bin/monit_debugger ctl '/var/vcap/jobs/shield-agent/bin/ctl stop'"
+  with pidfile   /var/vcap/sys/run/shield-agent/shield-agent.pid
+  start program "/var/vcap/jobs/shield-agent/bin/shield-agent start"
+  stop program  "/var/vcap/jobs/shield-agent/bin/shield-agent stop"
   group vcap
