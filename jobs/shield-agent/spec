@@ -2,7 +2,6 @@
 name: shield-agent
 packages:
   - shield
-  - bsdtar
 
 templates:
   bin/shield-agent:         bin/shield-agent
