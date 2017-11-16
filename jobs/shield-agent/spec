@@ -13,8 +13,8 @@ templates:
   config/import.yml:        config/import.yml
 
 consumes:
-  - name: core
-    type: core
+  - name: shield
+    type: shield
     optional: true
 
 properties:
@@ -31,7 +31,7 @@ properties:
     description: A complete `buckler import' YAML file, for importing and auto-provisioning tenants, users, cloud storage, data systems, etc.
 
   autoprovision:
-    description: "Optional. Either 'true' to autoprovision via core link; HTTP API of the SHIELD API to automatically retrieve the shield-daemon SSH Public Key from.  You must at least specify this property, or the daemon_public_key property."
+    description: "Optional. Either 'true' to autoprovision via the 'shield' BOSH link; HTTP API of the SHIELD API to automatically retrieve the shield-daemon SSH Public Key from.  You must at least specify this property, or the daemon_public_key property."
 
   log_level:
     description: "Log level for shield processes"

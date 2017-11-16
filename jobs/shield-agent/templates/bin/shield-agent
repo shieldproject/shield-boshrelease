@@ -15,7 +15,7 @@ exec 2>&1 >>$LOG_DIR/agent.log
 SHIELD_AUTO_PROVISION=<%
   if_p("autoprovision") do |endpoint|
     if endpoint.to_s == "true"
-      %>https://<%= p("domain", link('core').instances.first.address) %><%
+      %>https://<%= p("domain", link('shield').instances.first.address) %><%
     else
       %><%= endpoint %>
     end
