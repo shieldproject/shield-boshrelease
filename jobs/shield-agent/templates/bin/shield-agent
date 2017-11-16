@@ -49,7 +49,7 @@ case $1 in
     fi
 
     echo $$ > $PIDFILE
-    exec chpst /var/vcap/packages/shield/shield-agent \
+    exec chpst /var/vcap/packages/shield/bin/shield-agent \
       -c $JOB_DIR/config/shield-agent.conf
     ;;
 

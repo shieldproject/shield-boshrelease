@@ -20,7 +20,7 @@ case $1 in
     export SHIELD_NAME="<%= p('name') %>"
     echo $$ > $PIDFILE
     exec chpst -u vcap:vcap \
-      /var/vcap/packages/shield/shieldd \
+      /var/vcap/packages/shield/bin/shieldd \
         -c $JOB_DIR/config/shieldd.conf
     ;;
 
