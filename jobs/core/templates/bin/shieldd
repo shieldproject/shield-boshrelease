@@ -13,8 +13,18 @@ case $1 in
     mkdir -p $RUN_DIR $LOG_DIR $DAT_DIR
     chown vcap:vcap $DAT_DIR
 
+    <% if_p('migrate-from') do |from| %>
+    if [[ ! -f $DAT_DIR/main.db ]]; then
+      echo "$(date) migrating data from legacy storage"
+      /var/vcap/packages/shield/bin/shield-migrate \
+        --type '%<= from.type %>' \
+        --from '<%= from.dsn %>' \
+        --to $DAT_DIR/main.db
+    fi
+    <% end %>
+
     echo "$(date) running any schema migrations"
-    shield-schema -d $STORE_DIR/
+    shield-schema -d $DAT_DIR/main.db
 
     echo "$(date) starting up shieldd"
     export SHIELD_NAME="<%= p('name') %>"

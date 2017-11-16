@@ -92,3 +92,8 @@ properties:
   nginx.keepalive:
     description: "Timeout for keep-alive connections"
     default: "75 20"
+
+  migrate-from.type:
+    description: What type of legacy (pre-v8) database to migrate from (optional).
+  migrate-from.dsn:
+    description: The full datasource name of a legacy (pre-v8) database to migrate from.
