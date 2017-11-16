@@ -4,7 +4,6 @@ packages:
   - shield
   - bsdtar
   - plugins
-  - utils
 
 templates:
   bin/shield-agent:         bin/shield-agent
