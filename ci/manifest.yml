@@ -1,0 +1,124 @@
+name: shield-ci
+
+instance_groups:
+- name: shield
+  instances: 1
+  azs:       [z1]
+  vm_type:              default
+  stemcell:             default
+  persistent_disk_type: default
+
+  networks: [{name: default}]
+
+  jobs:
+    - name: core
+      release: shield
+      provides:
+        shield: {shared: true, as: shield}
+      properties:
+        agent:
+          key: |
+            -----BEGIN RSA PRIVATE KEY-----
+            MIIEogIBAAKCAQEAwCQsuFR6Ncl3dO8IYttxD/MCa3u2FMjLjKVrTBl5YoQHyR3H
+            pwWrFl4zloosAzElQTF/KM4TgcyutdOYVfEGqGk45t/N7SRFId9n/os39w1hUn/r
+            rROQBACsgq6n14D4gQx+SJ3dVBt6ZKpwUuDlv4yUYKmV4Gyj+NY3w8sSJcJP7u01
+            NTrvGOWmwR22XdbT9ad9dyffr3OLCjjKDmh5/ypCmnqzDnxCuT8faRH5ZRWzwdKn
+            EhEK8B/7ksan1buzdeH0rG/g8UZ0WBYn680n67BFlUS76MPAZ6aahJMixSHYOXiU
+            UIQCkO1Mh1PkROnRvHYaWToMhmn8HIxUB2OE4wIDAQABAoIBADzpOuQUo8l5XM1N
+            GbN9LZKIzzOTvF1Kanzj0+gEC18XzAAN2MUyHtKwelo240z/v3ezYURmT/jOEnTB
+            54EXL60j7k4ClR2gaeobELS5HbzMGRY2R1hO41Dhhc7H352J3T3L4BzVLt0C+QIA
+            pisf8LWQs1kRadoDltfD0VnYfqBJNL5vDwThfR00TfigVqF30AHnerUsEJPhWfQQ
+            BIYvNLp+1tSbIvRwVmoEtijJW4dBUnYvFBdqxIZVnHSmLTzuuQGJMKLIU/vr46Wz
+            1HeQWXrnwrXh+YevfBktWDDMAeN05tktWWdNlrMFnq/e2NLCVuwMT3eFpi9CPzI3
+            wnh7e8ECgYEA34pwRjI+PQkpFcKbXA8qn0DeC3GLNa97ud4xx4lfK/ZUirl8qjgU
+            zn7QvDs+2iLxi1c7v+dhUpBtJpF746onkjmT5WSv2B0RSVFTwbEy6IpxOwYF/u+H
+            Poy2VLR5tWxYgLaWGVPN180ptE/VEtQM+7MPOlIDO3J4BXeu5/o59IUCgYEA3AqK
+            XwsQYtKzdVUUQNpGQsgD8TmswnJ9HheyU5IZ1F8kj+nXAQ4oO2t7sWFJdTVdge3G
+            MOtqRk8DVWu4jk9QCipvjGwDkuFrGBSQ/IOvoCQEBicXgzAhWjhFhgIfs+7uefAN
+            65nzmqPe+jtFiY9IjuKfN4QLxH+VhNVHO/GWJEcCgYBPZi7G4CW3LD/JmNvx8Pkk
+            o7e6vNPDd9csh72KsEJ7rP0OYR/knhLV3blqgmiqtmqxIYT5fsfUubPrVRV6If/4
+            MjdT7VWAH6L6NcbYL4Zzjmj1nAgZKx8Qmo5Qu+HXDOrKnQ/nYxrkId1ETG7URzlt
+            VYZ9IpA/V0NGPeKERx66uQKBgA5KIPJLJaVFSaI1BDux8R4lHxxrQmzeQoHRyCLl
+            OggwpY8zAGNxJ+uz7zR1vO9/p7LoXhaPMzedqfnCJRoYzHnch6H24cSIHwxRSZkc
+            dCtSK3C62SwL1B6nyNwLB0QIIDSLAlxqgwdn3PMjJkDorS2aSfyw9pKsNmmJ8DZU
+            WgvBAoGADKu+c7/pBy+oxeCWSRTD5sVyjkYBRhcYEYuoO/JY9IFHlbRa03vr6tb8
+            n8jKrzy04Jb4NhlYOVTg05AUmFRHLD8+2IKFbBxBx1CzHuEj8pmIjiIPBhDiQD7J
+            eh7t+p08WBDMlYmcCkax3vmnP8sqItzt25AOVFjgZOe+BywZe3w=
+            -----END RSA PRIVATE KEY-----
+
+        tls:
+          certificate: |
+            -----BEGIN CERTIFICATE-----
+            MIIEMDCCAxigAwIBAgIJALxsFNf34EbZMA0GCSqGSIb3DQEBCwUAMG0xCzAJBgNV
+            BAYTAlVTMREwDwYDVQQIEwhOZXcgWW9yazEQMA4GA1UEBxMHQnVmZmFsbzEWMBQG
+            A1UEChQNU3RhcmsgJiBXYXluZTEMMAoGA1UECxQDUiZEMRMwEQYDVQQDEwpzaGll
+            bGQuZGV2MB4XDTE3MTExNjE3MDYxN1oXDTE4MTExNjE3MDYxN1owbTELMAkGA1UE
+            BhMCVVMxETAPBgNVBAgTCE5ldyBZb3JrMRAwDgYDVQQHEwdCdWZmYWxvMRYwFAYD
+            VQQKFA1TdGFyayAmIFdheW5lMQwwCgYDVQQLFANSJkQxEzARBgNVBAMTCnNoaWVs
+            ZC5kZXYwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDSEBw7dnQXvfBw
+            g702fWhIBdigsMB4xJQ9hBN8p/1xxcDvg4643pvsdeM41QIug7NqUEAM3t1zGDG1
+            kqUi9Eu5W60ZKpDUohKBazSXLweTF2fWrJqvT4N9y3YDvo8Nn/miTcLbBiF0GJye
+            kl4AWxCvH/py2+PhTRo7eSNbQ8Exjy3gNesjYhu8e2TS3lfSyPOgIWV6ez3+w6Il
+            ciex82XBefAyjxX7ojyP1wRPI6xyS+tf3+vpAzIcZQlG65G/ZQYIrLYu5Y72wNkE
+            ElFb7vbyVwlvw7d3H2onPgp0+JCTgc15hrh7pSTIvocb/mYB6kGOInk97MRAZxiO
+            VqJKTXYPAgMBAAGjgdIwgc8wHQYDVR0OBBYEFOMr3PK+0m3fEP4gvfd8S3cZsYEo
+            MIGfBgNVHSMEgZcwgZSAFOMr3PK+0m3fEP4gvfd8S3cZsYEooXGkbzBtMQswCQYD
+            VQQGEwJVUzERMA8GA1UECBMITmV3IFlvcmsxEDAOBgNVBAcTB0J1ZmZhbG8xFjAU
+            BgNVBAoUDVN0YXJrICYgV2F5bmUxDDAKBgNVBAsUA1ImRDETMBEGA1UEAxMKc2hp
+            ZWxkLmRldoIJALxsFNf34EbZMAwGA1UdEwQFMAMBAf8wDQYJKoZIhvcNAQELBQAD
+            ggEBAEbZoVAEM1K2bB+uHfDMwV0/gs9jyfutn2oOti8TkHrq4WBe5wnRtgnM/uWf
+            9td4geCe6wLqmTqkwHhd6UjumFtY+wTCJsHfviU/T7MG3VknPYtSHwcQHF41s6XA
+            pDfDJJdn+6EhxC02pQcdbe5h6fWimbCdFF3MmxFA9YS8e9N5GILf1oD5a0B6svWo
+            yMScY4EU0R8DJqHz43WNtR0AcQifM7qyHgqSgtxaRW2g1uRBV5p+J0GqXGFt2VpC
+            8la18GQRP31Ev4Ri5tUMdDigXFkOuib9Cy5OXxFo3f8Q1uPQzq8k+gTKpktSzkb8
+            92UEm7HFDVIRVFz/qU+Ne0YmGoM=
+            -----END CERTIFICATE-----
+          key: |
+            -----BEGIN RSA PRIVATE KEY-----
+            MIIEpAIBAAKCAQEA0hAcO3Z0F73wcIO9Nn1oSAXYoLDAeMSUPYQTfKf9ccXA74OO
+            uN6b7HXjONUCLoOzalBADN7dcxgxtZKlIvRLuVutGSqQ1KISgWs0ly8Hkxdn1qya
+            r0+Dfct2A76PDZ/5ok3C2wYhdBicnpJeAFsQrx/6ctvj4U0aO3kjW0PBMY8t4DXr
+            I2IbvHtk0t5X0sjzoCFlens9/sOiJXInsfNlwXnwMo8V+6I8j9cETyOsckvrX9/r
+            6QMyHGUJRuuRv2UGCKy2LuWO9sDZBBJRW+728lcJb8O3dx9qJz4KdPiQk4HNeYa4
+            e6UkyL6HG/5mAepBjiJ5PezEQGcYjlaiSk12DwIDAQABAoIBAH6Woszat19PYUQM
+            v8vEi0FL9J3xpiuhG0xu+WdXvQ4BBCHSgAG8dO5spH+tLeFmEIryzYZ0D7O6Usp/
+            EvEbkz6ilo/h7OGWwdwoBMtO1hu4MSVXYuhe3HjEUdwzy/WEAGXkwpZG/YX/BvMw
+            dWF1f3pppP3usUcmtbY9bCclj5kS/hjuMPf3w4hffB5ksNChuduPScaa69Y9Pt6N
+            ZuW536MnMWu6ibTFFnsUoRkj74Who2Hq3XwX1JYsFuTy8wiNTmHce7+SiQLQ2RYz
+            1WEDwtYFW4NqDDqP5zkHPQUQ9WYafMWsyqmAsGovY0yBUtg12fBWj9ZjtH8CWm0I
+            vR6xVYECgYEA7YLig6NrvA6Gy1u8OcZYmwhL/ic3DifCXnqVtC50+0E5v7BJ4/Bo
+            rREx9VpVCT3k5ILJlgzFaTD7vPmqEU7N2LtQBeIosqqtbWaXD/ZIhY4Umu6M3n7+
+            LQhRMIIA7XxkTsXe9TqOAs/aEVPs10C8n/ShJR/TdKxcNKA7CPDJ6e8CgYEA4mo8
+            bsjarEUYmOigt0ZBOAGZcw7xC8DoQzcJ/09foXLd0/Pzqyhwx27piHgjgizc4411
+            9jFauqIbx4fhS8iF6nPIH7LxrAyk2eFNmVbdI5VJvxIq4lNHYVYO3lrZE/KslfiZ
+            xbp9Sh22IU8PAgiRAyO2Cf8KRFInbYILnQj91eECgYEA4mg3FzdMNrs+QVJUTlrG
+            EhtJnZ+yOrsp7Lg8RsNWXkCiFRmuhiuhDQFsNy+CCkpHDJGkKnZIJOs9vbndJZyS
+            WzzLnqAlHZPXuIboD549KZr0B3DJNjumfjUEeBIlYj2GvRSgYfIMd5+9h3ESP2sF
+            pBElH+eDwh+f0cbAH9ixEV8CgYARVgUOjn5/1kKN4rH7lnuD6EtxjeFS/xBJpTs0
+            u0UdPYhSpEkx/8Sy4IEtG9XML9cx7TDtCtZhl+v8mSDdBpuKWhcmpjLu84Dj1eZ1
+            KTuBb/rXkHKMJcg/YbF9wQMCDgC88u4DP8Y8GI5LepwxkapYzTExDsAgfxHZxq1Q
+            9tFIwQKBgQCFQNythPfkIaDj9qHcZ06T4xtGv9q9rBSqda82rWeH5yzlsyxQm69u
+            cdYm0UIBkPDQf0+GSicZaaCuvCdbBL2KrH1Muj56XvbAv8YacfFAXE6e3J6j9Asv
+            9/j3Q081ginNr0IwKtXmjVGdGM4Av2/SmXLPZhyPKQZ2m9mH8KwlEw==
+            -----END RSA PRIVATE KEY-----
+
+    - name: shield-agent
+      release: shield
+      consumes:
+        shield: {from: core}
+
+update:
+  canaries: 0
+  max_in_flight: 1
+  serial: true
+  canary_watch_time: 1000-120000
+  update_watch_time: 1000-120000
+
+stemcells:
+- alias: default
+  os: ubuntu-trusty
+  version: latest
+
+releases:
+- name: shield
+  version: latest
