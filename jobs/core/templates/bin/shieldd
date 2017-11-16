@@ -1,8 +1,8 @@
 #!/bin/bash
 set -eu
 
-RUN_DIR=/var/vcap/sys/run/core
-LOG_DIR=/var/vcap/sys/log/core
+RUN_DIR=/var/vcap/sys/run/shield
+LOG_DIR=/var/vcap/sys/log/shield
 JOB_DIR=/var/vcap/jobs/core
 DAT_DIR=/var/vcap/store/shield
 PIDFILE=$RUN_DIR/shieldd.pid
