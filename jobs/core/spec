@@ -2,10 +2,14 @@
 name: core
 packages:
   - shield
-  - utils
   - nginx
+  - vault
 
 templates:
+  # vault secure storage
+  bin/vault:            bin/vault
+  config/vault.conf:    config/vault.conf
+
   # shieldd core
   bin/shieldd:          bin/shieldd
   config/shieldd.conf:  config/shieldd.conf

@@ -1,0 +1,36 @@
+#!/bin/bash
+set -eu
+
+RUN_DIR=/var/vcap/sys/run/shield
+LOG_DIR=/var/vcap/sys/log/shield
+JOB_DIR=/var/vcap/jobs/core
+DAT_DIR=/var/vcap/store/shield
+PIDFILE=$RUN_DIR/vault.pid
+exec 2>&1 >>$LOG_DIR/vault.log
+
+case $1 in
+  start)
+    mkdir -p $RUN_DIR $LOG_DIR $DAT_DIR
+    chown vcap:vcap $DAT_DIR
+
+    echo "$(date) starting up vault"
+    export SHIELD_NAME="<%= p('name') %>"
+    echo $$ > $PIDFILE
+    exec chpst -u vcap:vcap \
+      /var/vcap/packages/vault/bin/vault \
+        -config=$JOB_DIR/config/vault.conf
+    ;;
+
+  stop)
+    PID=$(head -1 $PIDFILE)
+    kill $PID
+    while [ -e /proc/$PID ]; do sleep 0.1; done
+    rm -f $PIDFILE
+    ;;
+
+  *)
+    echo "Usage: vault {start|stop}"
+    exit 1
+    ;;
+esac
+exit 0
