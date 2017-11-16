@@ -34,14 +34,6 @@ tar/libarchive-3.1.2.tar.gz:
   size: 4527540
   object_id: 82d11f2c-1a0d-4b68-9915-bb80feb10a74
   sha: 6a991777ecb0f890be931cec4aec856d1a195489
-utils/jq:
-  size: 3027945
-  object_id: 5dd71105-0a16-48d6-abe8-a2a422602f8a
-  sha: d8e36831c3c94bb58be34dd544f44a6c6cb88568
-utils/yaml2json:
-  size: 3221608
-  object_id: 81ed6752-f893-40c1-b344-fdea3473637c
-  sha: 8884601d881a7025f0cfeac5009079509ffc099f
 xtrabackup/autoconf-2.65.tar.gz:
   size: 1738880
   object_id: 0296b4d3-263f-461e-a854-f7d32ea46de5
