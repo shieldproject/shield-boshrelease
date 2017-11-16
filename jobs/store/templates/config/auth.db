@@ -1,0 +1,2 @@
+<% p('auth.user').each do |who| %><%= who.username %>:{PLAIN}<%= who.password} %>
+<% end -%>
