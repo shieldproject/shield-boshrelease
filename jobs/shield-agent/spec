@@ -3,7 +3,6 @@ name: shield-agent
 packages:
   - shield
   - bsdtar
-  - plugins
 
 templates:
   bin/shield-agent:         bin/shield-agent
