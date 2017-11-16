@@ -10,21 +10,22 @@ RUN_DIR=/var/vcap/sys/run/shield
 LOG_DIR=/var/vcap/sys/log/shield
 JOB_DIR=/var/vcap/jobs/shield-agent
 PIDFILE=$RUN_DIR/agent.pid
-exec 2>&1 >>$LOG_DIR/agent.log
+mkdir -p $LOG_DIR
+exec >>$LOG_DIR/agent.log 2>&1
 
 SHIELD_AUTO_PROVISION=<%
   if_p("autoprovision") do |endpoint|
     if endpoint.to_s == "true"
       %>https://<%= p("domain", link('shield').instances.first.address) %><%
     else
-      %><%= endpoint %>
+      %><%= endpoint %><%
     end
-  done
+  end
 %>
 
 case $1 in
   start)
-    mkdir -p $RUN_DIR $LOG_DIR
+    mkdir -p $RUN_DIR
 
     echo "$(date) starting up shield-agent"
     echo "$(date) setting up agent <-> core keys"

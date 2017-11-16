@@ -6,18 +6,18 @@ LOG_DIR=/var/vcap/sys/log/shield
 JOB_DIR=/var/vcap/jobs/core
 DAT_DIR=/var/vcap/store/shield
 PIDFILE=$RUN_DIR/vault.pid
-exec 2>&1 >>$LOG_DIR/vault.log
+mkdir -p $LOG_DIR
+exec >>$LOG_DIR/vault.log 2>&1
 
 case $1 in
   start)
-    mkdir -p $RUN_DIR $LOG_DIR $DAT_DIR
+    mkdir -p $RUN_DIR $DAT_DIR
     chown vcap:vcap $DAT_DIR
 
     echo "$(date) starting up vault"
-    export SHIELD_NAME="<%= p('name') %>"
     echo $$ > $PIDFILE
     exec chpst -u vcap:vcap \
-      /var/vcap/packages/vault/bin/vault \
+      /var/vcap/packages/vault/bin/vault server \
         -config=$JOB_DIR/config/vault.conf
     ;;
 

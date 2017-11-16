@@ -56,17 +56,17 @@ properties:
     description: Maximum allowable number of running, concurrent tasks.
     default: 5
   core.task-timeout:
-    description: How long after start of execution (in hours) before timing out a running task.
-    default: 12
+    description: How long after start of execution before timing out a running task.
+    default: 12h
   core.session-timeout:
-    description: How long should sessions be valid for (in hours).
-    default: 8
+    description: How long should sessions be valid for.
+    default: 8h
   core.fast-loop:
-    description: How frequently (in seconds) should SHIELD check for and execute scheduled jobs.
-    default: 5
+    description: How frequently should SHIELD check for and execute scheduled jobs.
+    default: 5s
   core.slow-loop:
-    description: How frequently (in seconds) should SHIELD perform janitorial tasks.
-    default: 
+    description: How frequently should SHIELD perform janitorial tasks.
+    default: 1h
 
   tls.key:
     description: "TLS private key (PEM encoded), used for the HTTPS API and Web UI"
@@ -92,6 +92,10 @@ properties:
   nginx.keepalive:
     description: "Timeout for keep-alive connections"
     default: "75 20"
+
+  vault.warden:
+    description: Whether or not to disable memory locking, which must only be done on container substrates like Warden.
+    default: false
 
   migrate-from.type:
     description: What type of legacy (pre-v8) database to migrate from (optional).

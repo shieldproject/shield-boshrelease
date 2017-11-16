@@ -14,7 +14,7 @@ instance_groups:
     - name: core
       release: shield
       provides:
-        shield: {shared: true, as: shield}
+        shield: {shared: true}
       properties:
         agent:
           key: |
@@ -105,7 +105,9 @@ instance_groups:
     - name: shield-agent
       release: shield
       consumes:
-        shield: {from: core}
+        shield: {from: shield}
+      properties:
+        autoprovision: true
 
 update:
   canaries: 0

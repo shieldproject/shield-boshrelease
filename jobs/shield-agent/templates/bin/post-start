@@ -3,6 +3,7 @@ set -eu
 LOG_DIR=/var/vcap/sys/log/shield
 JOB_DIR=/var/vcap/jobs/shield-agent
 TMP_DIR=(mktemp --tmpdir import.XXXXXX)
+mkdir -p $LOG_DIR
 cp -f $LOG_DIR/import.yml $LOG_DIR/last-import.yml
 
 trap "rm -rf ${TMP_DIR}" INT TERM QUIT EXIT

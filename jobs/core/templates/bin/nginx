@@ -5,11 +5,12 @@ RUN_DIR=/var/vcap/sys/run/shield
 LOG_DIR=/var/vcap/sys/log/shield
 JOB_DIR=/var/vcap/jobs/core
 PIDFILE=$RUN_DIR/nginx.pid
-exec 2>&1 >>$LOG_DIR/nginx.log
+mkdir -p $LOG_DIR
+exec >>$LOG_DIR/nginx.log 2>&1
 
 case $1 in
   start)
-    mkdir -p $RUN_DIR $LOG_DIR
+    mkdir -p $RUN_DIR
 
     echo "$(date) starting up nginx"
     echo $$ > $PIDFILE
