@@ -149,7 +149,20 @@ Tokens).
 
 ### New Encryption Vault
 
-FIXME
+SHIELD v8 encrypts all backup archives, and it uses a unique,
+randomly generated initialization vector and encryption key for
+each new archive.  These secrets are required for restoration, and
+they have to be stored somewhere safe, so we store then in an
+encrypted vault.
+
+For the most part, the care and feeding of this vault is entirely
+handled for you.  However, the deployment needs to configure an
+X.509 Certificate Authority, and issue an X.509 Certificate for
+the IP SAN 127.0.0.1.
+
+If you are running SHIELD on the BOSH Warden CPI, you will also
+need to set the `vault.warden` property to true to disable some
+features that don't work in warden containers.
 
 ### Changes to the `shield-agent` job
 
@@ -241,7 +254,98 @@ below, for details on migrating your SHIELD data.
 
 ### The New Import Errand
 
-FIXME
+Previous versions of the SHIELD BOSH release used a post-start
+script and `shield-agent` properties to facilitate a form of
+configuration auto-provisioning.
+
+In v8, this has all been replaced by the new `import` errand,
+which drives the much more powerful and flexible `buckler import`
+command-line tool.
+
+The `import` errand takes a single property, `import`, which is a
+full recipe of things to import into SHIELD, as understood by the
+`buckler` tool's `import` sub-command.
+
+Here's an example that sets up a bunch of stuff:
+
+```yaml
+- name: import
+  lifecycle: errand
+  instances: 1
+  azs: [z1]
+  vm_type:         default
+  stemcell:        default
+  networks: {name: default}
+  jobs:
+    - name:    import
+      release: shield
+      properties:
+        import:
+          core:  https://shield.example.com
+          token: ... # an auth token, from `buckler create-auth-token`
+
+          global:
+            storage:
+              - name: S3 Cloud Storage
+                summary: |
+                  Public S3 cloud storage for all SHIELD tenants to use
+                agent:  127.0.0.1:5444
+                plugin: s3
+                config:
+                  access_key_id:     AKI12
+                  secret_access_key: secret
+
+            policies:
+              - name: Long-Term Storage
+                days: 90
+
+          users:
+            - name:     James Hunt
+              username: jhunt
+              password: sekrit
+              sysrole:  admin
+              tenants:
+                - name: Stark & Wayne
+                  role: admin
+
+          tenants:
+            - name: CF Community
+              members:
+                - user: jhunt@local
+                  role: admin
+              storage:
+                - name: Scality
+                  agent:  10.32.45.10:5444
+                  plugin: scality
+                  config:
+                    s3_host: 10.32.45.1
+                    s3_port: 8200
+                    bucket:  my-bucket
+
+              policies:
+                - name: Short-Term
+                  days: 7
+                - name: Long-Term
+                  days: 90
+
+              systems:
+                - name:   BOSH
+                  agent:  10.4.0.1:5444
+                  plugin: postgres
+                  config: {}
+                  jobs:
+                    - name:    Daily
+                      when:    daily 4am
+                      policy:  Short-Term
+                      storage: Scality
+                      paused:  true
+
+                    - name:    Monthly
+                      when:    every month on the 1st at 3am
+                      policy:  Long-Term
+                      storage: Scality
+```
+
 
 ### Database Migration
 
