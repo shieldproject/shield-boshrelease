@@ -85,7 +85,8 @@ case $1 in
 
     echo $$ > $PIDFILE
     exec chpst /var/vcap/packages/shield/bin/shield-agent \
-      -c $JOB_DIR/config/agent.conf
+      --log-level "<%= p('log-level') %>" \
+      --config $JOB_DIR/config/agent.conf
     ;;
 
   stop)

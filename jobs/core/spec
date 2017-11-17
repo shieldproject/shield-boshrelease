@@ -84,7 +84,7 @@ properties:
 
   log-level:
     description: Log level for the SHIELD Core.  One of 'error', 'warning', or 'info'.
-    default: "info"
+    default: "error"
 
   nginx.workers:
     description: "Number of nginx workers"

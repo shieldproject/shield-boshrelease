@@ -33,9 +33,9 @@ properties:
   agent.key:
     description: RSA private key used for securing communications between SHIELD Agents and the SHIELD Core.
 
-  log_level:
-    description: "Log level for shield processes"
-    default: "info"
+  log-level:
+    description: "Log level for shield-agent processes"
+    default: "error"
 
   env.path:
     description: A list of paths to append to $PATH, so that plugins can find tools and utilities when they run.

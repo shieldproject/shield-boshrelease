@@ -147,22 +147,7 @@ Tokens).
 
 `nginx.keepalive_timeout` has been shortened to `nginx.keepalive`.
 
-### New Encryption Vault
-
-SHIELD v8 encrypts all backup archives, and it uses a unique,
-randomly generated initialization vector and encryption key for
-each new archive.  These secrets are required for restoration, and
-they have to be stored somewhere safe, so we store then in an
-encrypted vault.
-
-For the most part, the care and feeding of this vault is entirely
-handled for you.  However, the deployment needs to configure an
-X.509 Certificate Authority, and issue an X.509 Certificate for
-the IP SAN 127.0.0.1.
-
-If you are running SHIELD on the BOSH Warden CPI, you will also
-need to set the `vault.warden` property to true to disable some
-features that don't work in warden containers.
+The `log_level` property has been renamed to `log_level`.
 
 ### Changes to the `shield-agent` job
 
@@ -231,6 +216,8 @@ default.
 The auto-provisioning properties `stores`, `targets`,
 `retention-policies`, and `jobs` have all been removed, in favor
 of the new `buckler import`-based `import` errand.
+
+The `log_level` property has been renamed to `log_level`.
 
 ### Removed Jobs
 
@@ -345,6 +332,24 @@ Here's an example that sets up a bunch of stuff:
                       policy:  Long-Term
                       storage: Scality
 ```
+
+
+### New Encryption Vault
+
+SHIELD v8 encrypts all backup archives, and it uses a unique,
+randomly generated initialization vector and encryption key for
+each new archive.  These secrets are required for restoration, and
+they have to be stored somewhere safe, so we store then in an
+encrypted vault.
+
+For the most part, the care and feeding of this vault is entirely
+handled for you.  However, the deployment needs to configure an
+X.509 Certificate Authority, and issue an X.509 Certificate for
+the IP SAN 127.0.0.1.
+
+If you are running SHIELD on the BOSH Warden CPI, you will also
+need to set the `vault.warden` property to true to disable some
+features that don't work in warden containers.
 
 
 ### Database Migration
