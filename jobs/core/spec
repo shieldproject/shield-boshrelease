@@ -9,6 +9,9 @@ templates:
   # vault secure storage
   bin/vault:            bin/vault
   config/vault.conf:    config/vault.conf
+  config/tls/vault.pub: config/tls/vault.pub
+  config/tls/vault.ca:  config/tls/vault.ca
+  config/tls/vault.key: config/tls/vault.key
 
   # shieldd core
   bin/shieldd:          bin/shieldd
@@ -18,8 +21,8 @@ templates:
   # nginx reverse proxy
   bin/nginx:            bin/nginx
   config/nginx.conf:    config/nginx.conf
-  config/tls.pub:       config/tls.pub
-  config/tls.key:       config/tls.key
+  config/tls/nginx.pub: config/tls/nginx.pub
+  config/tls/nginx.key: config/tls/nginx.key
 
 provides:
   - name: shield
@@ -94,6 +97,12 @@ properties:
   vault.warden:
     description: Whether or not to disable memory locking, which must only be done on container substrates like Warden.
     default: false
+  vault.tls.ca-certificate:
+    description: The PEM-encoded certificate of the CA that signed the Vault Certificate.  The SHIELD core needs this so that it can trust the Vault certificate.
+  vault.tls.certificate:
+    description: The PEM-encoded certificate of the Vault itself.  This certificate should be issued for the IP SAN 127.0.0.1.
+  vault.tls.key:
+    description: The PEM-encoded private key for the Vault certificate.
 
   migrate-from.type:
     description: What type of legacy (pre-v8) database to migrate from (optional).
