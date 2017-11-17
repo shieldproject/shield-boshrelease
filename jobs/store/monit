@@ -1,5 +1,5 @@
 check process store
-  with pidfile   /var/vcap/sys/run/shield/store.pid
+  with pidfile   /var/vcap/sys/run/store/nginx.pid
   start program "/var/vcap/jobs/store/bin/nginx start"
   stop program  "/var/vcap/jobs/store/bin/nginx stop"
   group vcap

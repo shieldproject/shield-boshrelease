@@ -1,9 +1,9 @@
 #!/bin/bash
 set -eu
 
-RUN_DIR=/var/vcap/sys/run/shield
-LOG_DIR=/var/vcap/sys/log/shield
-JOB_DIR=/var/vcap/jobs/core
+RUN_DIR=/var/vcap/sys/run/store
+LOG_DIR=/var/vcap/sys/log/store
+JOB_DIR=/var/vcap/jobs/store
 PIDFILE=$RUN_DIR/nginx.pid
 mkdir -p $LOG_DIR
 exec >>$LOG_DIR/nginx.log 2>&1

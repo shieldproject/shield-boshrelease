@@ -9,6 +9,7 @@ pushd nginx-1.12.2
     --prefix=${BOSH_INSTALL_TARGET} \
     --with-pcre=../pcre-8.37 \
     --with-http_stub_status_module \
-    --with-http_ssl_module
+    --with-http_ssl_module \
+    --with-http_dav_module
   make -j$CPUS && make install
 popd
