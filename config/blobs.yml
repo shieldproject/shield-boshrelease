@@ -6,8 +6,8 @@ nginx/pcre-8.37.tar.gz:
   object_id: ceabbcdf-1322-4430-8684-b604a962e3de
   sha: 4a24a20c61347d8da4edc86d5475aaf70ac146bb
 shield/shield-server-linux-amd64-8.0.0-rc.1.tar.gz:
-  size: 57482268
-  sha: 54b98185cf103ece0e5ce7bf9458fa91b1381ebf
+  size: 57573042
+  sha: 002be34c07b7c79d7c59fe1cd42539703b7b7c3a
 tar/libarchive-3.1.2.tar.gz:
   size: 4527540
   object_id: 82d11f2c-1a0d-4b68-9915-bb80feb10a74
