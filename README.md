@@ -347,10 +347,6 @@ handled for you.  However, the deployment needs to configure an
 X.509 Certificate Authority, and issue an X.509 Certificate for
 the IP SAN 127.0.0.1.
 
-If you are running SHIELD on the BOSH Warden CPI, you will also
-need to set the `vault.warden` property to true to disable some
-features that don't work in warden containers.
-
 
 ### Database Migration
 

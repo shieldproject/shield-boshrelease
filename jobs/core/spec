@@ -96,9 +96,6 @@ properties:
     description: "Timeout for keep-alive connections"
     default: "75 20"
 
-  vault.warden:
-    description: Whether or not to disable memory locking, which must only be done on container substrates like Warden.
-    default: false
   vault.tls.ca:
     description: The PEM-encoded certificate of the CA that signed the Vault Certificate.  The SHIELD core needs this so that it can trust the Vault certificate.
   vault.tls.certificate:

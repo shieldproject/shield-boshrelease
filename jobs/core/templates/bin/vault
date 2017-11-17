@@ -14,6 +14,14 @@ case $1 in
     mkdir -p $RUN_DIR $DAT_DIR
     chown vcap:vcap $DAT_DIR
 
+    if chpst -u vcap:vcap /var/vcap/packages/vault/bin/canimlock; then
+      sed -i -e 's/^disable_mlock/#disable_mlock/' \
+        $JOB_DIR/config/vault.conf
+    else
+      sed -i -e 's/^#disable_mlock/disable_mlock/' \
+        $JOB_DIR/config/vault.conf
+    fi
+
     echo "$(date) starting up vault"
     echo $$ > $PIDFILE
     exec chpst -u vcap:vcap \
