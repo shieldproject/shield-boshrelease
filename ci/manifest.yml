@@ -16,6 +16,9 @@ instance_groups:
       provides:
         shield: {shared: true}
       properties:
+        domain: shield.localhost.localdomain
+        vault:
+          warden: yes
         agent:
           key: |
             -----BEGIN RSA PRIVATE KEY-----
@@ -107,7 +110,7 @@ instance_groups:
       consumes:
         shield: {from: shield}
       properties:
-        autoprovision: true
+        require-shield-core: false
 
 update:
   canaries: 0

@@ -18,16 +18,19 @@ case $1 in
          if_p('migrate-from.dsn') do |dsn| %>
     if [[ ! -f $DAT_DIR/main.db ]]; then
       echo "$(date) migrating data from legacy storage"
-      /var/vcap/packages/shield/bin/shield-migrate \
-        --type '<%= type %>' \
-        --from '<%= dsn %>' \
-        --to $DAT_DIR/main.db
+      chpst -u vcap:vcap \
+        /var/vcap/packages/shield/bin/shield-migrate \
+          --type '<%= type %>' \
+          --from '<%= dsn %>' \
+          --to $DAT_DIR/main.db
     fi
     <%   end
        end %>
 
     echo "$(date) running any schema migrations"
-    shield-schema -d $DAT_DIR/main.db
+    chpst -u vcap:vcap \
+      /var/vcap/packages/shield/bin/shield-schema \
+        -d $DAT_DIR/main.db
 
     echo "$(date) starting up shieldd"
     export SHIELD_NAME="<%= p('core.name') %>" # FIXME make this config

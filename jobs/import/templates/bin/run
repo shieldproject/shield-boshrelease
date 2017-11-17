@@ -1,0 +1,12 @@
+#!/bin/bash
+set -eu
+export HOME=/home/vcap
+sed -e '
+  s/(deployment)/<%= spec.deployment %>/g;
+  s/(index)/<%= spec.index.to_s %>/g;
+  s/(ip)/<%= spec.ip %>/g;
+  s/(name)/<%= spec.name %>/g;
+  s/(az)/<%= spec.az %>/g;
+' /var/vcap/jobs/import/config/import.yml |\
+  /var/vcap/packages/shield/bin/buckler import -
+exit 0

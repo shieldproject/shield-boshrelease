@@ -1,8 +1,19 @@
 #!/bin/bash
 set -eu
 <%
-   if ! properties.autoprovision and ! properties.agent.public
-     raise "You must specify either autoprovision or agent.public (or both)"
+    shield_url = ''
+
+    if_link('shield') do |shield|
+      shield_url = "https://#{shield.p('domain')}:#{shield.p('port')}"
+    end
+    if ! shield_url
+      if ! p('agent.key')
+        raise "If you are not using the 'shield' link in your deployment, you must specify agent.key property on the shield-agent job"
+      end
+      if ! p('shield-url')
+        raise "If you are not using the 'shield' link in your deployment, you must specify the shield-url property on the shield-agent job"
+      end
+      shield_url = p('shield-url')
    end
 %>
 
@@ -12,16 +23,6 @@ JOB_DIR=/var/vcap/jobs/shield-agent
 PIDFILE=$RUN_DIR/agent.pid
 mkdir -p $LOG_DIR
 exec >>$LOG_DIR/agent.log 2>&1
-
-SHIELD_AUTO_PROVISION=<%
-  if_p("autoprovision") do |endpoint|
-    if endpoint.to_s == "true"
-      %>https://<%= p("domain", link('shield').instances.first.address) %><%
-    else
-      %><%= endpoint %><%
-    end
-  end
-%>
 
 case $1 in
   start)
@@ -33,20 +34,20 @@ case $1 in
     rm -f $AUTHKEYS
 
     # try to get a key from the SHIELD core
-    test -n "${SHIELD_AUTO_PROVISION}" && \
-      curl -Lks "$SHIELD_AUTO_PROVISION/v1/meta/pubkey" -m 20 \
-        >> $AUTHKEYS || true
+    curl -Lks "<%= shield_url %>/v1/meta/pubkey" -m 20 \
+      >> $AUTHKEYS || true
 
     # use the one from the configuration
     if [[ -s $JOB_DIR/config/agent.key ]]; then
+      chmod 0400      $JOB_DIR/config/agent.key
+      chown vcap:vcap $JOB_DIR/config/agent.key
       ssh-keygen -yf $JOB_DIR/config/agent.key >>$AUTHKEYS
     fi
 
     if [[ ! -s $AUTHKEYS ]]; then
       echo "$(date) unable to provision agent <-> core keys."
-      test -n "${SHIELD_AUTO_PROVISION}" && \
-        echo "$(date) maybe the SHIELD Core at ${SHIELD_AUTO_PROVISION} is not up yet?"
-      exit 1
+      echo "$(date) maybe the SHIELD Core at <%= shield_url %> is not up yet?"
+      <% if p('require-shield-core') %>exit 1<% end %>
     fi
 
     <% if p('env.auto') %>
@@ -84,7 +85,7 @@ case $1 in
 
     echo $$ > $PIDFILE
     exec chpst /var/vcap/packages/shield/bin/shield-agent \
-      -c $JOB_DIR/config/shield-agent.conf
+      -c $JOB_DIR/config/agent.conf
     ;;
 
   stop)

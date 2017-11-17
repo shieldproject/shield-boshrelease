@@ -5,12 +5,10 @@ packages:
 
 templates:
   bin/shield-agent:         bin/shield-agent
-  bin/post-start:           bin/post-start
   bin/emergency-recovery:   bin/emergency-recovery
 
   config/agent.conf:        config/agent.conf
   config/agent.key:         config/agent.key
-  config/import.yml:        config/import.yml
 
 consumes:
   - name: shield
@@ -18,6 +16,16 @@ consumes:
     optional: true
 
 properties:
+  name:
+    description: Name of the agent, used for registration.  The placeholders '(deployment)', '(name)', '(index)', and '(az)' can be used, to pull information from the BOSH deployment.
+    default: (deployment)/(name)@(az)/(index)
+
+  shield-url:
+    description: The URL of the SHIELD core that this agent should register with.  If you use the 'shield' link, this property will be ignored.
+  require-shield-core:
+    description: Require the SHIELD Core (via the 'shield' link, or at `shield-url`) to be up when we provision.  This is on by default, but can be disabled if the operator needs a deployment to continue on even in the event of agent / core miscommunication.
+    default: true
+
   ip:
     description: IP address that the agent can be contacted at.  Normally, this can be automatically detected, but for certain circumstances (i.e. bosh-init deployments), you must specify it.
   port:
@@ -26,12 +34,6 @@ properties:
 
   agent.key:
     description: RSA private key used for securing communications between SHIELD Agents and the SHIELD Core.
-
-  import:
-    description: A complete `buckler import' YAML file, for importing and auto-provisioning tenants, users, cloud storage, data systems, etc.
-
-  autoprovision:
-    description: "Optional. Either 'true' to autoprovision via the 'shield' BOSH link; HTTP API of the SHIELD API to automatically retrieve the shield-daemon SSH Public Key from.  You must at least specify this property, or the daemon_public_key property."
 
   log_level:
     description: "Log level for shield processes"

@@ -27,11 +27,11 @@ provides:
     properties: [domain, port]
 
 properties:
+  domain:
+    description: Fully-qualified domain name (or IP address) of your SHIELD installation
   port:
     description: Incoming port to bind for HTTPS API and Web UI
     default: 443
-  domain:
-    description: Fully-qualified domain name (or IP address) of your SHIELD installation
 
   core.name:
     description: The name of your SHIELD installation (to display to `shield status' calls).
