@@ -4,11 +4,9 @@ packages:
   - shield
 
 templates:
-  bin/shield-agent:         bin/shield-agent
-  bin/emergency-recovery:   bin/emergency-recovery
-
-  config/agent.conf:        config/agent.conf
-  config/agent.key:         config/agent.key
+  bin/shield-agent:  bin/shield-agent
+  config/agent.conf: config/agent.conf
+  config/agent.key:  config/agent.key
 
 consumes:
   - name: shield
@@ -38,15 +36,6 @@ properties:
   log_level:
     description: "Log level for shield processes"
     default: "info"
-
-  recovery.target_plugin:
-    description: "Target plugin to use in emergency-recovery-mode"
-  recovery.target_config:
-    description: "A map of key-values that will be converted to JSON, representing the target plugin configration"
-  recovery.store_plugin:
-    description: "Store plugin to use in emergency-recovery-mode"
-  recovery.store_config:
-    description: "A map of key-values that will be converted to JSON, representing the store plugin configration"
 
   env.path:
     description: A list of paths to append to $PATH, so that plugins can find tools and utilities when they run.
