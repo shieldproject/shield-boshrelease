@@ -187,8 +187,9 @@ authorized_keys-formatted public key, and `agent.key` is the
 correctly formatted public fingerprint from the private key.
 
 Note that if the `shield` link is in use, you don't need to
-explicitly set `agent.key` -- the deployment will just pull that
-value from the SHIELD Core automagically.
+explicitly set `agent.key` -- the agent startup scripts will just
+retrieve the public key from the SHIELD Core automagically.  This
+allows SHIELD site operators to rotate that key with minimal fuss.
 
 The `recovery.*` properties have been removed, since SHIELD v8's
 new encryption feature makes it difficult to restore backups
