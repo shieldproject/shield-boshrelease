@@ -68,6 +68,8 @@ properties:
   core.slow-loop:
     description: How frequently should SHIELD perform janitorial tasks.
     default: 1h
+  core.authentication:
+    description: "A list of SHIELD Authentication Provider configurations, to be emitted into the shieldd.conf configuration file as-is (under the `auth:` key)."
 
   tls.key:
     description: "TLS private key (PEM encoded), used for the HTTPS API and Web UI"
