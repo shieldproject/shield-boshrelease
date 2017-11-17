@@ -33,7 +33,6 @@ case $1 in
         -d $DAT_DIR/main.db
 
     echo "$(date) starting up shieldd"
-    export SHIELD_NAME="<%= p('core.name') %>" # FIXME make this config
     echo $$ > $PIDFILE
     exec chpst -u vcap:vcap \
       /var/vcap/packages/shield/bin/shieldd \

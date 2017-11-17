@@ -33,9 +33,6 @@ properties:
     description: Incoming port to bind for HTTPS API and Web UI
     default: 443
 
-  core.name:
-    description: The name of your SHIELD installation (to display to `shield status' calls).
-    default: "(none)"
   core.env:
     description: A short tag describing this environment (i.e. 'prod', 'staging', etc.).
     default: sandbox
@@ -44,6 +41,7 @@ properties:
     default: yellow
   core.motd:
     description: A (perhaps long-form) message of the day, to display on login forms.
+    default: Welcome to SHIELD!
 
   failsafe.username:
     description: A fallback username for initially accessiong your SHIELD instance.
