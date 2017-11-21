@@ -147,7 +147,7 @@ Tokens).
 
 `nginx.keepalive_timeout` has been shortened to `nginx.keepalive`.
 
-The `log_level` property has been renamed to `log_level`.
+The `log_level` property has been renamed to `log-level`.
 
 ### Changes to the `shield-agent` job
 
@@ -226,7 +226,7 @@ The auto-provisioning properties `stores`, `targets`,
 `retention-policies`, and `jobs` have all been removed, in favor
 of the new `buckler import`-based `import` errand.
 
-The `log_level` property has been renamed to `log_level`.
+The `log_level` property has been renamed to `log-level`.
 
 ### Removed Jobs
 
