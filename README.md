@@ -193,6 +193,15 @@ The `recovery.*` properties have been removed, since SHIELD v8's
 new encryption feature makes it difficult to restore backups
 outside of the watchful eye of a running SHIELD Core.
 
+For SHIELD Agents that need to operate behind HTTP proxies, three
+new `env.*` properties were added.  `env.http_proxy` and
+`env.https_proxy` allow you to specify the full URL for an
+upstream proxy that will handle (respectively) cleartext HTTP
+requests and TLS-encrypted HTTPS requests.  The `env.no_proxy`
+property is a list of FQDNs, domain fragments, and IP addresses
+that will be flattened and joined by commas to fashion an
+exclusion list to put in the `$no_proxy` environment variable.
+
 The new `env.path`, `env.libs`, and `env.auto` properties control
 how the SHIELD agent process will set up its environment, for the
 benefit of executed plugins.

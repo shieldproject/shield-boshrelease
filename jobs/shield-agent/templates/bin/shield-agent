@@ -83,6 +83,23 @@ case $1 in
     fi
     <% end %>
 
+    export LD_LIBRARY_PATH PATH
+
+    <% if_p('env.http_proxy') do |http_proxy| %>
+    # env.http_proxy
+    export http_proxy=<%= http_proxy %>
+    <% end %>
+
+    <% if_p('env.https_proxy') do |https_proxy| %>
+    # env.https_proxy
+    export https_proxy=<%= https_proxy %>
+    <% end %>
+
+    <% if_p('env.no_proxy') do |no_proxy| %>
+    # env.no_proxy
+    export no_proxy="<%= [no_proxy].flatten.join(',') %>"
+    <% end %>
+
     echo $$ > $PIDFILE
     exec chpst /var/vcap/packages/shield/bin/shield-agent \
       --log-level "<%= p('log-level') %>" \
