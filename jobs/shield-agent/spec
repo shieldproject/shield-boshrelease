@@ -42,6 +42,13 @@ properties:
     description: "Log level for shield processes"
     default: "info"
 
+  env.http_proxy:
+    description: The URL of an upstream HTTP proxy for proxying all unencrypted web communications (pursuant to env.no_proxy).
+  env.https_proxy:
+    description: The URL of an upstream HTTP proxy for proxying all encrypted web communications (pursuant to env.no_proxy).
+  env.no_proxy:
+    description: A list of domains, partial domains (i.e. ".example.com"), and IP addresses that should not be routed through env.http_proxy and env.https_proxy.
+ 
   recovery.target_plugin:
     description: "Target plugin to use in emergency-recovery-mode"
   recovery.target_config:
