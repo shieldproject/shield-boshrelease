@@ -1,5 +1,6 @@
 nginx/nginx-1.12.2.tar.gz:
   size: 981687
+  object_id: be078450-5e0f-42d4-5629-9d27f5ac9a26
   sha: 6b41d63befa4f52b0724b533e6292a6671b71fdc
 nginx/pcre-8.37.tar.gz:
   size: 2041593
@@ -7,6 +8,7 @@ nginx/pcre-8.37.tar.gz:
   sha: 4a24a20c61347d8da4edc86d5475aaf70ac146bb
 shield/shield-server-linux-amd64-8.0.0-rc.2.tar.gz:
   size: 57660891
+  object_id: 02f4f3e7-ae3f-4ce1-4cdc-22e935d2bbc9
   sha: 7f22c3fed3505905125e306727625955cac9ae25
 tar/libarchive-3.1.2.tar.gz:
   size: 4527540
@@ -14,4 +16,5 @@ tar/libarchive-3.1.2.tar.gz:
   sha: 6a991777ecb0f890be931cec4aec856d1a195489
 vault/vault_0.9.0_linux_amd64.zip:
   size: 17571361
+  object_id: b811c233-2543-4dbc-4e0b-5a417d3ba55a
   sha: e33a0ff018fa7d7c75f644529106ec5b4abc1d44
