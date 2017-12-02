@@ -186,6 +186,12 @@ Provides additional utilities for the `mysql` plugin to use, in
 conjunction with `shield-agent`, for use when loading the agent on
 MySQL database VMs.
 
+### agent-bbr
+
+Provides additional utilities for the `bbr` plugin to use, in
+conjunction with `shield-agent`, for use when loading the agents
+that can connect to a bosh director or deployment.
+
 Available Plugins
 -----------------
 
