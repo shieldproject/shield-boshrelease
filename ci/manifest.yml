@@ -250,6 +250,37 @@ instance_groups:
         shield: {from: shield}
       properties:
         require-shield-core: false
+        core:
+          ca: |
+            -----BEGIN CERTIFICATE-----
+            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
+            Jt/9L4w=
+            -----END CERTIFICATE-----
 
 - name: store
   instances: 1

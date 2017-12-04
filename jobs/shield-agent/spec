@@ -7,6 +7,7 @@ templates:
   bin/shield-agent:  bin/shield-agent
   config/agent.conf: config/agent.conf
   config/agent.key:  config/agent.key
+  config/tls/shield.ca:  config/tls/shield.ca
 
 consumes:
   - name: shield
@@ -32,6 +33,8 @@ properties:
 
   agent.key:
     description: RSA private key used for securing communications between SHIELD Agents and the SHIELD Core.
+  core.ca:
+    description: The PEM-encoded certificate of the CA that signed the Shield Certificate.  The SHIELD agent needs this so that it can trust the Shield-Core certificate.
 
   log-level:
     description: "Log level for shield-agent processes"

@@ -83,6 +83,8 @@ case $1 in
     fi
     <% end %>
 
+    PATH="$PATH:/var/vcap/packages/shield/bin"
+
     export LD_LIBRARY_PATH PATH
 
     <% if_p('env.http_proxy') do |http_proxy| %>
