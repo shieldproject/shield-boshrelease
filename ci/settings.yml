@@ -29,7 +29,6 @@ meta:
     owner:  starkandwayne
     repo:   shield-boshrelease
     branch: master
-    branch-6x: 6.x
     private_key:  (( vault "secret/pipelines/shared/github:private_key" ))
     access_token: (( vault "secret/pipelines/shared/github:access_token" ))
 
@@ -43,12 +42,6 @@ meta:
 
 
 groups:
-- name: 6.x
-  jobs:
-  - testflight-6.x
-  - rc-6.x
-  - minor-6.x
-  - shipit-6.x
 - name: blobs
   jobs:
   - shield
@@ -119,144 +112,6 @@ jobs:
 - name: testflight
   serial_groups: [bosh]
 
-- name: testflight-6.x
-  public: true
-  serial: true
-  serial_groups: [bosh-lite]
-  plan:
-  - do:
-    - aggregate:
-      - { get: git-6.x, trigger: true }
-    - task: testflight
-      config:
-        platform: linux
-        image_resource:
-          type: docker-image
-          source:
-            repository: (( grab meta.image.name ))
-            tag:        (( grab meta.image.tag ))
-        inputs:
-          - { name: git-6.x, path: git }
-        run:
-          path: ./git/ci/scripts/testflight
-          args: []
-        params:
-          REPO_ROOT:            git
-          BOSH_LITE_TARGET:     (( grab meta.bosh-lite-6x.target ))
-          BOSH_LITE_USERNAME:   (( grab meta.bosh-lite-6x.username ))
-          BOSH_LITE_PASSWORD:   (( grab meta.bosh-lite-6x.password ))
-          BOSH_LITE_DEPLOYMENT: (( grab meta.bosh-lite-6x.deployment ))
-          TEST_ERRAND:          (( grab meta.test-errand || ~ ))
-    on_failure:
-      put: notify
-      params:
-        channel:  (( grab meta.slack.channel ))
-        username: (( grab meta.slack.username ))
-        icon_url: (( grab meta.slack.icon ))
-        text:    '(( concat meta.slack.fail_url " " meta.pipeline ": [6.x] test job failed" ))'
-
-- name: rc-6.x
-  public: true
-  plan:
-  - do:
-    - aggregate:
-        - { get: git-6.x,     trigger: true,  passed: [testflight-6.x] }
-        - { get: version-6.x, trigger: true, params: {pre: rc} }
-    - put: version-6.x
-      params: {file: version-6.x/number}
-    on_failure:
-      put: notify
-      params:
-        channel:  (( grab meta.slack.channel ))
-        username: (( grab meta.slack.username ))
-        icon_url: (( grab meta.slack.icon ))
-        text:    '(( concat meta.slack.fail_url " " meta.pipeline ": [6.x] rc job failed" ))'
-
-- name: minor-6.x
-  public: true
-  plan:
-  - do:
-    - { get: version-6.x, trigger: false, params: {bump: minor} }
-    - { put: version-6.x,                 params: {file: version-6.x/number} }
-    on_failure:
-      put: notify
-      params:
-        channel:  (( grab meta.slack.channel ))
-        username: (( grab meta.slack.username ))
-        icon_url: (( grab meta.slack.icon ))
-        text:    '(( concat meta.slack.fail_url " " meta.pipeline ": [6.x] minor job failed" ))'
-
-- name: shipit-6.x
-  public: true
-  serial: true
-  plan:
-  - do:
-    - name: inputs
-      aggregate:
-        - { get: version-6.x, passed: [rc-6.x], params: {bump: final} }
-        - { get: git-6.x,     passed: [rc-6.x] }
-    - name: release
-      task: release
-      config:
-        platform: linux
-        image_resource:
-          type: docker-image
-          source:
-            repository: (( grab meta.image.name ))
-            tag:        (( grab meta.image.tag ))
-        inputs:
-          - { name: version-6.x, path: version }
-          - { name: git-6.x,     path: git }
-        outputs:
-          - name: gh
-          - name: pushme
-        run:
-          path: ./git/ci/scripts/shipit
-          args: []
-        params:
-          REPO_ROOT:    git
-          VERSION_FROM: version/number
-          RELEASE_NAME: (( concat meta.release " BOSH Release" ))
-          RELEASE_ROOT: gh
-          REPO_OUT:     pushme
-          BRANCH:       (( grab meta.github.branch-6x ))
-
-          BOSH_LITE_TARGET:     (( grab meta.bosh-lite-6x.target ))
-          BOSH_LITE_USERNAME:   (( grab meta.bosh-lite-6x.username ))
-          BOSH_LITE_PASSWORD:   (( grab meta.bosh-lite-6x.password ))
-          BOSH_LITE_DEPLOYMENT: (( grab meta.bosh-lite-6x.deployment ))
-
-          AWS_ACCESS_KEY:       (( grab meta.aws.access_key ))
-          AWS_SECRET_KEY:       (( grab meta.aws.secret_key ))
-
-    - name: upload-git
-      put: git-6.x
-      params:
-        rebase: true
-        repository: pushme/git
-    - name: tarball
-      put: s3
-      params:
-        file:  (( concat "gh/artifacts/" meta.name "-*.tgz" ))
-    - name: github-release
-      put: github
-      params:
-        name:   gh/name
-        tag:    gh/tag
-        body:   gh/notes.md
-        globs: [gh/artifacts/*]
-    - name: version-bump
-      put: version-6.x
-      params:
-        bump: patch
-    on_failure:
-      put: notify
-      params:
-        channel:  (( grab meta.slack.channel ))
-        username: (( grab meta.slack.username ))
-        icon_url: (( grab meta.slack.icon ))
-        text:    '(( concat meta.slack.fail_url " " meta.pipeline ": [6.x] shipit job failed" ))'
-
 resources:
 - name: shield
   type: github-release
@@ -264,20 +119,3 @@ resources:
     user: starkandwayne
     repository: shield
     access_token: (( grab meta.github.access_token ))
-
-- name: git-6.x
-  type: git
-  source:
-    uri:         (( grab meta.github.uri ))
-    branch:      (( grab meta.github.branch-6x ))
-    private_key: (( grab meta.github.private_key ))
-
-- name: version-6.x
-  type: semver
-  source :
-    driver:            s3
-    bucket:            (( grab meta.aws.bucket ))
-    key:               version-6.x
-    access_key_id:     (( grab meta.aws.access_key ))
-    secret_access_key: (( grab meta.aws.secret_key ))
-    initial_version:   6.8.0
