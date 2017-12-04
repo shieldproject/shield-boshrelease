@@ -1,88 +1,19 @@
-golang/go1.7.5.linux-amd64.tar.gz:
-  size: 84176916
-  object_id: dedcf0c6-b857-4c0b-a3ec-723d4edfe652
-  sha: 7c6902ce8cd3b9963082d748c50df074e4896796
-mariadb/mariadb-10.1.14.tar.gz:
-  size: 55341017
-  object_id: 4bc0ed46-64e6-4b54-9b04-538e0ec94619
-  sha: dcf46d638cd33032117a9f0d89e8650aa1309e74
-mongo-tools/mongo-tools-r3.2.11.tar.gz:
-  size: 2712014
-  object_id: c72ededf-afc7-47df-883b-1eddc129a3ae
-  sha: 5b718aa68399ec0e38a4dc6663eb2dc4bc9261bc
-mongo-tools/mongo-tools-r3.4.1.tar.gz:
-  size: 4700560
-  object_id: cc8fcb4e-4a6a-4b90-a7c4-ae26a85d486f
-  sha: 49c1e853ea7558d52e920e77119b159c267561e0
-mysql/mysql-5.6.28.tar.gz:
-  size: 32182980
-  object_id: 48005ac1-8324-43e7-b850-b796ac5759e1
-  sha: ae2558f7cf678163884b720779fc3bb3d09e48fc
-nginx/nginx-1.8.0.tar.gz:
-  size: 832104
-  object_id: 56cfeec8-3601-4d12-8332-7ff1b5618d9f
-  sha: 12bad312764feae50246685ab2e74512d1aa9b2f
+nginx/nginx-1.12.2.tar.gz:
+  size: 981687
+  object_id: be078450-5e0f-42d4-5629-9d27f5ac9a26
+  sha: 6b41d63befa4f52b0724b533e6292a6671b71fdc
 nginx/pcre-8.37.tar.gz:
   size: 2041593
   object_id: ceabbcdf-1322-4430-8684-b604a962e3de
   sha: 4a24a20c61347d8da4edc86d5475aaf70ac146bb
-postgres/postgresql-9.4.5.tar.gz:
-  size: 23211720
-  object_id: ba9bd647-c953-4f90-adc5-85a9fa7b394e
-  sha: 5278d04093f3cb2e00796fae15b2e33406844d01
-shield/shield-server-linux-amd64-0.10.9.tar.gz:
-  size: 42384393
-  object_id: 03134df3-6396-45d1-6828-a6ecc5227f99
-  sha: c246b7b19293ffdd2b08d586bf4f58656e0e5b9d
+shield/shield-server-linux-amd64-8.0.0-rc.2.tar.gz:
+  size: 54468137
+  sha: 9275d8181d9abee69cc175a829654cba47a0f50b
 tar/libarchive-3.1.2.tar.gz:
   size: 4527540
   object_id: 82d11f2c-1a0d-4b68-9915-bb80feb10a74
   sha: 6a991777ecb0f890be931cec4aec856d1a195489
-utils/jq:
-  size: 3027945
-  object_id: 5dd71105-0a16-48d6-abe8-a2a422602f8a
-  sha: d8e36831c3c94bb58be34dd544f44a6c6cb88568
-utils/yaml2json:
-  size: 3221608
-  object_id: 81ed6752-f893-40c1-b344-fdea3473637c
-  sha: 8884601d881a7025f0cfeac5009079509ffc099f
-xtrabackup/autoconf-2.65.tar.gz:
-  size: 1738880
-  object_id: 0296b4d3-263f-461e-a854-f7d32ea46de5
-  sha: ae9e1ab046822007f25c88e1d8f2166e065da8c2
-xtrabackup/automake-1.14.1.tar.gz:
-  size: 2240681
-  object_id: cd765ead-14d8-4385-92ab-6c904d0028df
-  sha: 0bb1714b78d70cab9907d2013082978a28f48a46
-xtrabackup/boost_1_59_0.tar.gz:
-  size: 83709983
-  object_id: a905f96c-8681-480f-b861-17c813435f66
-  sha: 5123209db194d66d69a9cfa5af8ff473d5941d97
-xtrabackup/libaio_0.3.110.orig.tar.gz:
-  size: 42270
-  object_id: 416dbfe7-8946-4271-98d3-8ecfeaa22828
-  sha: f8f6ed15f22e528f6f415939b07854539e3360e4
-xtrabackup/libdbd-mysql-perl_4.025.orig.tar.gz:
-  size: 135538
-  object_id: f8eff8c5-ab2a-4d3a-9c7b-c1149c44f668
-  sha: 7c148d347988785239973835f8b5a8b78677ae47
-xtrabackup/libdbi-perl_1.630.orig.tar.gz:
-  size: 588554
-  object_id: 2d4a9ab3-854e-4508-9cd3-0d867b853b30
-  sha: 8e8ca6484a3e0c7f4e268e46101faed576e072fc
-xtrabackup/libev-4.23.tar.gz:
-  size: 524184
-  object_id: 31224344-fd18-4044-b440-2d68d7bc2e2e
-  sha: 5b4a0dd7566e72ce425ea647d22d6592dfaf5b8e
-xtrabackup/libtool-2.4.2.tar.gz:
-  size: 2632347
-  object_id: 365f4594-ee0b-4382-b3e3-a14eedf8355a
-  sha: 22b71a8b5ce3ad86e1094e7285981cae10e6ff88
-xtrabackup/percona-xtrabackup-2.4.5.tar.gz:
-  size: 54104240
-  object_id: ef0e87df-1402-4197-9977-357d1ee12930
-  sha: 8fbd4a7f454cdd9dec0dc76d7b3e07ec215e0dd7
-xtrabackup/socat-1.7.2.4.tar.gz:
-  size: 583762
-  object_id: c0618db1-66c4-46f2-b258-2d66813eb04f
-  sha: c33904b83295accef2aaff8adf7eedd3310f9777
+vault/vault_0.9.0_linux_amd64.zip:
+  size: 17571361
+  object_id: b811c233-2543-4dbc-4e0b-5a417d3ba55a
+  sha: e33a0ff018fa7d7c75f644529106ec5b4abc1d44

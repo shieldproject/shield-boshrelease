@@ -1,9 +1,0 @@
----
-name: xtrabackup
-packages:
-  - shield-xtrabackup
-
-templates:
-  ignore: ignore
-
-properties: {}

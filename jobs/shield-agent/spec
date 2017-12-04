@@ -2,45 +2,43 @@
 name: shield-agent
 packages:
   - shield
-  - bsdtar
-  - plugins
-  - utils
 
 templates:
-  bin/ctl:                  bin/ctl
-  bin/monit_debugger:       bin/monit_debugger
-  bin/post-start:           bin/post-start
-  bin/emergency-recovery:   bin/emergency-recovery
-  config/shield-agent.conf: config/shield-agent.conf
-  helpers/ctl_setup.sh:     helpers/ctl_setup.sh
-  helpers/ctl_utils.sh:     helpers/ctl_utils.sh
+  bin/shield-agent:  bin/shield-agent
+  config/agent.conf: config/agent.conf
+  config/agent.key:  config/agent.key
+  config/tls/shield.ca:  config/tls/shield.ca
 
 consumes:
-- name: shield-daemon
-  type: shield-daemon
-  optional: true
+  - name: shield
+    type: shield
+    optional: true
 
 properties:
+  name:
+    description: Name of the agent, used for registration.  The placeholders '(deployment)', '(name)', '(index)', and '(az)' can be used, to pull information from the BOSH deployment.
+    default: (deployment)/(name)@(az)/(index)
+
+  shield-url:
+    description: The URL of the SHIELD core that this agent should register with.  If you use the 'shield' link, this property will be ignored.
+  require-shield-core:
+    description: Require the SHIELD Core (via the 'shield' link, or at `shield-url`) to be up when we provision.  This is on by default, but can be disabled if the operator needs a deployment to continue on even in the event of agent / core miscommunication.
+    default: true
+
   ip:
     description: IP address that the agent can be contacted at.  Normally, this can be automatically detected, but for certain circumstances (i.e. bosh-init deployments), you must specify it.
   port:
     description: "port to run agent"
     default: 5444
 
-  daemon_public_key:
-    description: "SSH Public Key used by the shield-daemon job to permit access to this agent.  You must at least specify this property, or the autoprovision property."
-  autoprovision:
-    description: "Optional. Either 'true' to autoprovision via shield-daemon link; HTTP API of the SHIELD API to automatically retrieve the shield-daemon SSH Public Key from.  You must at least specify this property, or the daemon_public_key property."
+  agent.key:
+    description: RSA private key used for securing communications between SHIELD Agents and the SHIELD Core.
+  core.ca:
+    description: The PEM-encoded certificate of the CA that signed the Shield Certificate.  The SHIELD agent needs this so that it can trust the Shield-Core certificate.
 
-  provisioning_key:
-    description: "API Key to use when provisioning jobs, or targets. Required if target or job have data"
-  skip_ssl_verify:
-    description: "Boolean to determine if SSL certs will be ignored when provisioning SHIELD data"
-    default: true
-
-  log_level:
-    description: "Log level for shield processes"
-    default: "info"
+  log-level:
+    description: "Log level for shield-agent processes"
+    default: "error"
 
   env.http_proxy:
     description: The URL of an upstream HTTP proxy for proxying all unencrypted web communications (pursuant to env.no_proxy).
@@ -48,71 +46,16 @@ properties:
     description: The URL of an upstream HTTP proxy for proxying all encrypted web communications (pursuant to env.no_proxy).
   env.no_proxy:
     description: A list of domains, partial domains (i.e. ".example.com"), and IP addresses that should not be routed through env.http_proxy and env.https_proxy.
- 
-  recovery.target_plugin:
-    description: "Target plugin to use in emergency-recovery-mode"
-  recovery.target_config:
-    description: "A map of key-values that will be converted to JSON, representing the target plugin configration"
-  recovery.store_plugin:
-    description: "Store plugin to use in emergency-recovery-mode"
-  recovery.store_config:
-    description: "A map of key-values that will be converted to JSON, representing the store plugin configration"
+  env.path:
+    description: A list of paths to append to $PATH, so that plugins can find tools and utilities when they run.
+  env.libs:
+    description: A list of paths to append to $LD_LIBRARY_PATH, so that plugins can use tools and utilities when they run.
+  env.auto:
+    description: Augment the plugin environment with the appropriate bin/, sbin/, and lib/ directories from all BOSH packages named 'shield-addon-*'
+    default: true
 
   plugin_paths:
     description: "Map of paths that the binary of the plugins can be found"
     example: |
       plugin_paths:
         atmos: /var/vcap/packages/atmos-plugin/bin
-
-  stores:
-    description: |
-      A list of Stores to autoprovision in SHIELD, keyed by name.
-      You can optionally override the name of the store with a 'name' attribute.
-      For example:
-        stores:
-          amazon:
-            plugin: s3
-            config:
-              secret_key: foo
-              bucket:     my-backups
-
-  targets:
-    description: |
-      A list of Targets to autoprovision in SHIELD, keyed by name.
-      You can optionally override the name of the target with a 'name' attribute.
-      For example:
-        targets:
-          localdb:
-            plugin: postgres
-            config:
-              pg_host: 10.0.0.6
-              pg_port: 5524
-              # etc.
-
-  jobs:
-    description: |
-      A list of Jobs to autoprovision in SHIELD, keyed by name.
-      You can optionally override the name of the job with a 'name' attribute.
-      For example:
-        jobs:
-          my-backups:
-            target:     localdb
-            store:      amazon
-            retention:  longterm
-            schedule:   weekly
-
-  schedules:
-    description: |
-      A list of Schedules to autoprovision in SHIELD, keyed by name.
-      For example:
-        schedules:
-          Daily: daily 4am
-          Weekly: weekly on monday 3am
-
-  retention-policies:
-    description: |
-      A list of Retention policies to autoprovision in SHIELD, keyed by name.
-      For example:
-        retention-policies:
-          Short-term:  90d
-          Long-term:  180d

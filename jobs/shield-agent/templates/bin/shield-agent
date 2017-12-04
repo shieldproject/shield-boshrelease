@@ -1,0 +1,123 @@
+#!/bin/bash
+set -eu
+<%
+    shield_url = ''
+
+    if_link('shield') do |shield|
+      shield_url = "https://#{shield.p('domain')}:#{shield.p('port')}"
+    end
+    if ! shield_url
+      if ! p('agent.key')
+        raise "If you are not using the 'shield' link in your deployment, you must specify agent.key property on the shield-agent job"
+      end
+      if ! p('shield-url')
+        raise "If you are not using the 'shield' link in your deployment, you must specify the shield-url property on the shield-agent job"
+      end
+      shield_url = p('shield-url')
+   end
+%>
+
+RUN_DIR=/var/vcap/sys/run/shield
+LOG_DIR=/var/vcap/sys/log/shield
+JOB_DIR=/var/vcap/jobs/shield-agent
+PIDFILE=$RUN_DIR/agent.pid
+mkdir -p $LOG_DIR
+exec >>$LOG_DIR/agent.log 2>&1
+
+case $1 in
+  start)
+    mkdir -p $RUN_DIR
+
+    echo "$(date) starting up shield-agent"
+    echo "$(date) setting up agent <-> core keys"
+    AUTHKEYS=$JOB_DIR/config/authorized_keys
+    rm -f $AUTHKEYS
+
+    # try to get a key from the SHIELD core
+    curl -Lks "<%= shield_url %>/v1/meta/pubkey" -m 20 \
+      >> $AUTHKEYS || true
+
+    # use the one from the configuration
+    if [[ -s $JOB_DIR/config/agent.key ]]; then
+      chmod 0400      $JOB_DIR/config/agent.key
+      chown vcap:vcap $JOB_DIR/config/agent.key
+      ssh-keygen -yf $JOB_DIR/config/agent.key >>$AUTHKEYS
+    fi
+
+    if [[ ! -s $AUTHKEYS ]]; then
+      echo "$(date) unable to provision agent <-> core keys."
+      echo "$(date) maybe the SHIELD Core at <%= shield_url %> is not up yet?"
+      <% if p('require-shield-core') %>exit 1<% end %>
+    fi
+
+    <% if p('env.auto') %>
+    # env.auto
+    for pkg in /var/vcap/packages/shield-addon-*; do
+      if [[ -d $pkg/bin ]]; then
+        PATH="$PATH:$pkg/bin"
+      fi
+      if [[ -d $pkg/sbin ]]; then
+        PATH="$PATH:$pkg/sbin"
+      fi
+      if [[ -d $pkg/lib ]]; then
+        if [[ -z "$LD_LIBRARY_PATH" ]]; then
+          LD_LIBRARY_PATH="$pkg/lib"
+        else
+          LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$pkg/lib"
+        fi
+      fi
+    done
+    <% end %>
+
+    <% if p('env.path', []).size > 0 %>
+    # env.paths
+    PATH="$PATH:<%= p('env.path').join(':') %>"
+    <% end %>
+
+    <% if p('env.libs', []).size > 0 %>
+    # env.libs
+    if [[ -z "$LD_LIBRARY_PATH" ]]; then
+      LD_LIBRARY_PATH="<%= p('env.libs').join(':') %>"
+    else
+      LD_LIBRARY_PATH="$LD_LIBRARY_PATH:<%= p('env.libs').join(':') %>"
+    fi
+    <% end %>
+
+    PATH="$PATH:/var/vcap/packages/shield/bin"
+
+    export LD_LIBRARY_PATH PATH
+
+    <% if_p('env.http_proxy') do |http_proxy| %>
+    # env.http_proxy
+    export http_proxy=<%= http_proxy %>
+    <% end %>
+
+    <% if_p('env.https_proxy') do |https_proxy| %>
+    # env.https_proxy
+    export https_proxy=<%= https_proxy %>
+    <% end %>
+
+    <% if_p('env.no_proxy') do |no_proxy| %>
+    # env.no_proxy
+    export no_proxy="<%= [no_proxy].flatten.join(',') %>"
+    <% end %>
+
+    echo $$ > $PIDFILE
+    exec chpst /var/vcap/packages/shield/bin/shield-agent \
+      --log-level "<%= p('log-level') %>" \
+      --config $JOB_DIR/config/agent.conf
+    ;;
+
+  stop)
+    PID=$(head -1 $PIDFILE)
+    kill $PID
+    while [ -e /proc/$PID ]; do sleep 0.1; done
+    rm -f $PIDFILE
+    ;;
+
+  *)
+    echo "Usage: shield-agent {start|stop}"
+    exit 1
+    ;;
+esac
+exit 0

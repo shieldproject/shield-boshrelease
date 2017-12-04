@@ -1,0 +1,13 @@
+---
+name: import
+packages:
+  - shield
+
+templates:
+  # buckler import
+  bin/run:           bin/run
+  config/import.yml: config/import.yml
+
+properties:
+  import:
+    description: A complete `buckler import' YAML file, for importing and auto-provisioning tenants, users, cloud storage, data systems, etc.

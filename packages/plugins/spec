@@ -1,5 +1,0 @@
----
-name: plugins
-dependencies: []
-files:
-- shield/shield-server-linux-amd64*.tar.gz

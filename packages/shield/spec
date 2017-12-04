@@ -1,5 +1,5 @@
 ---
 name: shield
-dependencies: []
 files:
-- shield/shield-server-linux-amd64*.tar.gz
+  - tar/libarchive-3.1.2.tar.gz
+  - shield/shield-server-linux-amd64*.tar.gz

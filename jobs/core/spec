@@ -1,0 +1,109 @@
+---
+name: core
+packages:
+  - shield
+  - nginx
+  - vault
+
+templates:
+  # vault secure storage
+  bin/vault:            bin/vault
+  config/vault.conf:    config/vault.conf
+  config/tls/vault.pub: config/tls/vault.pub
+  config/tls/vault.ca:  config/tls/vault.ca
+  config/tls/vault.key: config/tls/vault.key
+
+  # shieldd core
+  bin/shieldd:          bin/shieldd
+  config/shieldd.conf:  config/shieldd.conf
+  config/agent.key:     config/agent.key
+
+  # nginx reverse proxy
+  bin/nginx:            bin/nginx
+  config/nginx.conf:    config/nginx.conf
+  config/tls/nginx.pub: config/tls/nginx.pub
+  config/tls/nginx.key: config/tls/nginx.key
+
+provides:
+  - name: shield
+    type: shield
+    properties: [domain, port]
+
+properties:
+  domain:
+    description: Fully-qualified domain name (or IP address) of your SHIELD installation
+  port:
+    description: Incoming port to bind for HTTPS API and Web UI
+    default: 443
+
+  core.env:
+    description: A short tag describing this environment (i.e. 'prod', 'staging', etc.).
+    default: sandbox
+  core.color:
+    description: What color should the SHIELD Web UI render the environment tag in.
+    default: yellow
+  core.motd:
+    description: A (perhaps long-form) message of the day, to display on login forms.
+    default: Welcome to SHIELD!
+
+  failsafe.username:
+    description: A fallback username for initially accessiong your SHIELD instance.
+    default: admin
+  failsafe.password:
+    description: A password for the failsafe user.
+    default: shield
+
+  core.workers:
+    description: Maximum allowable number of running, concurrent tasks.
+    default: 5
+  core.task-timeout:
+    description: How long after start of execution before timing out a running task.
+    default: 12h
+  core.session-timeout:
+    description: How long should sessions be valid for.
+    default: 8h
+  core.fast-loop:
+    description: How frequently should SHIELD check for and execute scheduled jobs.
+    default: 5s
+  core.slow-loop:
+    description: How frequently should SHIELD perform janitorial tasks.
+    default: 1h
+  core.authentication:
+    description: "A list of SHIELD Authentication Provider configurations, to be emitted into the shieldd.conf configuration file as-is (under the `auth:` key)."
+
+  tls.key:
+    description: "TLS private key (PEM encoded), used for the HTTPS API and Web UI"
+  tls.certificate:
+    description: "TLS Certificate (PEM encoded), used for the HTTPS API and Web UI"
+  tls.reuse-after:
+    description: "How long (in hours) before rotating cryptographic parameters"
+    default: 2
+
+  agent.key:
+    description: RSA private key used for securing communications between SHIELD Agents and the SHIELD Core.
+
+  log-level:
+    description: Log level for the SHIELD Core.  One of 'error', 'warning', or 'info'.
+    default: "error"
+
+  nginx.workers:
+    description: "Number of nginx workers"
+    default: 2
+  nginx.connections:
+    description: "Number of nginx connections per worker"
+    default: 8192
+  nginx.keepalive:
+    description: "Timeout for keep-alive connections"
+    default: "75 20"
+
+  vault.tls.ca:
+    description: The PEM-encoded certificate of the CA that signed the Vault Certificate.  The SHIELD core needs this so that it can trust the Vault certificate.
+  vault.tls.certificate:
+    description: The PEM-encoded certificate of the Vault itself.  This certificate should be issued for the IP SAN 127.0.0.1.
+  vault.tls.key:
+    description: The PEM-encoded private key for the Vault certificate.
+
+  migrate-from.type:
+    description: What type of legacy (pre-v8) database to migrate from (optional).
+  migrate-from.dsn:
+    description: The full datasource name of a legacy (pre-v8) database to migrate from.

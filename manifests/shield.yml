@@ -2,71 +2,83 @@ name: shield
 
 instance_groups:
 - name: shield
-  azs: [z1]
   instances: 1
-  vm_type: default
-  stemcell: default
-  persistent_disk_type: default
-  networks: [{name: default}]
+  azs:       [z1]
+  vm_type:              small
+  stemcell:             default
+  persistent_disk_type: shield
+
+  networks:
+  - name: shield
+    static_ips:
+    - 10.213.13.27
+
   jobs:
-  - name: postgres
-    release: shield
-    properties:
-      databases:
-      - {name: shielddb,   tag: shield,   citext: true}
-      - {name: sessionsdb, tag: sessions, citext: true}
-      roles:
-      - name: shieldadmin
-        password: ((db-password))
-        tag: admin
-  - name: shield-daemon
-    release: shield
-    provides:
-      shield-daemon: {shared: true, as: shield-daemon}
-    properties:
-      ssh_private_key: ((shield-daemon-sshkey.private_key))
-      auth:
-        username: admin
-        password: ((shield-daemon-password))
-        api_keys:
-          autoprovision: ((shield-daemon-api-key))
-      ssl:
-        crt: ((shield-tls.certificate))
-        key: ((shield-tls.private_key))
-  - name: shield-agent
-    release: shield
-    consumes:
-      shield-daemon: {from: shield-daemon}
-    properties:
-      autoprovision: true
-      schedules: {default: daily 3am}
-      retention-policies: {default: 30}
+    - name: core
+      release: shield
+      provides:
+        shield: {shared: true, as: shield}
+      properties:
+        domain: 10.213.13.27
+        agent:
+          key: ((shield-agent-key.private_key))
+        tls:
+          certificate: ((shield-tls.certificate))
+          key:         ((shield-tls.private_key))
+        vault:
+          tls:
+            ca:          ((vault-tls.ca))
+            certificate: ((vault-tls.certificate))
+            key:         ((vault-tls.private_key))
+
+    - name: shield-agent
+      release: shield
+      consumes:
+        shield: {from: shield}
+      properties:
+        core:
+            ca: ((shield-tls.ca))
 
 variables:
-- name: db-password
-  type: password
-- name: shield-daemon-sshkey
-  type: rsa
-- name: shield-daemon-password
-  type: password
-- name: shield-daemon-api-key
-  type: password
-- name: shield-ca
-  type: certificate
-  options:
-    is_ca: true
-    common_name: shieldCA
-- name: shield-tls
-  type: certificate
-  options:
-    ca: shield-ca
-    common_name: shield
-    extended_key_usage:
-    - client_auth
-    - server_auth
-    alternative_names:
-    - 127.0.0.1
-    - "*.shield.default.shield.bosh"
+  - name: shield-agent-key
+    type: rsa
+
+  - name: shield-ca
+    type: certificate
+    options:
+      is_ca: true
+      common_name: shieldca
+
+  - name: shield-tls
+    type: certificate
+    options:
+      ca: shield-ca
+      common_name: shield
+      extended_key_usage:
+        - client_auth
+        - server_auth
+      alternative_names:
+        - 127.0.0.1
+        - 10.213.13.27
+        - "*.shield.default.shield.bosh"
+
+  - name: vault-ca
+    type: certificate
+    options:
+      is_ca: true
+      common_name: vaultca
+
+  - name: vault-tls
+    type: certificate
+    options:
+      ca: vault-ca
+      common_name: vault
+      extended_key_usage:
+        - client_auth
+        - server_auth
+      alternative_names:
+        - 127.0.0.1
+        - "*.vault.default.shield.bosh"
 
 update:
   canaries: 0

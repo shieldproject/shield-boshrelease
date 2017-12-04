@@ -1,0 +1,7 @@
+<%
+x = p("vault.tls.certificate")
+if !x.match('CERTIFICATE')
+  x = x.gsub(/^(.{40}).*/, '\1...')
+  raise "vault.tls.certificate '#{x}' does not look like a TLS certificate"
+end
+%><%= p('vault.tls.certificate') %>

@@ -1,12 +1,21 @@
 #!/bin/bash
-set -ex
+set -eux
+CPUS=$(grep -c ^processor /proc/cpuinfo)
 
-tar -xzvf shield/shield-server-linux-amd64*.tar.gz
-cd shield-server-linux-amd64*/
 mkdir -p ${BOSH_INSTALL_TARGET}/bin
-cp agent/shield-agent   ${BOSH_INSTALL_TARGET}/bin
-cp cli/shield           ${BOSH_INSTALL_TARGET}/bin
-cp daemon/shieldd       ${BOSH_INSTALL_TARGET}/bin
-cp daemon/shield-schema ${BOSH_INSTALL_TARGET}/bin
-cp daemon/shield-pipe   ${BOSH_INSTALL_TARGET}/bin
-cp -R webui             ${BOSH_INSTALL_TARGET}/webui
+tar -xzf tar/libarchive-3.1.2.tar.gz
+pushd libarchive-3.1.2
+  ./configure --prefix ${BOSH_INSTALL_TARGET}
+  make -j$CPUS && make install
+popd
+
+tar -xzf shield/shield-server-linux-amd64*.tar.gz
+pushd shield-server-linux-amd64*/
+  cp agent/shield-agent   ${BOSH_INSTALL_TARGET}/bin
+  cp cli/shield           ${BOSH_INSTALL_TARGET}/bin
+  cp daemon/shieldd       ${BOSH_INSTALL_TARGET}/bin
+  cp daemon/shield-schema ${BOSH_INSTALL_TARGET}/bin
+  cp daemon/shield-pipe   ${BOSH_INSTALL_TARGET}/bin
+  cp -R webui             ${BOSH_INSTALL_TARGET}/webui
+  cp -R plugins           ${BOSH_INSTALL_TARGET}/plugins
+popd

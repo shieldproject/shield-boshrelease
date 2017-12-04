@@ -1,6 +1,0 @@
-check process postgres
-  with pidfile /var/vcap/sys/run/postgres/postgres.pid
-  start program "/var/vcap/jobs/postgres/bin/ctl start" timeout 780 seconds
-  stop program "/var/vcap/jobs/postgres/bin/ctl stop"
-  group vcap
-

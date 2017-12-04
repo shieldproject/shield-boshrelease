@@ -1,0 +1,2 @@
+<% p('webdav.auth.users').each do |who| %><%= who['username'] %>:{PLAIN}<%= who['password'] %>
+<% end -%>

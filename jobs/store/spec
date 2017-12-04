@@ -1,0 +1,39 @@
+---
+name: store
+packages:
+  - nginx
+
+templates:
+  # nginx webdav store
+  bin/nginx:            bin/nginx
+  config/nginx.conf:    config/nginx.conf
+  config/auth.db:       config/auth.db
+  config/tls.pub:       config/tls.pub
+  config/tls.key:       config/tls.key
+
+properties:
+  port:
+    description: Port to listen on for HTTP/WebDAV requests
+    default: 443
+
+  tls.key:
+    description: TLS private key (PEM encoded), used for secure WebDAV.
+  tls.certificate:
+    description: TLS Certificate (PEM encoded), used for secure WebDAV.
+
+  webdav.browsable:
+    description: Whether or not the WebDAV store is browsable.  Highly recommended for ease-of-operation.
+    default: true
+
+  webdav.max-upload:
+    description: Upper limit (in gigabytes) on the size of a single backup archive.
+    default: 2
+
+  webdav.auth.enabled:
+    description: Whether or not the WebDAV is protected by HTTP Basic Authentication.
+    default: true
+  webdav.auth.realm:
+    description: HTTP Basic Authentication Realm value
+    default: SHIELD WebDAV Storage
+  webdav.auth.users:
+    description: "A list of {username: ..., password: ...} objects used to define the HTTP Basic Authentication credentials that will be permitted to access the WebDAV service."
