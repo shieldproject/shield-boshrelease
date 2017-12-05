@@ -1,8 +1,8 @@
 ---
 - type: replace
-  path: /instance_groups/name=shield/job/name=shield-daemon/properties/log_level?
+  path: /instance_groups/name=shield/jobs/name=core/properties/log-level?
   value: ((log-level))
 
 - type: replace
-  path: /instance_groups/name=shield/job/name=shield-agent/properties/log_level?
+  path: /instance_groups/name=shield/jobs/name=shield-agent/properties/log-level?
   value: ((log-level))

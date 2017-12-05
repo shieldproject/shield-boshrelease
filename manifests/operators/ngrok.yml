@@ -8,10 +8,6 @@
     sha1: e95f03eeed543fe3d020316afe1736763ec77ba5
 
 - type: replace
-  path: /instance_groups/name=shield/jobs/name=nginx/properties?/ssl/enable
-  value: false
-
-- type: replace
   path: /instance_groups/name=shield/jobs/-
   value:
     name: ngrok
@@ -22,5 +18,5 @@
         tunnels:
           shield:
             proto: http
-            addr: 80
+            addr: 8080
             subdomain: ((ngrok-subdomain))
