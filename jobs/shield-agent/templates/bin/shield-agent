@@ -34,7 +34,7 @@ case $1 in
     rm -f $AUTHKEYS
 
     # try to get a key from the SHIELD core
-    curl -Lks "<%= shield_url %>/v1/meta/pubkey" -m 20 \
+    curl --fail -Lks "<%= shield_url %>/v1/meta/pubkey" -m 20 \
       >> $AUTHKEYS || true
 
     # use the one from the configuration
