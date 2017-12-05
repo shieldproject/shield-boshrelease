@@ -458,9 +458,9 @@ Tracker][github].
 [docs]:           https://shieldproject.io/documentation
 [github]:         https://github.com/starkandwayne/shield/issues
 
-[mysql-addon]:    https://github.com/shieldproject/shield-mysql-addon-boshrelease
-[postgres-addon]: https://github.com/shieldproject/shield-postgres-addon-boshrelease
-[mongodb-addon]:  https://github.com/shieldproject/shield-mongodb-addon-boshrelease
+[mysql-addon]:    https://github.com/shieldproject/shield-addon-mysql-boshrelease
+[postgres-addon]: https://github.com/shieldproject/shield-addon-postgres-boshrelease
+[mongodb-addon]:  https://github.com/shieldproject/shield-addon-mongodb-boshrelease
 
 [pq-dsn]:         https://godoc.org/github.com/lib/pq
 [my-dsn]:         https://github.com/go-sql-driver/mysql#dsn-data-source-name
