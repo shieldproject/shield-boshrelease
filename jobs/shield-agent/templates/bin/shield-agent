@@ -6,7 +6,7 @@ set -eu
     if_link('shield') do |shield|
       shield_url = "https://#{shield.p('domain')}:#{shield.p('port')}"
     end
-    if ! shield_url
+    if shield_url == ''
       if ! p('agent.key')
         raise "If you are not using the 'shield' link in your deployment, you must specify agent.key property on the shield-agent job"
       end

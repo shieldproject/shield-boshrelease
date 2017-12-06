@@ -37,7 +37,7 @@ instance_groups:
         shield: {from: shield}
       properties:
         core:
-            ca: ((shield-tls.ca))
+          ca: ((shield-tls.ca))
 
 variables:
   - name: shield-agent-key
