@@ -3,12 +3,6 @@ set -eux
 CPUS=$(grep -c ^processor /proc/cpuinfo)
 
 mkdir -p ${BOSH_INSTALL_TARGET}/bin
-tar -xzf tar/libarchive-3.1.2.tar.gz
-pushd libarchive-3.1.2
-  ./configure --prefix ${BOSH_INSTALL_TARGET}
-  make -j$CPUS && make install
-popd
-
 tar -xzf shield/shield-server-linux-amd64*.tar.gz
 pushd shield-server-linux-amd64*/
   cp agent/shield-agent   ${BOSH_INSTALL_TARGET}/bin

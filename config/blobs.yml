@@ -10,10 +10,6 @@ shield/shield-server-linux-amd64-8.0.0.tar.gz:
   size: 56489075
   object_id: 6a8fc89c-4eca-48d1-5452-499dcbe06d33
   sha: 8c8982a6510d9720a15492e43a1af6351b8d9996
-tar/libarchive-3.1.2.tar.gz:
-  size: 4527540
-  object_id: 82d11f2c-1a0d-4b68-9915-bb80feb10a74
-  sha: 6a991777ecb0f890be931cec4aec856d1a195489
 vault/vault_0.9.0_linux_amd64.zip:
   size: 17571361
   object_id: b811c233-2543-4dbc-4e0b-5a417d3ba55a
