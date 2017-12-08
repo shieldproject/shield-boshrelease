@@ -14,6 +14,12 @@ case $1 in
     mkdir -p $RUN_DIR $DAT_DIR
     chown vcap:vcap $DAT_DIR
 
+    if [[ -f $PIDFILE ]]; then
+      PID=$(head -1 $PIDFILE)
+      test -n "$PID" && -e /proc/$PID && exit 1
+      rm -f $PIDFILE
+    fi
+
     <% if_p('migrate-from.type') do |type|
          if_p('migrate-from.dsn') do |dsn| %>
     if [[ ! -f $DAT_DIR/main.db ]]; then
@@ -32,7 +38,7 @@ case $1 in
       /var/vcap/packages/shield/bin/shield-schema \
         -d $DAT_DIR/main.db
 
-    echo "$(date) starting up shieldd"
+    echo "$(date) starting up shieldd (pid $$)"
     echo $$ > $PIDFILE
     exec chpst -u vcap:vcap \
       /var/vcap/packages/shield/bin/shieldd \
@@ -40,9 +46,12 @@ case $1 in
     ;;
 
   stop)
+    echo "$(date) shutting down shieldd"
     PID=$(head -1 $PIDFILE)
-    kill $PID
-    while [ -e /proc/$PID ]; do sleep 0.1; done
+    if [[ -n "$PID" ]]; then
+      kill $PID || true
+      while [ -e /proc/$PID ]; do sleep 0.1; done
+    fi
     rm -f $PIDFILE
     ;;
 

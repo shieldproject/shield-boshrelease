@@ -102,6 +102,7 @@ case $1 in
     export no_proxy="<%= [no_proxy].flatten.join(',') %>"
     <% end %>
 
+    echo "$(date) shield-agent starting up (pid $$)"
     echo $$ > $PIDFILE
     exec chpst /var/vcap/packages/shield/bin/shield-agent \
       --log-level "<%= p('log-level') %>" \
@@ -109,9 +110,12 @@ case $1 in
     ;;
 
   stop)
+    echo "$(date) shutting down shield-agent"
     PID=$(head -1 $PIDFILE)
-    kill $PID
-    while [ -e /proc/$PID ]; do sleep 0.1; done
+    if [[ -n "$PID" ]]; then
+      kill $PID || true
+      while [ -e /proc/$PID ]; do sleep 0.1; done
+    fi
     rm -f $PIDFILE
     ;;
 
