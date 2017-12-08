@@ -10,3 +10,6 @@
 - Fixed an issue where the nginx proxy was up and ready before the
   shieldd process, leading to HTML and 502 Bad Gateway errors in
   the authorized_keys file during /v1/meta/pubkey provisioning.
+
+# shield
+Bumped https://github.com/starkandwayne/shield to v8.0.1
