@@ -16,7 +16,7 @@ case $1 in
 
     if [[ -f $PIDFILE ]]; then
       PID=$(head -1 $PIDFILE)
-      test -n "$PID" && -e /proc/$PID && exit 1
+      test -n "$PID" && test -e /proc/$PID && exit 1
       rm -f $PIDFILE
     fi
 
