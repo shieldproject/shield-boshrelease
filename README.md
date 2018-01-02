@@ -248,6 +248,8 @@ now leverages a standalone, dedicated database that is baked into
 the new `core` job.  See the subsection **Database Migration**,
 below, for details on migrating your SHIELD data.
 
+The `nginx` job has been removed. It is now integrated into core.
+
 ### The New Import Errand
 
 Previous versions of the SHIELD BOSH release used a post-start
