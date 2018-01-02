@@ -6,6 +6,7 @@ sed -e '
   s/(index)/<%= spec.index.to_s %>/g;
   s/(ip)/<%= spec.ip %>/g;
   s/(name)/<%= spec.name %>/g;
+  s/(az)/<%= spec.az || '' %>/g;
 ' /var/vcap/jobs/import/config/import.yml |\
   /var/vcap/packages/shield/bin/shield import -
 exit 0

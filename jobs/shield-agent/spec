@@ -16,8 +16,8 @@ consumes:
 
 properties:
   name:
-    description: Name of the agent, used for registration.  The placeholders '(deployment)', '(name)', and '(index)' can be used, to pull information from the BOSH deployment.
-    default: (deployment)/(name)/(index)
+    description: Name of the agent, used for registration.  The placeholders '(deployment)', '(name)', '(index)', and '(az)' can be used, to pull information from the BOSH deployment.
+    default: (deployment)/(name)@(az)/(index)
 
   shield-url:
     description: The URL of the SHIELD core that this agent should register with.  If you use the 'shield' link, this property will be ignored.
