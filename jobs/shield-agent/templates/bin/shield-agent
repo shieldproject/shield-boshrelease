@@ -45,12 +45,11 @@ case $1 in
 
     # use the one from the configuration
     if [[ -s $JOB_DIR/config/agent.key ]]; then
-      chmod 0400      $JOB_DIR/config/agent.key
-      chown vcap:vcap $JOB_DIR/config/agent.key
-      ssh-keygen -yf $JOB_DIR/config/agent.key >>$AUTHKEYS
+      cat $JOB_DIR/config/agent.key >>$AUTHKEYS
     fi
 
-    if [[ ! -s $AUTHKEYS ]]; then
+    if ! grep -Fq "ssh-rsa" $AUTHKEYS
+    then
       echo "$(date) unable to provision agent <-> core keys."
       echo "$(date) maybe the SHIELD Core at <%= shield_url %> is not up yet?"
       <% if p('require-shield-core') %>exit 1<% end %>
