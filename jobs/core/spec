@@ -35,6 +35,9 @@ properties:
   port:
     description: Incoming port to bind for HTTPS API and Web UI
     default: 443
+  enable_http_redirect:
+    description: Redirect HTTP to HTTPS
+    default: true
 
   core.env:
     description: A short tag describing this environment (i.e. 'prod', 'staging', etc.).
