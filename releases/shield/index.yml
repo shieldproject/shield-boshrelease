@@ -55,6 +55,8 @@ builds:
     version: "5"
   a33ac379-96dc-4e7f-82e0-b72eb1f93390:
     version: 6.5.1
+  a3ced6b2-c462-49ae-7b09-8a8f22184702:
+    version: 8.0.4
   a45354d3-d0ab-4714-8a0e-330e9fdd18d8:
     version: 6.3.5
   a67c1751-0b02-4b8d-9947-eb0ca52d80a5:
