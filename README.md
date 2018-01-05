@@ -177,12 +177,9 @@ issues and firewalling to more mundane problems like "we haven't
 deployed SHIELD itself yet."
 
 The `daemon_public_key` property has been removed.  In its place
-is the new `agent.key` property.  The most important difference
-between these two properties is that `daemon_public_key` was the
-authorized_keys-formatted public key, and `agent.key` is the
-**private key** that the SHIELD Core also specifies as
-`agent.key`.  Internally, the BOSH release will extract the
-correctly formatted public fingerprint from the private key.
+is the new `agent.key` property.  The meaning of the property is
+still the same, i.e. you should specify the
+authorized_keys-formatted public key (i.e. `ssh-rsa AAA...`).
 
 Note that if the `shield` link is in use, you don't need to
 explicitly set `agent.key` -- the agent startup scripts will just
