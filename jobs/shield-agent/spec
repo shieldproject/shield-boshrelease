@@ -25,8 +25,6 @@ properties:
     description: Require the SHIELD Core (via the 'shield' link, or at `shield-url`) to be up when we provision.  This is on by default, but can be disabled if the operator needs a deployment to continue on even in the event of agent / core miscommunication.
     default: true
 
-  ip:
-    description: IP address that the agent can be contacted at.  Normally, this can be automatically detected, but for certain circumstances (i.e. bosh-init deployments), you must specify it.
   port:
     description: "port to run agent"
     default: 5444
