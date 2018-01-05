@@ -41,7 +41,7 @@ instance_groups:
 
 variables:
   - name: shield-agent-key
-    type: rsa
+    type: ssh
 
   - name: shield-ca
     type: certificate
