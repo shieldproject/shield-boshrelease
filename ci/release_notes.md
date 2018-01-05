@@ -7,3 +7,6 @@
   authorized key (`ssh-rsa AAA...`) format, instead of the private
   key.  This is a change from previous 8.x versions, but the
   warnings in the template rendering should guide you well.
+
+# shield
+Bumped https://github.com/starkandwayne/shield to v8.0.4
