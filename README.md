@@ -221,7 +221,7 @@ default.
 
 The auto-provisioning properties `stores`, `targets`,
 `retention-policies`, and `jobs` have all been removed, in favor
-of the new `buckler import`-based `import` errand.
+of the new `shield import`-based `import` errand.
 
 The `log_level` property has been renamed to `log-level`.
 
@@ -254,12 +254,12 @@ script and `shield-agent` properties to facilitate a form of
 configuration auto-provisioning.
 
 In v8, this has all been replaced by the new `import` errand,
-which drives the much more powerful and flexible `buckler import`
+which drives the much more powerful and flexible `shield import`
 command-line tool.
 
 The `import` errand takes a single property, `import`, which is a
 full recipe of things to import into SHIELD, as understood by the
-`buckler` tool's `import` sub-command.
+`shield` tool's `import` sub-command.
 
 Here's an example that sets up a bunch of stuff:
 
@@ -277,7 +277,7 @@ Here's an example that sets up a bunch of stuff:
       properties:
         import:
           core:  https://shield.example.com
-          token: ... # an auth token, from `buckler create-auth-token`
+          token: ... # an auth token, from `shield create-auth-token`
 
           global:
             storage:
