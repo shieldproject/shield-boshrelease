@@ -30,7 +30,7 @@ properties:
     default: 5444
 
   agent.key:
-    description: RSA private key used for securing communications between SHIELD Agents and the SHIELD Core.
+    description: SSH public key used for securing communications between SHIELD Agents and the SHIELD Core.
   core.ca:
     description: The PEM-encoded certificate of the CA that signed the Shield Certificate.  The SHIELD agent needs this so that it can trust the Shield-Core certificate.
 
