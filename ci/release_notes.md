@@ -5,3 +5,6 @@
 			
  # Shield		
  Bumped https://github.com/starkandwayne/shield to v8.0.5
+
+# shield
+Bumped https://github.com/starkandwayne/shield to v8.0.5
