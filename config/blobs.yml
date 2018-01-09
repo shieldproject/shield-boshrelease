@@ -7,9 +7,9 @@ nginx/pcre-8.37.tar.gz:
   object_id: ceabbcdf-1322-4430-8684-b604a962e3de
   sha: 4a24a20c61347d8da4edc86d5475aaf70ac146bb
 shield/shield-server-linux-amd64-8.0.5.tar.gz:
-  size: 316
-  object_id: 67d1d4de-29c5-47ce-4ea6-661a7490b4e1
-  sha: 09b61e963d5ed5405a4528d8b53117860ad64d3d
+  size: 58986139
+  object_id: fea472fd-3fbf-49ba-774e-3f64bb3a66b9
+  sha: 5117bbff216e8c3c6357842ede3ff522de69b180
 vault/vault_0.9.0_linux_amd64.zip:
   size: 17571361
   object_id: b811c233-2543-4dbc-4e0b-5a417d3ba55a
