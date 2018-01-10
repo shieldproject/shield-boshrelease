@@ -1,0 +1,41 @@
+name: shield
+version: 8.0.6
+commit_hash: 77d9a5a
+uncommitted_changes: false
+jobs:
+- name: core
+  version: 1fafdc1ff61e127c04f1e392866df450e96402af
+  fingerprint: 1fafdc1ff61e127c04f1e392866df450e96402af
+  sha1: d14c3182503512ff84dd8ca71fcbf27db96c29ea
+- name: import
+  version: 9288807c8b0cdf7e515f144638eee4c45fd06918
+  fingerprint: 9288807c8b0cdf7e515f144638eee4c45fd06918
+  sha1: 33ac13fb1474da64c8c73d26125a97c6ddfcb8b7
+- name: shield-agent
+  version: a9becadcdb5660a365562e9ea1e2f13d441b179c
+  fingerprint: a9becadcdb5660a365562e9ea1e2f13d441b179c
+  sha1: 874f34b621fe6a1590b9b900bfaacc6027326c6e
+- name: store
+  version: ce405448d7a8f30da12944a02a6c3cced9626311
+  fingerprint: ce405448d7a8f30da12944a02a6c3cced9626311
+  sha1: 534466df7342a7ee11440bcd762e927a0a0bf16b
+packages:
+- name: nginx
+  version: 3ba0635a08bd2a2c8c65ae885607feedf24ad0ff
+  fingerprint: 3ba0635a08bd2a2c8c65ae885607feedf24ad0ff
+  sha1: 88d5ed2b8c4fadb62797797c4a7d06202519a2bf
+  dependencies: []
+- name: shield
+  version: 9638458fae6c1c427816bf4804f406062a46a98e
+  fingerprint: 9638458fae6c1c427816bf4804f406062a46a98e
+  sha1: 10ffdfe9eabf020b4754ce7211a1c940436c53f2
+  dependencies: []
+- name: vault
+  version: 3e8858808909a77022801c4658251bd8104c58ef
+  fingerprint: 3e8858808909a77022801c4658251bd8104c58ef
+  sha1: cab7741012ad26c4eda7c6de54cb753cd263d9d6
+  dependencies: []
+license:
+  version: fc24a259da4ed145bfa70db6bc689b7dfb91673c
+  fingerprint: fc24a259da4ed145bfa70db6bc689b7dfb91673c
+  sha1: c7c3ea002ab3a6a32019cb39099ca59e2ec73175
