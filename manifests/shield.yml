@@ -4,14 +4,14 @@ instance_groups:
 - name: shield
   instances: 1
   azs:       [z1]
-  vm_type:              small
+  vm_type:              default
   stemcell:             default
   persistent_disk: 1_024
 
   networks:
   - name: shield
     static_ips:
-    - 10.213.13.27
+      ((static_ip))
 
   jobs:
     - name: core
@@ -19,7 +19,7 @@ instance_groups:
       provides:
         shield: {shared: true, as: shield}
       properties:
-        domain: 10.213.13.27
+        domain: ((domain))
         agent:
           key: ((shield-agent-key.private_key))
         tls:
@@ -59,7 +59,7 @@ variables:
         - server_auth
       alternative_names:
         - 127.0.0.1
-        - 10.213.13.27
+        - ((static_ip))
         - "*.shield.default.shield.bosh"
 
   - name: vault-ca
