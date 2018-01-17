@@ -9,7 +9,7 @@ instance_groups:
   persistent_disk: 1_024
 
   networks:
-  - name: shield
+  - name: default
     static_ips:
       ((static_ip))
 
