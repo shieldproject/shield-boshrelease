@@ -6,7 +6,7 @@ instance_groups:
   azs:       [z1]
   vm_type:              small
   stemcell:             default
-  persistent_disk_type: shield
+  persistent_disk: 1_024
 
   networks:
   - name: shield
