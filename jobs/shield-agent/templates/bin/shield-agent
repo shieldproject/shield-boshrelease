@@ -65,7 +65,7 @@ case $1 in
         PATH="$PATH:$pkg/sbin"
       fi
       if [[ -d $pkg/lib ]]; then
-        if [[ -z "$LD_LIBRARY_PATH" ]]; then
+        if [[ -z "${LD_LIBRARY_PATH+x}" ]]; then
           LD_LIBRARY_PATH="$pkg/lib"
         else
           LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$pkg/lib"
@@ -81,7 +81,7 @@ case $1 in
 
     <% if p('env.libs', []).size > 0 %>
     # env.libs
-    if [[ -z "$LD_LIBRARY_PATH" ]]; then
+    if [[ -z "${LD_LIBRARY_PATH+x}" ]]; then
       LD_LIBRARY_PATH="<%= p('env.libs').join(':') %>"
     else
       LD_LIBRARY_PATH="$LD_LIBRARY_PATH:<%= p('env.libs').join(':') %>"
