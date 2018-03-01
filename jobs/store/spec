@@ -14,8 +14,11 @@ templates:
 properties:
   port:
     description: Port to listen on for HTTP/WebDAV requests
+    default: 80
+  ssl_port:
+    description: Port to listen on for HTTP/WebDAV requests
     default: 443
-
+    
   tls.key:
     description: TLS private key (PEM encoded), used for secure WebDAV.
   tls.certificate:
