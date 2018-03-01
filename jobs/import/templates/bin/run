@@ -1,12 +1,31 @@
 #!/bin/bash
 set -eu
 export HOME=/home/vcap
-sed -e '
+bin=/var/vcap/packages/shield/bin
+<% if p('generate_token') %>
+export SHIELD_CORE=<%= p("core") %>
+echo "set api to <%= p("domain") %>"
+$bin/shield api -k https://<%= p("domain") %> <%= p("core") %>
+echo "login to shield"
+$bin/shield login -u <%= p("username") %> -p <%= p("password") %>
+echo "creating token"
+token=$($bin/shield create-auth-token tmp)
+echo "$token"
+<% end %>
+
+echo "importing now......"
+sed -e "
   s/(deployment)/<%= spec.deployment %>/g;
   s/(index)/<%= spec.index.to_s %>/g;
   s/(ip)/<%= spec.ip %>/g;
   s/(name)/<%= spec.name %>/g;
   s/(az)/<%= spec.az || '' %>/g;
-' /var/vcap/jobs/import/config/import.yml |\
-  /var/vcap/packages/shield/bin/shield import -
+  s/generated-token/$token/g;
+" /var/vcap/jobs/import/config/import.yml |\
+  $bin/shield import -
+
+<% if p('generate_token') %>
+echo "revoke token"
+$bin/shield revoke-auth-token tmp
 exit 0
+<% end %>
