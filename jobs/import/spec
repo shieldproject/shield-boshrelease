@@ -11,15 +11,16 @@ templates:
 properties:
   import:
     description: A complete `shield import' YAML file, for importing and auto-provisioning tenants, users, cloud storage, data systems, etc.
-
   username:
-    description: shield username
+    description: |-
+      shield username for generating tokens (this is not the recomanded way and you should use the more secure generated tokens `shield create-auth-token`)
     default: admin
   password:
-    description: shield password
+    description: |-
+      shield password for generating tokens (this is not the recomanded way and you should use the more secure generated tokens `shield create-auth-token`)
     default: shield
   domain:
-    description: domain name for shield api
+    description: domain name for shield api (this only needs to be set if you want to use automated generated tokens)
   core:
-    description: shield core
+    description: shield core (this only needs to be set if you want to use automated generated tokens)
     default: shield
