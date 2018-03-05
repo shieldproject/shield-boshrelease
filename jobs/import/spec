@@ -24,3 +24,6 @@ properties:
   core:
     description: shield core (this only needs to be set if you want to use automated generated tokens)
     default: shield
+  generate_token:
+    description: set to true for automated token generation ( username/password are required)
+    default: false
