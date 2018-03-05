@@ -261,6 +261,22 @@ The `import` errand takes a single property, `import`, which is a
 full recipe of things to import into SHIELD, as understood by the
 `shield` tool's `import` sub-command.
 
+there are 2 options for `setting a token`
+1) you can generate a token with `shield create-auth-token` and provide as shown below
+2) or use the automated token generation
+   and provide the following property `generate_token: true`
+   ```
+   - name:    import
+     release: shield
+     properties:
+       domain: https://shield.example.com
+       username: admin # these are default values
+       password: shield # these are default values
+       generate_token: true      
+       import:
+         ....
+   ```
+
 Here's an example that sets up a bunch of stuff:
 
 ```yaml
@@ -340,7 +356,6 @@ Here's an example that sets up a bunch of stuff:
                       policy:  Long-Term
                       storage: Scality
 ```
-
 
 ### New Encryption Vault
 
