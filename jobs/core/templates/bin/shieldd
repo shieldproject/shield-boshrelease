@@ -22,13 +22,13 @@ case $1 in
 
     <% if_p('migrate-from.type') do |type|
          if_p('migrate-from.dsn') do |dsn| %>
-    if [[ ! -f $DAT_DIR/main.db ]]; then
+    if [[ ! -f $DAT_DIR/shield.db ]]; then
       echo "$(date) migrating data from legacy storage"
       chpst -u vcap:vcap \
         /var/vcap/packages/shield/bin/shield-migrate \
           --type '<%= type %>' \
           --from '<%= dsn %>' \
-          --to $DAT_DIR/main.db
+          --to $DAT_DIR/shield.db
     fi
     <%   end
        end %>
@@ -36,7 +36,7 @@ case $1 in
     echo "$(date) running any schema migrations"
     chpst -u vcap:vcap \
       /var/vcap/packages/shield/bin/shield-schema \
-        -d $DAT_DIR/main.db
+        -d $DAT_DIR/shield.db
 
     echo "$(date) starting up shieldd (pid $$)"
     echo $$ > $PIDFILE
