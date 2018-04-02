@@ -33,6 +33,10 @@ case $1 in
     <%   end
        end %>
 
+    if [[ -f $DAT_DIR/main.db ]]; then
+        mv $DAT_DIR/main.db $DAT_DIR/shield.db
+    fi
+
     echo "$(date) running any schema migrations"
     chpst -u vcap:vcap \
       /var/vcap/packages/shield/bin/shield-schema \
