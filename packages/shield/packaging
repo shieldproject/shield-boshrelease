@@ -10,7 +10,7 @@ pushd shield-server-linux-amd64*/
   cp daemon/shieldd        ${BOSH_INSTALL_TARGET}/bin
   cp daemon/shield-schema  ${BOSH_INSTALL_TARGET}/bin
   cp daemon/shield-migrate ${BOSH_INSTALL_TARGET}/bin
-  cp crypter/shield-crypt ${BOSH_INSTALL_TARGET}/bin
+  cp crypter/shield-crypt  ${BOSH_INSTALL_TARGET}/bin
   cp daemon/shield-pipe    ${BOSH_INSTALL_TARGET}/bin
   cp -R webui              ${BOSH_INSTALL_TARGET}/webui
   cp -R plugins            ${BOSH_INSTALL_TARGET}/plugins
