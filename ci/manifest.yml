@@ -250,6 +250,8 @@ instance_groups:
         shield: {from: shield}
       properties:
         require-shield-core: false
+        ulimit:
+          fds: 9000
         core:
           ca: |
             -----BEGIN CERTIFICATE-----
