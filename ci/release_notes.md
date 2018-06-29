@@ -1,3 +1,8 @@
+# Improvements
+
+- New `ulimit.fds` property allows operators to set a higher file
+  descriptor limit for the shield-agent process.
+
 # Bug Fixes
 
 - The vault.keys file is now properly migrated to vault.crypt.

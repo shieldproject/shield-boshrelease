@@ -38,6 +38,10 @@ properties:
     description: "Log level for shield-agent processes"
     default: "error"
 
+  ulimit.fds:
+    description: The maximum number of open files (including sockets) that the shield-agent process can have.
+    default: default
+
   env.http_proxy:
     description: The URL of an upstream HTTP proxy for proxying all unencrypted web communications (pursuant to env.no_proxy).
   env.https_proxy:
