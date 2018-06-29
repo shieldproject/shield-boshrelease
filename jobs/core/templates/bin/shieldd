@@ -14,6 +14,11 @@ case $1 in
     mkdir -p $RUN_DIR $DAT_DIR
     chown vcap:vcap $DAT_DIR
 
+    if [[ -f $DAT_DIR/vault/vault.keys && ! -f $DAT_DIR/vault/vault.crypt ]]; then
+      echo "$(date) migrating crypted key files from legacy names (.keys -> .crypt)"
+      mv $DAT_DIR/vault/vault.keys $DAT_DIR/vault/vault.crypt
+    fi
+
     if [[ -f $PIDFILE ]]; then
       PID=$(head -1 $PIDFILE)
       test -n "$PID" && test -e /proc/$PID && exit 1
