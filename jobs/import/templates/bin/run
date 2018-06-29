@@ -20,7 +20,9 @@ sed -e "
   s/(ip)/<%= spec.ip %>/g;
   s/(name)/<%= spec.name %>/g;
   s/(az)/<%= spec.az || '' %>/g;
-  s/generated-token/$token/g;
+<% if p('generate_token') %>
+  s/(generated-token)/$token/g;
+<% end %>
 " /var/vcap/jobs/import/config/import.yml |\
   $bin/shield import -
 

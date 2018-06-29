@@ -1,7 +1,7 @@
 <%=
 import = p('import', {})
 if p('generate_token')
-  import["token"] = "generated-token"
+  import["token"] = "(generated-token)"
 end
 import.to_yaml.to_s
 %>
