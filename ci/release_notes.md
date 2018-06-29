@@ -11,3 +11,6 @@
 
 - Only replace the `(generated-token)` value in the import
   manifest when the user has asked us to generate a token.
+
+# shield
+Bumped shield to v8.0.11
