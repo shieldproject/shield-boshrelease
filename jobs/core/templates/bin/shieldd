@@ -14,9 +14,13 @@ case $1 in
     mkdir -p $RUN_DIR $DAT_DIR
     chown vcap:vcap $DAT_DIR
 
-    if [[ -f $DAT_DIR/vault/vault.keys && ! -f $DAT_DIR/vault/vault.crypt ]]; then
+    if [[ -f $DAT_DIR/vault.keys && ! -f $DAT_DIR/vault/vault.crypt ]]; then
       echo "$(date) migrating crypted key files from legacy names (.keys -> .crypt)"
-      mv $DAT_DIR/vault/vault.keys $DAT_DIR/vault/vault.crypt
+      mv $DAT_DIR/vault.keys $DAT_DIR/vault/vault.crypt
+    fi
+    if [[ -f $DAT_DIR/vault/vault.crypt && ! -f $DAT_DIR/vault.crypt ]]; then
+      echo "$(date) migrating crypted key files from legacy directory (vault/) to data root"
+      mv $DAT_DIR/vault/vault.crypt $DAT_DIR/vault.crypt
     fi
 
     if [[ -f $PIDFILE ]]; then
