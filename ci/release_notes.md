@@ -6,3 +6,6 @@
 - Fix a pathing problem in the vault.keys / vault.crypt file
   rename handling logic of the `core` job.
 
+
+# shield
+Bumped shield to v8.0.13
