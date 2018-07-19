@@ -1,0 +1,8 @@
+# source me!
+# . /var/vcap/jobs/core/envrc
+
+export PATH=$PATH:/var/vcap/packages/shield/bin
+export PATH=$PATH:/var/vcap/packages/sqlite3/bin
+
+export SHIELD_DATADIR=/var/vcap/store/shield
+export SHIELD_DB=$SHIELD_DATADIR/shield.db

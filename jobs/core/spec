@@ -2,6 +2,7 @@
 name: core
 packages:
   - shield
+  - sqlite3
   - nginx
   - vault
 
@@ -23,6 +24,9 @@ templates:
   config/nginx.conf:    config/nginx.conf
   config/tls/nginx.pub: config/tls/nginx.pub
   config/tls/nginx.key: config/tls/nginx.key
+
+  # helpful envrc
+  envrc: envrc
 
 provides:
   - name: shield
