@@ -1,0 +1,13 @@
+---
+- type: replace
+  path: /instance_groups/name=shield/jobs/name=core/properties/core?/authentication/-
+  value:
+    identifier: ((uaa.identifier))
+    name: ((uaa.name))
+    backend: ((uaa.backend))
+    properties:
+      client_id: ((uaa.client_id))
+      client_secret: ((uaa.client_secret))
+      uaa_endpoint: ((uaa.endpoint))
+      skip_verify_tls: ((uaa.skip_verify_tls))
+      mapping: ((uaa.role_mapping))
