@@ -13,3 +13,6 @@
   - `$SHIELD_DB` - The full path to the SHIELD database.
     This lets operators run `sqlite3 $SHIELD_DB` to get into the
     database, without mucking about with paths.
+
+# shield
+Bumped shield to v8.0.14
