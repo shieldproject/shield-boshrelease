@@ -2,28 +2,22 @@
 meta:
   name:    shield
   release: S.H.I.E.L.D.
-  target:  sw
-  url:     https://ci.starkandwayne.com
+  target:  shield@pipes
+  url:     https://pipes.starkandwayne.com
 
   initial_version: 5.1.0
   manifest:
     path: ci/manifest.yml
 
   bosh-lite:
-    target: https://10.58.111.44:25555
-    username: (( vault "secret/bosh-lites/lite44/users/admin:username" ))
-    password: (( vault "secret/bosh-lites/lite44/users/admin:password" ))
-    cacert:   (( vault "secret/bosh-lites/lite44/certs:rootCA.pem" ))
-
-  bosh-lite-6x:
-    target: https://10.58.111.44:25555
-    deployment: shield-warden
-    username:   admin
-    password:   admin
+    target:   https://10.200.131.9:25555
+    username: admin
+    password: (( vault "secret/thunder/dome/bosh/users/admin:password" ))
+    cacert:   (( vault "secret/thunder/dome/bosh/ssl/ca:certificate" ))
 
   aws:
-    access_key: (( vault "secret/aws/cfcommunity:access" ))
-    secret_key: (( vault "secret/aws/cfcommunity:secret" ))
+    access_key: (( vault "secret/pipelines/aws/cf-community:access" ))
+    secret_key: (( vault "secret/pipelines/aws/cf-community:secret" ))
 
   git:
     name: Stark & Wayne CI Bot
@@ -33,17 +27,13 @@ meta:
     owner:  starkandwayne
     repo:   shield-boshrelease
     branch: master
-    private_key:  (( vault "secret/pipelines/shared/github:private_key" ))
-    access_token: (( vault "secret/pipelines/shared/github:access_token" ))
+    private_key:  (( vault "secret/pipelines/github/starkandwayne/ci-bot:private" ))
+    access_token: (( vault "secret/pipelines/github/starkandwayne/ci-bot:access_token" ))
 
-  slack:
-    webhook: (( vault "secret/pipelines/shield-boshrelease/slack:webhook" ))
-    channel: '#shield'
-    username:      starkandwayne-ci
-    icon:          https://www.starkandwayne.com/assets/images/shield-blue-50x50.png
-    blob_success:  '(( concat "$BUILD_PIPELINE_NAME: New version of $BUILD_JOB_NAME was detected, and updated in master. <" meta.url "/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME| Cut a new release?>" ))'
-    blob_failure:  '(( concat "$BUILD_PIPELINE_NAME: :airplane_arriving: <" meta.url "/teams/$BUILD_TEAM_NAME/pipelines/$BUILD_PIPELINE_NAME/jobs/$BUILD_JOB_NAME/builds/$BUILD_NAME| Failed to update the blob for $BUILD_JOB_NAME>" ))'
-
+  shout:
+    url:      http://10.200.131.1:7109
+    username: ops
+    password: (( vault "secret/buffalo/lab/concourse/shout/ops:password" ))
 
 groups:
 - name: blobs
@@ -87,13 +77,20 @@ jobs:
         AWS_ACCESS_KEY: (( grab meta.aws.access_key ))
         AWS_SECRET_KEY: (( grab meta.aws.secret_key ))
         BRANCH:         (( grab meta.github.branch ))
+    on_success:
+      put: notify
+      params:
+        topic:   (( concat meta.shout.topic "-$BUILD_JOB_NAME" ))
+        message: update-blob job '$BUILD_JOB_NAME' succeeded.
+        ok:      yes
+        link:    (( grab meta.shout.links.build ))
     on_failure:
       put: notify
       params:
-        channel:  (( grab meta.slack.channel ))
-        username: (( grab meta.slack.username ))
-        icon_url: (( grab meta.slack.icon ))
-        text:     (( grab meta.slack.blob_failure ))
+        topic:   (( concat meta.shout.topic "-$BUILD_JOB_NAME" ))
+        message: update-blob job '$BUILD_JOB_NAME' failed.
+        ok:      no
+        link:    (( grab meta.shout.links.build ))
   - put: git
     params:
       rebase: true
@@ -101,17 +98,17 @@ jobs:
     on_success:
       put: notify
       params:
-        channel:  (( grab meta.slack.channel ))
-        username: (( grab meta.slack.username ))
-        icon_url: (( grab meta.slack.icon ))
-        text:     (( grab meta.slack.blob_success ))
+        topic:   (( concat meta.shout.topic "-$BUILD_JOB_NAME" ))
+        message: A new version of '$BUILD_JOB_NAME' has been added to the BOSH release.
+        ok:      yes
+        link:    (( grab meta.shout.links.pipeline ))
     on_failure:
       put: notify
       params:
-        channel:  (( grab meta.slack.channel ))
-        username: (( grab meta.slack.username ))
-        icon_url: (( grab meta.slack.icon ))
-        text:     (( grab meta.slack.blob_failure ))
+        topic:   (( concat meta.shout.topic "-$BUILD_JOB_NAME" ))
+        message: Failed to push blob changes to git (for '$BUILD_JOB_NAME').
+        ok:      no
+        link:    (( grab meta.shout.links.build ))
 
 - name: testflight
   serial_groups: [bosh]
