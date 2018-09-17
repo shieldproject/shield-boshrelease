@@ -71,7 +71,6 @@ jobs:
         BLOB_DIR:    shield
         BLOB_NAME:   shield
         BLOB_BINARY: shield-server-linux-amd64.tar.gz
-        BLOB_URL:    https://github.com/starkandwayne/shield
         BLOB_DESTINATION: shield/shield-server-linux-amd64-${VERSION}.tar.gz
         BLOB_CLEANUP:     shield/shield-server.*
         AWS_ACCESS_KEY: (( grab meta.aws.access_key ))
