@@ -48,7 +48,7 @@ if [[ $envok != 0 ]]; then
 fi
 
 VERSION=$(cat ${VERSION_FROM})
-if [[ -n "${VERSION}" ]]; then
+if [[ -z "${VERSION}" ]]; then
   echo >&2 "Version file (${VERSION_FROM}) was empty."
   exit 1
 fi
