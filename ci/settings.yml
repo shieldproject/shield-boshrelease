@@ -20,7 +20,7 @@ meta:
     secret_key: (( vault "secret/pipelines/aws/cf-community:secret" ))
 
   git:
-    name: Stark & Wayne CI Bot
+    name:  Stark & Wayne CI Bot
     email: ci@starkandwayne.com
 
   github:
