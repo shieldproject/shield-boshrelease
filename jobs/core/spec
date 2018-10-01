@@ -82,6 +82,12 @@ properties:
   tls.reuse-after:
     description: "How long (in hours) before rotating cryptographic parameters"
     default: 2
+  tls.ciphers:
+    description: "Which SSL/TLS ciphers to allow, used for the HTTPS API and Web UI"
+    default: "ECDHE-RSA-AES128-SHA256:AES128-GCM-SHA256:HIGH:!MD5:!aNULL:!EDH"
+  tls.protocols:
+    description: "Which SSL/TLS protocols to allow, used for the HTTPS API and Web UI"
+    default: "TLSv1 TLSv1.1 TLSv1.2"
 
   agent.key:
     description: RSA private key used for securing communications between SHIELD Agents and the SHIELD Core.
