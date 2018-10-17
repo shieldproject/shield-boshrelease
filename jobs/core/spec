@@ -112,6 +112,14 @@ properties:
     description: The PEM-encoded certificate of the Vault itself.  This certificate should be issued for the IP SAN 127.0.0.1.
   vault.tls.key:
     description: The PEM-encoded private key for the Vault certificate.
+  vault.backend.mysql_address:
+    description: Vault Backend MySQL address
+  vault.backend.mysql_username:
+    description: Vault Backend MySQL username
+  vault.backend.mysql_password:
+    description: Vault Backend MySQL password
+  vault.backend.mysql_database:
+    description: Vault Backend MySQL database
 
   migrate-from.type:
     description: What type of legacy (pre-v8) database to migrate from (optional).
