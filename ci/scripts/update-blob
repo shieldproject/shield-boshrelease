@@ -67,7 +67,7 @@ EOF
 header "Performing cleanup on old blobs"
 remove=$(spruce json config/blobs.yml | jq -r "keys[] | select(test(\"${BLOB_CLEANUP}\"))")
 if [[ -n $remove ]]; then
-  echo "$remove" | xargs -L1 bosh2 remove-blob
+  echo "$remove" | xargs -L1 bosh remove-blob
 fi
 
 ######
@@ -99,17 +99,17 @@ eval "blob_dst=${BLOB_DESTINATION}"
 if [[ "$BLOB_BINARY" == "*" ]]; then
   for blob_src in ../${BLOB_DIR}/${BLOB_BINARY}; do
     base=${blob_src##*/}
-    bosh2 add-blob "${blob_src}" "${blob_dst}/${base}"
+    bosh add-blob "${blob_src}" "${blob_dst}/${base}"
   done
 else
-  bosh2 add-blob "../${BLOB_DIR}/${BLOB_BINARY}" "${blob_dst}"
+  bosh add-blob "../${BLOB_DIR}/${BLOB_BINARY}" "${blob_dst}"
 fi
 
 ######
 ######
 ######
 header "Uploading blobs to blobstore (AWS)"
-bosh2 -n upload-blobs
+bosh -n upload-blobs
 rm config/private.yml
 popd
 

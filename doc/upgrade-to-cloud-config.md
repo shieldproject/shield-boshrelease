@@ -1,6 +1,6 @@
 # Upgrade to Cloud Config
 
-This guide discussions the process for upgrading your SHIELD BOSH deployment (assumes v6.8.0 of shield-boshrelease). This guide assumes you are also transitioning from `bosh` to `bosh2` CLI.
+This guide discussions the process for upgrading your SHIELD BOSH deployment (assumes v6.8.0 of shield-boshrelease). This guide assumes you are also transitioning from `bosh` to `bosh` CLI.
 
 ## Assumption
 
@@ -26,7 +26,7 @@ The new `manifests/shield.yml` provides a fully working deployment of SHIELD. Yo
 
 First, the new manifest assumes your deployment name is `shield`. In the [example above](#assumptions), the deployment name is `shield-warden`.
 
-We modify `manifests/shield.yml` using `bosh2` operation patch files.
+We modify `manifests/shield.yml` using `bosh` operation patch files.
 
 Create one to patch the deployment `name:` field, say `tmp/operations/deployment-name.yml`:
 
@@ -85,7 +85,7 @@ These manifests were designed to work with the `cloud-config.yml` from https://g
 For this upgrade from v6.8.0 bosh-lite templates, we need to keep `shield/0` running at `10.244.204.2`, so we need a bosh-lite cloud-config that uses `10.244.204.0/24` range:
 
 ```
-bosh2 update-cloud-config manifests/cloud-config/migration-bosh-lite-cloud-config.yml
+bosh update-cloud-config manifests/cloud-config/migration-bosh-lite-cloud-config.yml
 ```
 
 ## Latest release
@@ -94,8 +94,8 @@ At the time of writing, you will need to create & upload this release:
 
 ```
 git checkout links-and-cloud-config
-bosh2 create-release
-bosh2 upload-release
+bosh create-release
+bosh upload-release
 ```
 
 ## Deployment
@@ -104,7 +104,7 @@ If your BOSH includes Credhub:
 
 ```
 export BOSH_DEPLOYMENT=shield-warden
-bosh2 deploy manifests/shield.yml \
+bosh deploy manifests/shield.yml \
   -o manifests/operators/migration-warden.yml \
   -o tmp/operations/deployment-name.yml \
   -o tmp/operations/auth.yml \
@@ -115,7 +115,7 @@ If not using Credhub, add `--vars-store tmp/creds.yml`:
 
 ```
 export BOSH_DEPLOYMENT=shield-warden
-bosh2 deploy manifests/shield.yml \
+bosh deploy manifests/shield.yml \
   -o manifests/operators/migration-warden.yml \
   -o tmp/operators/deployment-name.yml \
   -o tmp/operators/auth.yml \

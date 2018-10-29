@@ -61,7 +61,7 @@ fi
 ###############################################################
 
 cd ${REPO_ROOT}
-RELEASE_NAME=$(bosh2 int config/final.yml --path /final_name)
+RELEASE_NAME=$(bosh int config/final.yml --path /final_name)
 
 ######
 ######
@@ -80,8 +80,8 @@ YAML
 ######
 ######
 header "Creating final release..."
-bosh2 -n create-release --final --version "${VERSION}"
-bosh2 -n create-release releases/$RELEASE_NAME/$RELEASE_NAME-$VERSION.yml \
+bosh -n create-release --final --version "${VERSION}"
+bosh -n create-release releases/$RELEASE_NAME/$RELEASE_NAME-$VERSION.yml \
               --tarball releases/$RELEASE_NAME/$RELEASE_NAME-$VERSION.tgz
 cd -
 
