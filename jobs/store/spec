@@ -23,6 +23,12 @@ properties:
     description: TLS private key (PEM encoded), used for secure WebDAV.
   tls.certificate:
     description: TLS Certificate (PEM encoded), used for secure WebDAV.
+  tls.ciphers:
+    description: "Which SSL/TLS ciphers to allow, used for the HTTPS API and Web UI"
+    default: "ECDHE-RSA-AES128-SHA256:AES128-GCM-SHA256:HIGH:!MD5:!aNULL:!EDH"
+  tls.protocols:
+    description: "Which SSL/TLS protocols to allow, used for the HTTPS API and Web UI"
+    default: "TLSv1 TLSv1.1 TLSv1.2"
 
   webdav.browsable:
     description: Whether or not the WebDAV store is browsable.  Highly recommended for ease-of-operation.
