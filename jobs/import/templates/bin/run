@@ -9,7 +9,7 @@ $bin/shield api -k https://<%= p("domain") %> <%= p("core") %>
 echo "login to shield"
 $bin/shield login -u <%= p("username") %> -p <%= p("password") %>
 echo "creating token"
-token=$($bin/shield create-auth-token tmp)
+token=$($bin/shield create-auth-token tmp-$HOSTNAME)
 echo "$token"
 <% end %>
 
