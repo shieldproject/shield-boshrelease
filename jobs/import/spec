@@ -27,3 +27,6 @@ properties:
   generate_token:
     description: set to true for automated token generation ( username/password are required)
     default: false
+  token_name:
+    description: default name for the token create with shield create-auth-token
+    default: (deployment)-(name)-(index)-(time)
