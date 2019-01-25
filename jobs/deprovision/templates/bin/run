@@ -1,0 +1,34 @@
+#!/bin/bash
+set -eu
+export HOME=/home/vcap
+bin=/var/vcap/packages/shield/bin
+
+<% token_name = p('token_name').gsub('(deployment)', spec.deployment)
+                   .gsub('(name)',       spec.name || '')
+                   .gsub('(index)',      spec.index.to_s) 
+                   .gsub('(time)',       Time.now.to_i.to_s) %>
+
+cleanup() {
+<% if p('generate_token') %>
+echo "revoke token"
+$bin/shield revoke-auth-token <%= token_name %>
+exit 0
+<% end %>
+}
+trap "cleanup" EXIT SIGINT SIGTERM
+
+<% if p('generate_token') %>
+export SHIELD_CORE=<%= p("core") %>
+echo "set api to <%= p("domain") %>"
+$bin/shield api -k https://<%= p("domain") %> <%= p("core") %>
+echo "login to shield"
+$bin/shield login -u <%= p("username") %> -p <%= p("password") %>
+echo "creating token"
+
+token=$($bin/shield create-auth-token <%= token_name %>)
+echo "$token"
+<% end %>
+
+<% p('tenants_to_delete', []).each do |tenant| %>
+yes y | $bin/shield delete-tenant "<%= tenant %>" -r || true
+<% end %>

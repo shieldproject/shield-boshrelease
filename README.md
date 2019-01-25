@@ -424,6 +424,23 @@ altogether.  This takes some of the urgency out of needing to
 "clean up" your deployment manifest to remove the `migrate-from.*`
 properties.
 
+### New Deprovision Errand
+
+The new `deprovision` errand is used to clean up existing configuration
+under a given tenant. Specified tenants will be deleted along with their
+tasks, jobs, stores, targets, memberships, as well as have their tasks purged.
+
+And example deprovision job under shield
+```yaml
+  - name: deprovision
+      release: shield
+      properties:
+        domain: shield.example.com
+        tenants_to_delete:
+          - tenant1
+          - tenant2
+        generate_token: true
+```
 
 More Documentation
 ------------------

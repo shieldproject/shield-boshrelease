@@ -1,0 +1,30 @@
+---
+name: deprovision
+packages:
+  - shield
+
+templates:
+  bin/run:        bin/run
+
+properties:
+  tenants_to_delete:  
+    description: A list of tenants to be deleted
+  username:
+    description: |-
+      shield username for generating tokens (this is not the recomanded way and you should use the more secure generated tokens `shield create-auth-token`)
+    default: admin
+  password:
+    description: |-
+      shield password for generating tokens (this is not the recomanded way and you should use the more secure generated tokens `shield create-auth-token`)
+    default: shield
+  domain:
+    description: domain name for shield api (this only needs to be set if you want to use automated generated tokens)
+  core:
+    description: shield core (this only needs to be set if you want to use automated generated tokens)
+    default: shield
+  generate_token:
+    description: set to true for automated token generation ( username/password are required)
+    default: false
+  token_name:
+    description: default name for the token create with shield create-auth-token
+    default: (deployment)-(name)-(index)-(time)
