@@ -1,8 +1,0 @@
-
-# shield
-
-- Bumped shield to v8.0.18
-
-# shield
-
-- Bumped shield to v8.0.19
