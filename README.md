@@ -426,11 +426,11 @@ properties.
 
 ### New Deprovision Errand
 
-The new `deprovision` errand is used to clean up existing configuration
-under a given tenant. Specified tenants will be deleted along with their
-tasks, jobs, stores, targets, memberships, as well as have their tasks purged.
+The new `deprovision` errand is used to delete a tenant and clean up existing
+configuration under that tenant. Specified tenants will be deleted along with
+their tasks, jobs, stores, targets, memberships, as well as have their tasks purged.
 
-And example deprovision job under shield
+And example deprovision job under the shield instance
 ```yaml
   - name: deprovision
       release: shield

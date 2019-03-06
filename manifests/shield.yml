@@ -9,7 +9,7 @@ instance_groups:
   persistent_disk: 1_024
 
   networks:
-  - name: default
+  - name: shield
     static_ips:
       ((static_ip))
 
@@ -89,11 +89,9 @@ update:
 
 stemcells:
 - alias: default
-  os: ubuntu-trusty
+  os: ubuntu-xenial
   version: latest
 
 releases:
 - name:    shield
-  version: 8.0.19
-  url:     https://github.com/starkandwayne/shield-boshrelease/releases/download/v8.0.19/shield-8.0.19.tgz
-  sha1:    42845ff3bbd643ab0b952db34b450c71ae7925ac
+  version: latest

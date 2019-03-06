@@ -29,19 +29,6 @@ case $1 in
       rm -f $PIDFILE
     fi
 
-    <% if_p('migrate-from.type') do |type|
-         if_p('migrate-from.dsn') do |dsn| %>
-    if [[ ! -f $DAT_DIR/shield.db ]]; then
-      echo "$(date) migrating data from legacy storage"
-      chpst -u vcap:vcap \
-        /var/vcap/packages/shield/bin/shield-migrate \
-          --type '<%= type %>' \
-          --from '<%= dsn %>' \
-          --to $DAT_DIR/shield.db
-    fi
-    <%   end
-       end %>
-
     if [[ -f $DAT_DIR/main.db ]]; then
         mv $DAT_DIR/main.db $DAT_DIR/shield.db
     fi
@@ -55,7 +42,8 @@ case $1 in
     echo $$ > $PIDFILE
     exec chpst -u vcap:vcap \
       /var/vcap/packages/shield/bin/shieldd \
-        -c $JOB_DIR/config/shieldd.conf
+        -c $JOB_DIR/config/shieldd.conf \
+        --log-level <%= p('log-level') %>
     ;;
 
   stop)
