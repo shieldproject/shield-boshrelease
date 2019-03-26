@@ -8,7 +8,7 @@ nginx/pcre-8.37.tar.gz:
   sha: 4a24a20c61347d8da4edc86d5475aaf70ac146bb
 shield/shield-server-linux-amd64-8.0.19.tar.gz:
   size: 69748569
-  object_id: 8b0b5621-8102-447e-62e7-40990c1ac818
+  object_id: 6fe215f1-044f-4716-6aec-ff515372a9ba
   sha: ce7708cd6ecaa73caa1e36cd6bb14f52a484b8d9
 sqlite3/sqlite-autoconf-3240000.tar.gz:
   size: 2699252
