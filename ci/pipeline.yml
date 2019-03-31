@@ -68,6 +68,7 @@ groups:
   - name: (( grab meta.pipeline ))
     jobs:
       - testflight
+      - pre
       - rc
       - shipit
       - major
@@ -125,14 +126,14 @@ jobs:
           ok:      no
           link:    (( grab meta.shout.links.build ))
 
-  - name: rc
+  - name: pre
     public: true
     serial: true
     plan:
     - do:
       - aggregate:
           - { get: git,     trigger: true,  passed: [testflight] }
-          - { get: version, trigger: true, params: {pre: rc} }
+          - { get: version, trigger: true }
       - task: release-notes
         config:
           platform: linux
@@ -162,6 +163,29 @@ jobs:
                 echo "hitting (+) on that shipit job..."
                 echo
               fi
+      on_success:
+        put: notify
+        params:
+          topic:   (( concat meta.shout.topic "-$BUILD_JOB_NAME" ))
+          message: release candidate job 'pre' succeeded.
+          ok:      yes
+          link:    (( grab meta.shout.links.build ))
+      on_failure:
+        put: notify
+        params:
+          topic:   (( concat meta.shout.topic "-$BUILD_JOB_NAME" ))
+          message: release candidate job 'pre' failed (which is unusual).
+          ok:      no
+          link:    (( grab meta.shout.links.build ))
+
+  - name: rc
+    public: true
+    serial: true
+    plan:
+    - do:
+      - aggregate:
+          - { get: git,     trigger: true,  passed: [pre] }
+          - { get: version, trigger: false, passed: [pre], params: {pre: rc} }
       - put: version
         params: {file: version/number}
       on_success:
