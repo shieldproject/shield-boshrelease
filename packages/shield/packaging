@@ -5,13 +5,17 @@ CPUS=$(grep -c ^processor /proc/cpuinfo)
 mkdir -p ${BOSH_INSTALL_TARGET}/bin
 tar -xzf shield/shield-server-linux-amd64*.tar.gz
 pushd shield-server-linux-amd64*/
-  cp agent/shield-agent    ${BOSH_INSTALL_TARGET}/bin
-  cp agent/shield-report   ${BOSH_INSTALL_TARGET}/bin
-  cp cli/shield            ${BOSH_INSTALL_TARGET}/bin
-  cp daemon/shieldd        ${BOSH_INSTALL_TARGET}/bin
-  cp daemon/shield-schema  ${BOSH_INSTALL_TARGET}/bin
-  cp crypter/shield-crypt  ${BOSH_INSTALL_TARGET}/bin
-  cp daemon/shield-pipe    ${BOSH_INSTALL_TARGET}/bin
-  cp -R webui              ${BOSH_INSTALL_TARGET}/webui
-  cp -R plugins            ${BOSH_INSTALL_TARGET}/plugins
+  cp agent/shield-agent      ${BOSH_INSTALL_TARGET}/bin
+  cp agent/shield-report     ${BOSH_INSTALL_TARGET}/bin
+  cp cli/shield              ${BOSH_INSTALL_TARGET}/bin
+  cp daemon/shieldd          ${BOSH_INSTALL_TARGET}/bin
+  cp daemon/shield-schema    ${BOSH_INSTALL_TARGET}/bin
+  cp crypter/shield-crypt    ${BOSH_INSTALL_TARGET}/bin
+  cp daemon/shield-pipe      ${BOSH_INSTALL_TARGET}/bin
+  cp daemon/shield-recover   ${BOSH_INSTALL_TARGET}/bin
+  cp daemon/shield-restarter ${BOSH_INSTALL_TARGET}/bin
+  cp -R webui                ${BOSH_INSTALL_TARGET}/webui
+  cp -R plugins              ${BOSH_INSTALL_TARGET}/plugins
 popd
+chmod 0755 ${BOSH_INSTALL_TARGET}/bin/* \
+           ${BOSH_INSTALL_TARGET}/plugins/*
