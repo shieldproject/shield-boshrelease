@@ -91,7 +91,7 @@ stemcells:
 - alias: default
   os: ubuntu-xenial
   version: latest
-
-releases:
 - name:    shield
-  version: latest
+  version: 8.1.0
+  url:     https://github.com/starkandwayne/shield-boshrelease/releases/download/v8.1.0/shield-8.1.0.tgz
+  sha1:    4075efe2e46a70b51e190ade45f1c03abe338523
