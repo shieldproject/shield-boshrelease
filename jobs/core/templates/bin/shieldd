@@ -38,6 +38,7 @@ case $1 in
       /var/vcap/packages/shield/bin/shield-schema \
         -d $DAT_DIR/shield.db
 
+    export PATH=/var/vcap/packages/shield/bin:$PATH
     echo "$(date) starting up shieldd (pid $$)"
     echo $$ > $PIDFILE
     exec chpst -u vcap:vcap \
