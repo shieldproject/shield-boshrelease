@@ -75,6 +75,14 @@ properties:
   core.authentication:
     description: "A list of SHIELD Authentication Provider configurations, to be emitted into the shieldd.conf configuration file as-is (under the `auth:` key)."
 
+  core.mbus.max-slots:
+    description: "The maximum number of clients that can hook up to the message bus at once. Limits the number of websocket clients."
+    default: 2048
+  core.mbus.backlog:
+    description: "The maximum number of events that the message bus will keep for a client before dropping the client. If this is set
+      too low, then clients may be dropped sporadically. If this is set higher, it will take more memory per client."
+    default: 100
+
   tls.key:
     description: "TLS private key (PEM encoded), used for the HTTPS API and Web UI"
   tls.certificate:
