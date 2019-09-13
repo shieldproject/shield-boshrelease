@@ -94,6 +94,6 @@ stemcells:
 
 releases:
 - name:    shield
-  version: 8.4.1
-  url:     https://github.com/shieldproject/shield-boshrelease/releases/download/v8.4.1/shield-8.4.1.tgz
-  sha1:    7abcf57a0ed6063baafa89af411be785bf2a0915
+  version: 8.5.0
+  url:     https://github.com/shieldproject/shield-boshrelease/releases/download/v8.5.0/shield-8.5.0.tgz
+  sha1:    1a2c24c895000ca5ec2972c3032f2e1abba476fe
