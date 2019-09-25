@@ -469,7 +469,7 @@ Tracker][github].
 
 
 [slack-help]:     https://shieldproject.slack.com/messages/help
-[slack-join]:     https://join.slack.com/t/shieldproject/shared_invite/enQtMjYyMTAxNjcwMDQ5LTNjZmVhZWMxZmRhNGU4MDBlZWYyNmQ3OWE4OTI5NzA3NzU4MDA2ODAwZDRkMTMxNDk3NjE0MzQ4ZjA3YzBjZmQ]
+[slack-join]:     https://shieldproject.io/community#slack
 [home]:           https://shieldproject.io
 [docs]:           https://shieldproject.io/docs/latest/ops/
 [github]:         https://github.com/starkandwayne/shield/issues
