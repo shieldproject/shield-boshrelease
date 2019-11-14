@@ -44,7 +44,7 @@ jobs:
 - name: shield
   public: true
   plan:
-  - aggregate:
+  - in_parallel:
     - get: git
     - get: shield
       trigger: true
