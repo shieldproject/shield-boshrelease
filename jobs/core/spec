@@ -99,6 +99,13 @@ properties:
 
   agent.key:
     description: RSA private key used for securing communications between SHIELD Agents and the SHIELD Core.
+  agent.dial-timeout:
+    description: "Duration timespec for how long to allow for an TCP connection to an agent to establish. Longer
+      values may effectively get overridden by the system's TCP timeout"
+    default: 30s
+  agent.macs:
+    description: List of message authentication code implementations to allow when negotiating SSH with agents.
+    default: ["hmac-sha2-256-etm@openssh.com", "hmac-sha2-256", "hmac-sha1"]
 
   log-level:
     description: Log level for the SHIELD Core.  One of 'error', 'warning', or 'info'.
