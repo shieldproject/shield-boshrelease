@@ -31,6 +31,9 @@ properties:
 
   agent.key:
     description: SSH public key used for securing communications between SHIELD Agents and the SHIELD Core.
+  agent.macs:
+    description: List of message authentication code implementations to allow when negotiating SSH with the core.
+    default: ["hmac-sha2-256-etm@openssh.com", "hmac-sha2-256", "hmac-sha1"]
   core.ca:
     description: The PEM-encoded certificate of the CA that signed the Shield Certificate.  The SHIELD agent needs this so that it can trust the Shield-Core certificate.
 
