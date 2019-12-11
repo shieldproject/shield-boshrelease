@@ -128,6 +128,19 @@ properties:
   vault.tls.key:
     description: The PEM-encoded private key for the Vault certificate.
 
+  prometheus.namespace:
+    description: The prefix on exported Prometheus metric keys.
+    default: shield
+  prometheus.username:
+    description: The HTTP basic auth username for accessing the SHIELD Prometheus metrics endpoint.
+    default: prometheus
+  prometheus.password:
+    description: The HTTP basic auth password for accessing the SHIELD Prometheus metrics endpoint.
+    default: shield
+  prometheus.realm:
+    description: The HTTP basic auth realm for the Prometheus metrics endpoint.
+    default: SHIELD Prometheus Exporter
+
   plugin_paths:
     description: "Map of paths that the binary of the plugins can be found"
     example: |
