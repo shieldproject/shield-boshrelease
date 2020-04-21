@@ -145,6 +145,8 @@ builds:
     version: 8.7.0
   fbe078cb-4d85-4ce9-74f9-3269b55694cd:
     version: 8.0.18
+  fbf05f49-1b8e-44d8-7464-684b9a7a5630:
+    version: 8.7.1
   fd180faa-604f-4856-8443-b19fc81d5c95:
     version: "4.1"
 format-version: "2"
