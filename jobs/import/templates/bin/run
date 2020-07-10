@@ -9,6 +9,7 @@ bin=/var/vcap/packages/shield/bin
                    .gsub('(time)',       Time.now.to_i.to_s) %>
 
 cleanup() {
+	: # bash hates to see an empty sub
 <% if p('generate_token') %>
 echo "revoke token"
 $bin/shield revoke-auth-token <%= token_name %>
