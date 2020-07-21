@@ -120,6 +120,9 @@ properties:
   nginx.keepalive:
     description: "Timeout for keep-alive connections"
     default: "75 20"
+  nginx.max_body_size:
+    description: "Max body size for client"
+    default: "50m"
 
   vault.tls.ca:
     description: The PEM-encoded certificate of the CA that signed the Vault Certificate.  The SHIELD core needs this so that it can trust the Vault certificate.
