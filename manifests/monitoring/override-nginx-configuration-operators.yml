@@ -1,0 +1,51 @@
+- type: replace
+  path: /instance_groups/name=shield/jobs/name=scripting/properties/scripting/pre-start-script
+  value: |
+    #--- Initialize context
+    echo "- Start pre-start"
+    > /var/vcap/sys/log/scripting/pre-start.stderr.log
+    > /var/vcap/sys/log/scripting/pre-start.stdout.log
+
+    set +e
+
+    #-------------------------------------
+    #--- Generate additional server config for nginx in order to serve metrics
+    #-------------------------------------
+    echo "- Start config generation "
+
+    cat <<EOF > /var/vcap/jobs/core/config/addon
+    #metrics#
+        server {
+          listen       9090;
+          server_name  metrics;
+          location / {
+              root   /tmp;
+              index  metrics;
+              add_header Content-Type text/plain;
+              autoindex on;
+          }
+        }
+    }
+    EOF
+
+    #test if addon already presents in /var/vcap/jobs/core/config/nginx.conf
+    addon=$(cat /var/vcap/jobs/core/config/nginx.conf | grep '#metrics#' | wc -l)
+    if [ "${addon}" -eq 0 ]; then
+    #addon is not present so concat at the end
+    length=$(cat /var/vcap/jobs/core/config/nginx.conf | wc -l)
+    size=$(expr ${length} - 1)
+    head -${size} /var/vcap/jobs/core/config/nginx.conf > /var/vcap/jobs/core/config/nginx.conf.tmp
+    mv /var/vcap/jobs/core/config/nginx.conf.tmp /var/vcap/jobs/core/config/nginx.conf
+    elif [ "${addon}" -eq 1 ]; then
+    #addon is already present so clean and afterwards concat at the end
+    line_counter=13
+    head -n -${line_counter} /var/vcap/jobs/core/config/nginx.conf > /var/vcap/jobs/core/config/nginx.conf.tmp
+    mv /var/vcap/jobs/core/config/nginx.conf.tmp /var/vcap/jobs/core/config/nginx.conf
+    else
+    echo "unexpected case"
+    exit 1
+    fi
+
+    cat /var/vcap/jobs/core/config/addon >> /var/vcap/jobs/core/config/nginx.conf
+    chown root:vcap /var/vcap/jobs/core/config/nginx.conf
+    echo "- End config generation "
