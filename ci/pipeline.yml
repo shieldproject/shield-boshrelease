@@ -79,38 +79,32 @@ jobs:
     public: true
     serial: true
     plan:
-    - name: main
-      do:
-      - name: get
-        in_parallel:
-        - { get: git, trigger: true }
-      - name: testflights
-        in_parallel:
-        - name: testflight
-          task: testflight
-          config:
-            platform: linux
-            image_resource:
-              type: docker-image
-              source:
-                repository: (( grab meta.image.name ))
-                tag:        (( grab meta.image.tag ))
-            inputs:
-              - { name: git }
-            run:
-              path: ./git/ci/scripts/testflight
-              args: []
-            params:
-              REPO_ROOT:            git
-              BOSH_ENVIRONMENT:     (( grab meta.bosh-lite.target ))
-              BOSH_CA_CERT:         (( grab meta.bosh-lite.cacert ))
-              BOSH_CLIENT:          (( grab meta.bosh-lite.username ))
-              BOSH_CLIENT_SECRET:   (( grab meta.bosh-lite.password ))
-              BOSH_DEPLOYMENT:      (( grab meta.bosh-lite.deployment ))
-              TEST_ERRANDS:         (( grab meta.test-errands || meta.test-errand || ~ ))
-              AWS_ACCESS_KEY:       (( grab meta.aws.access_key ))
-              AWS_SECRET_KEY:       (( grab meta.aws.secret_key ))
-              MANIFEST_PATH:        (( grab meta.manifest.path ))
+    - in_parallel:
+      - { get: git, trigger: true }
+    - task: testflight
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: (( grab meta.image.name ))
+            tag:        (( grab meta.image.tag ))
+        inputs:
+          - { name: git }
+        run:
+          path: ./git/ci/scripts/testflight
+          args: []
+        params:
+          REPO_ROOT:            git
+          BOSH_ENVIRONMENT:     (( grab meta.bosh-lite.target ))
+          BOSH_CA_CERT:         (( grab meta.bosh-lite.cacert ))
+          BOSH_CLIENT:          (( grab meta.bosh-lite.username ))
+          BOSH_CLIENT_SECRET:   (( grab meta.bosh-lite.password ))
+          BOSH_DEPLOYMENT:      (( grab meta.bosh-lite.deployment ))
+          TEST_ERRAND:          (( grab meta.test-errands || meta.test-errand || ~ ))
+          AWS_ACCESS_KEY:       (( grab meta.aws.access_key ))
+          AWS_SECRET_KEY:       (( grab meta.aws.secret_key ))
+          MANIFEST_PATH:        (( grab meta.manifest.path ))
       on_success:
         put: notify
         params:
@@ -249,69 +243,60 @@ jobs:
     public: true
     serial: true
     plan:
-    - do:
-      - name: inputs
-        in_parallel:
-          - { get: version, passed: [rc], params: {bump: final} }
-          - { get: git,     passed: [rc] }
-      - name: release
-        task: release
-        config:
-          platform: linux
-          image_resource:
-            type: docker-image
-            source:
-              repository: (( grab meta.image.name ))
-              tag:        (( grab meta.image.tag ))
-          inputs:
-            - name: version
-            - name: git
-          outputs:
-            - name: gh
-            - name: pushme
-            - name: notifications
-          run:
-            path: ./git/ci/scripts/shipit
-            args: []
-          params:
-            REPO_ROOT:      git
-            VERSION_FROM:   version/number
-            RELEASE_ROOT:   gh
-            REPO_OUT:       pushme
-            BRANCH:         (( grab meta.github.branch ))
-            GITHUB_OWNER:   (( grab meta.github.owner ))
-            GIT_EMAIL:      (( grab meta.git.email ))
-            GIT_NAME:       (( grab meta.git.name ))
-            AWS_ACCESS_KEY: (( grab meta.aws.access_key ))
-            AWS_SECRET_KEY: (( grab meta.aws.secret_key ))
-
-      - name: upload-git
-        put: git
+    - in_parallel:
+        - { get: version, passed: [rc], params: {bump: final} }
+        - { get: git,     passed: [rc] }
+    - task: release
+      config:
+        platform: linux
+        image_resource:
+          type: docker-image
+          source:
+            repository: (( grab meta.image.name ))
+            tag:        (( grab meta.image.tag ))
+        inputs:
+          - name: version
+          - name: git
+        outputs:
+          - name: gh
+          - name: pushme
+          - name: notifications
+        run:
+          path: ./git/ci/scripts/shipit
+          args: []
         params:
-          rebase: true
-          repository: pushme/git
-      - name: tarball
-        put: s3-tarball
+          REPO_ROOT:      git
+          VERSION_FROM:   version/number
+          RELEASE_ROOT:   gh
+          REPO_OUT:       pushme
+          BRANCH:         (( grab meta.github.branch ))
+          GITHUB_OWNER:   (( grab meta.github.owner ))
+          GIT_EMAIL:      (( grab meta.git.email ))
+          GIT_NAME:       (( grab meta.git.name ))
+          AWS_ACCESS_KEY: (( grab meta.aws.access_key ))
+          AWS_SECRET_KEY: (( grab meta.aws.secret_key ))
+    - put: git
+      params:
+        rebase: true
+        repository: pushme/git
+    - put: s3-tarball
+      params:
+        file:  (( concat "gh/artifacts/" meta.name "-*.tgz" ))
+    - put: github
+      params:
+        name:   gh/name
+        tag:    gh/tag
+        body:   gh/notes.md
+        globs: [gh/artifacts/*]
+    - put: version
+      params:
+        bump: patch
+    - in_parallel:
+      - put: notify
         params:
-          file:  (( concat "gh/artifacts/" meta.name "-*.tgz" ))
-      - name: github-release
-        put: github
-        params:
-          name:   gh/name
-          tag:    gh/tag
-          body:   gh/notes.md
-          globs: [gh/artifacts/*]
-      - name: version-bump
-        put: version
-        params:
-          bump: patch
-      - name: notify
-        in_parallel:
-        - put: notify
-          params:
-            method: announce
-            file: notifications/message
-            link: (( concat meta.github.uri "/releases" ))
+          method: announce
+          file: notifications/message
+          link: (( concat meta.github.uri "/releases" ))
 
       on_success:
         put: notify
