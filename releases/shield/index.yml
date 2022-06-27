@@ -137,6 +137,8 @@ builds:
     version: 6.6.0
   ed4f0841-6569-4c39-6f7f-ac60a0142f1c:
     version: 8.0.7
+  f029a3fe-e50f-4455-4e09-3ce37bd1f840:
+    version: 8.8.0
   f43c597b-ba27-4dc8-4eaa-d048ee89bfcd:
     version: 8.0.9
   f4d4fa55-2d1d-42ef-b130-43832e360dda:
