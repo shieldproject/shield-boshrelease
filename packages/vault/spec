@@ -1,5 +1,5 @@
 ---
 name: vault
 files:
-- nginx/nginx-1.22.0.tar.gz # https://www.vaultproject.io/downloads
+- vault/vault_1.11.4_linux_amd64.zip # https://www.vaultproject.io/downloads
 #- mlock/maybe.c
