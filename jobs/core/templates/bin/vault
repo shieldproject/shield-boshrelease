@@ -9,6 +9,9 @@ PIDFILE=$RUN_DIR/vault.pid
 mkdir -p $LOG_DIR
 exec >>$LOG_DIR/vault.log 2>&1
 
+# disable all swaps
+swapoff -a
+
 case $1 in
   start)
     mkdir -p $RUN_DIR $DAT_DIR
