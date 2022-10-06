@@ -1,4 +1,4 @@
 ---
 name: shield
 files:
-  - shield/shield-server-linux-amd64i*.tar.gz
+  - shield/shield-server-linux-amd64.tar.gz

@@ -3,8 +3,8 @@ set -eux
 CPUS=$(grep -c ^processor /proc/cpuinfo)
 
 mkdir -p ${BOSH_INSTALL_TARGET}/bin
-tar -xzf shield/shield-server-linux-amd64*.tar.gz
-pushd shield-server-linux-amd64*/
+tar -xzf shield/shield-server-linux-amd64.tar.gz
+pushd shield-server-linux-amd64/
   cp agent/shield-agent      ${BOSH_INSTALL_TARGET}/bin
   cp agent/shield-report     ${BOSH_INSTALL_TARGET}/bin
   cp cli/shield              ${BOSH_INSTALL_TARGET}/bin
