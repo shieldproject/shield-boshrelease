@@ -10,3 +10,7 @@
 # shield
 
 - Bumped shield to v8.8.3
+
+# shield
+
+- Bumped shield to v8.8.4
