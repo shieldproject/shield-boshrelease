@@ -2,19 +2,30 @@ nginx/nginx-1.12.2.tar.gz:
   size: 981687
   object_id: be078450-5e0f-42d4-5629-9d27f5ac9a26
   sha: 6b41d63befa4f52b0724b533e6292a6671b71fdc
+nginx/nginx-1.22.0.tar.gz:
+  size: 1073322
+  sha: sha256:b33d569a6f11a01433a57ce17e83935e953ad4dc77cdd4d40f896c88ac26eb53
 nginx/pcre-8.37.tar.gz:
   size: 2041593
   object_id: ceabbcdf-1322-4430-8684-b604a962e3de
   sha: 4a24a20c61347d8da4edc86d5475aaf70ac146bb
+nginx/pcre-8.45.tar.gz:
+  size: 2096552
+  sha: sha256:4e6ce03e0336e8b4a3d6c2b70b1c5e18590a5673a98186da90d4f33c23defc09
 shield/shield-server-linux-amd64-8.8.4.tar.gz:
   size: 112088970
-  object_id: 16424f82-400f-4ee4-6bdb-27be41fd659b
   sha: sha256:13a03d035031ddb5a8bfd5d0f9829634e55c3c211e95ff725a402e13f1c8b84c
 sqlite3/sqlite-autoconf-3240000.tar.gz:
   size: 2699252
   object_id: 79f6c9d4-f6a6-4487-752e-82586780b77b
   sha: da68915e3563b5244cbcdb6c7e20fb35559bcfc6
+sqlite3/sqlite-autoconf-3390400.tar.gz:
+  size: 3065214
+  sha: sha256:f31d445b48e67e284cf206717cc170ab63cbe4fd7f79a82793b772285e78fdbb
 vault/vault_0.9.0_linux_amd64.zip:
   size: 17571361
   object_id: b811c233-2543-4dbc-4e0b-5a417d3ba55a
   sha: e33a0ff018fa7d7c75f644529106ec5b4abc1d44
+vault/vault_1.11.4_linux_amd64.zip:
+  size: 73592562
+  sha: sha256:8764a55bdd69faedaaf5d50325d5e6806041e6305b1e66454b46dc6426d26556
