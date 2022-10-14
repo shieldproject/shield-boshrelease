@@ -2,8 +2,8 @@
 meta:
   name:    shield
   release: S.H.I.E.L.D.
-  target:  shield@pipes
-  url:     https://pipes.starkandwayne.com
+  target:  shield@cloudpipes
+  url:     https://cloudpipes.starkandwayne.com
 
   initial_version: 5.1.0
   manifest:
