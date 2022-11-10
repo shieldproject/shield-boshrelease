@@ -2,4 +2,3 @@
 name: vault
 files:
 - vault/vault_1.11.4_linux_amd64.zip
-#- mlock/maybe.c
