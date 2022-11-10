@@ -20,13 +20,19 @@ case $1 in
       rm -f $PIDFILE
     fi
 
-    if chpst -u vcap:vcap /var/vcap/packages/vault/bin/canimlock; then
-      sed -i -e 's/^disable_mlock/#disable_mlock/' \
-        $JOB_DIR/config/vault.conf
-    else
-      sed -i -e 's/^#disable_mlock/disable_mlock/' \
-        $JOB_DIR/config/vault.conf
-    fi
+    #if chpst -u vcap:vcap /var/vcap/packages/vault/bin/canimlock; then
+    #  sed -i -e 's/^disable_mlock/#disable_mlock/' \
+    #    $JOB_DIR/config/vault.conf
+    #else
+    #  sed -i -e 's/^#disable_mlock/disable_mlock/' \
+    #    $JOB_DIR/config/vault.conf
+    #fi
+    
+    # Giving the Vault executable the ability to use the mlock syscall 
+    # without running the process as root. Vault becomes a privileged 
+    # process to call mlock. So no limits are placed on the 
+    # amount of memory that it can lock
+    setcap cap_ipc_lock=+ep /var/vcap/packages/vault/bin/vault
 
     echo "$(date) starting up vault (pid $$)"
     echo $$ > $PIDFILE
