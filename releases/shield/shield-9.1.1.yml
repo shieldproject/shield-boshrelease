@@ -1,0 +1,63 @@
+name: shield
+version: 9.1.1
+commit_hash: c9e4a6a
+uncommitted_changes: false
+jobs:
+- name: core
+  version: 875f1ff824973dbcb01e89892e41963892b17ebb0a5c7036a5f28f8277883962
+  fingerprint: 875f1ff824973dbcb01e89892e41963892b17ebb0a5c7036a5f28f8277883962
+  sha1: sha256:e98a4e49e373e0916b297d9c33e1a5857131474eb689f5c94ff881e612f8d509
+  packages:
+  - shield
+  - sqlite3
+  - nginx
+  - vault
+- name: deprovision
+  version: 36cd5a99dd1878e15fd68b630ed26b058609351b8a870b3f509c6a8dead377a7
+  fingerprint: 36cd5a99dd1878e15fd68b630ed26b058609351b8a870b3f509c6a8dead377a7
+  sha1: sha256:b7f704a64fa42de83d405c1ba98e8d308d3e1ef227db8c147272fa9c8450a494
+  packages:
+  - shield
+- name: import
+  version: 100aedaf570ffd800157889ba5efac25b15ffd3574af4ba2fb20aad3fbe8a9fe
+  fingerprint: 100aedaf570ffd800157889ba5efac25b15ffd3574af4ba2fb20aad3fbe8a9fe
+  sha1: sha256:f5382c738b82bee0fe839182d66eb37ff5aaa17efe10fddbd812a009d095f6d7
+  packages:
+  - shield
+- name: shield-agent
+  version: 3b85111ffe8320c05002717aa39d2997774e6245d465a3ca08c83581a19b5405
+  fingerprint: 3b85111ffe8320c05002717aa39d2997774e6245d465a3ca08c83581a19b5405
+  sha1: sha256:c51f0e40319b9ceb0c2b56b71f99a7bb4378ea06577d1a3217344a48173f2f39
+  packages:
+  - shield
+- name: store
+  version: e03d06eadb963017022a6988bcd38a52ca6adde51b9e16f7758b95e0256f6065
+  fingerprint: e03d06eadb963017022a6988bcd38a52ca6adde51b9e16f7758b95e0256f6065
+  sha1: sha256:51978b0f735d40ca6b329d3ef3c393dba607c026dd15fa127b5c2103b1ea82b8
+  packages:
+  - nginx
+packages:
+- name: nginx
+  version: a6663157317884afd006f33abe1fad29a88b42c42b617a4de2bbdbb702104c2d
+  fingerprint: a6663157317884afd006f33abe1fad29a88b42c42b617a4de2bbdbb702104c2d
+  sha1: sha256:5c987dd2b0b77b980cbcfb7fa4e1058994fb213526502e5b7fe88b4fa0abafdd
+  dependencies: []
+- name: shield
+  version: 10b848fa5356847bd6a4007c150c16bfb56230cac47d11e95f82b275bbd00b81
+  fingerprint: 10b848fa5356847bd6a4007c150c16bfb56230cac47d11e95f82b275bbd00b81
+  sha1: sha256:4215cca46e127e8f59d10b950e9310c0e05430d97bf72e2546ea830a2942b763
+  dependencies: []
+- name: sqlite3
+  version: 4795e82443c43c05b1c7f4b4f3e21d6fa09e18b6b8a4308e6b679d4f095a1ff3
+  fingerprint: 4795e82443c43c05b1c7f4b4f3e21d6fa09e18b6b8a4308e6b679d4f095a1ff3
+  sha1: sha256:64df4ce417c6447f16e38f7b9ec7ff9eccf885337a2f8b6da0233887bd42889c
+  dependencies: []
+- name: vault
+  version: 3a0bfb98920388670fa37171f165eb946b51a9e7b34c9836f331f0a95fe8b706
+  fingerprint: 3a0bfb98920388670fa37171f165eb946b51a9e7b34c9836f331f0a95fe8b706
+  sha1: sha256:cb9108c20c4c2daa5e33506bff79f44cefb1700a4f034a1042ea9a030592b207
+  dependencies: []
+license:
+  version: bbb5d860163ee53d5e97eadd99fecce8fcaabc50d2c1b81e9459aff6086e620a
+  fingerprint: bbb5d860163ee53d5e97eadd99fecce8fcaabc50d2c1b81e9459aff6086e620a
+  sha1: sha256:9546d6479d40c970fd701f8197a99fb088cd8c7cbaa280370fa99957e1659779
