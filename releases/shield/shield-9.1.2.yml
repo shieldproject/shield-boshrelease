@@ -1,12 +1,12 @@
 name: shield
-version: 9.1.1
-commit_hash: c9e4a6a
+version: 9.1.2
+commit_hash: b97c8a3
 uncommitted_changes: false
 jobs:
 - name: core
-  version: 875f1ff824973dbcb01e89892e41963892b17ebb0a5c7036a5f28f8277883962
-  fingerprint: 875f1ff824973dbcb01e89892e41963892b17ebb0a5c7036a5f28f8277883962
-  sha1: sha256:e98a4e49e373e0916b297d9c33e1a5857131474eb689f5c94ff881e612f8d509
+  version: fd087092acf448cd06bdf0d08a5a8f98b7a24487192e99a061791ee2a088891d
+  fingerprint: fd087092acf448cd06bdf0d08a5a8f98b7a24487192e99a061791ee2a088891d
+  sha1: sha256:f145686f433cfa195c7dd04b1f5512ede52d82760488f3d1f792eb9645b2b986
   packages:
   - shield
   - sqlite3
