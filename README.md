@@ -472,7 +472,7 @@ Tracker][github].
 [slack-join]:     https://shieldproject.io/community#slack
 [home]:           https://shieldproject.io
 [docs]:           https://shieldproject.io/docs/latest/ops/
-[github]:         https://github.com/starkandwayne/shield/issues
+[github]:         https://github.com/shieldproject/shield/issues
 
 [mysql-addon]:    https://github.com/shieldproject/shield-addon-mysql-boshrelease
 [postgres-addon]: https://github.com/shieldproject/shield-addon-postgres-boshrelease

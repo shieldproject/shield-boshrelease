@@ -2,8 +2,8 @@
 set -eux
 CPUS=$(grep -c ^processor /proc/cpuinfo)
 
-tar -xzvf sqlite3/sqlite-autoconf-3420000.tar.gz
-pushd sqlite-autoconf-3420000
+tar -xzvf sqlite3/sqlite-autoconf-3460000.tar.gz
+pushd sqlite-autoconf-3460000
   ./configure --prefix ${BOSH_INSTALL_TARGET}
   make -j$CPUS
   make install
