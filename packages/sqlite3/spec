@@ -1,4 +1,4 @@
 ---
 name: sqlite3
 files:
-  - sqlite3/sqlite-autoconf-3420000.tar.gz
+  - sqlite3/sqlite-autoconf-3460000.tar.gz
