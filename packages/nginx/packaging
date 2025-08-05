@@ -3,8 +3,8 @@ set -eux
 CPUS=$(grep -c ^processor /proc/cpuinfo)
 
 tar -xzf "nginx/pcre2-10.44.tar.gz"
-tar -xzf "nginx/nginx-1.26.1.tar.gz"
-pushd nginx-1.26.1
+tar -xzf "nginx/nginx-1.26.3.tar.gz"
+pushd nginx-1.26.3
   ./configure \
     --prefix=${BOSH_INSTALL_TARGET} \
     --with-pcre=../pcre2-10.44 \
