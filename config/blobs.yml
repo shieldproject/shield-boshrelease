@@ -8,10 +8,9 @@ shield/shield-server-linux-amd64.tar.gz:
   size: 143834961
   object_id: 91576a90-49c0-47cd-4dc8-bf6c3ec753fd
   sha: sha256:c736df698661335352dbdfaee234bccf32bfa403479fb107f5b2b269c94e063d
-sqlite3/sqlite-autoconf-3460000.tar.gz:
-  size: 3265248
-  object_id: 1af3de5f-1631-49a5-490d-67249c4cfadf
-  sha: sha256:6f8e6a7b335273748816f9b3b62bbdc372a889de8782d7f048c653a447417a7d
+sqlite3/sqlite-autoconf-3470200.tar.gz:
+  size: 3328600
+  sha: sha256:f1b2ee412c28d7472bc95ba996368d6f0cdcf00362affdadb27ed286c179540b
 vault/vault_1.17.6_linux_amd64.zip:
   size: 148610681
   object_id: 73151c05-c515-48ce-6f8b-d3f3626632cb
