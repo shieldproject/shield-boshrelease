@@ -1,4 +1,4 @@
 ---
 name: vault
 files:
-- vault/vault_1.20.4_linux_amd64.zip
+  - vault/vault_1.20.4_linux_amd64.zip
