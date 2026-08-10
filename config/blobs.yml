@@ -14,7 +14,6 @@ sqlite3/sqlite-autoconf-3470200.tar.gz:
   size: 3328600
   object_id: 1ce50eac-5ac0-47bc-4c42-501f5efcfa50
   sha: sha256:f1b2ee412c28d7472bc95ba996368d6f0cdcf00362affdadb27ed286c179540b
-vault/vault_1.20.4_linux_amd64.zip:
-  size: 174116347
-  object_id: eeb166d5-7b3c-4bb3-6c81-8e0ab9216b2d
-  sha: sha256:fc5fb5d01d192f1216b139fb5c6af17e3af742aaeffc289fd861920ec55f2c9c
+vault/vault_1.21.4_linux_amd64.zip:
+  size: 168607711
+  sha: sha256:889b681990fe221b884b7932fa9c9dd0ee9811b9349554f1aa287ab63c9f3dae
