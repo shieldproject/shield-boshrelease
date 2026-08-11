@@ -29,6 +29,8 @@ builds:
     version: 5.1.0
   37ff77fa-7373-4364-7ffa-1838abc61884:
     version: 8.0.15
+  38a20a20-5444-490c-6fed-e49fd698d402:
+    version: 9.4.0
   3ee945f1-7702-4f91-7578-d403f44df8f2:
     version: 9.1.2
   3fd988cb-6ac0-498b-4e79-ccee4af002a9:
