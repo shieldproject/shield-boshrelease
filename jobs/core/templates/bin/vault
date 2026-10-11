@@ -28,7 +28,7 @@ case $1 in
 
     echo "$(date) starting up vault (pid $$)"
     echo $$ > $PIDFILE
-    exec chpst -u vcap:vcap \
+    exec setpriv --reuid=vcap --regid=vcap --groups=vcap -- \
       /var/vcap/packages/vault/bin/vault server \
         -config=$JOB_DIR/config/vault.conf
     ;;

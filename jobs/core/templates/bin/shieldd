@@ -34,14 +34,14 @@ case $1 in
     fi
 
     echo "$(date) running any schema migrations"
-    chpst -u vcap:vcap \
+    setpriv --reuid=vcap --regid=vcap --groups=vcap -- \
       /var/vcap/packages/shield/bin/shield-schema \
         -d $DAT_DIR/shield.db
 
     export PATH=/var/vcap/packages/shield/bin:$PATH
     echo "$(date) starting up shieldd (pid $$)"
     echo $$ > $PIDFILE
-    exec chpst -u vcap:vcap \
+    exec setpriv --reuid=vcap --regid=vcap --groups=vcap -- \
       /var/vcap/packages/shield/bin/shieldd \
         -c $JOB_DIR/config/shieldd.conf \
         --log-level <%= p('log-level') %>

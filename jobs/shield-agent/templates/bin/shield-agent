@@ -115,7 +115,7 @@ case $1 in
 
     echo "$(date) shield-agent starting up (pid $$)"
     echo $$ > $PIDFILE
-    exec chpst /var/vcap/packages/shield/bin/shield-agent \
+    exec /var/vcap/packages/shield/bin/shield-agent \
       --log-level "<%= p('log-level') %>" \
       --config $JOB_DIR/config/agent.conf
     ;;
